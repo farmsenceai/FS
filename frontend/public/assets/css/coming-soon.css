@@ -1,0 +1,211 @@
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+
+font-family:'Inter',sans-serif;
+
+background:#0b0b0b;
+
+color:#fff;
+
+height:100vh;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+overflow:hidden;
+
+}
+
+/* Particle canvas */
+
+#particles-js{
+
+position:absolute;
+
+width:100%;
+
+height:100%;
+
+top:0;
+left:0;
+
+z-index:0;
+
+}
+
+/* Main container */
+
+.container{
+
+position:relative;
+
+z-index:2;
+
+text-align:center;
+
+max-width:700px;
+
+padding:40px;
+
+}
+
+/* Logo */
+
+.logo{
+
+margin-bottom:40px;
+
+}
+
+.logo img{
+
+width:170px;
+
+height:auto;
+
+}
+
+/* Headline */
+
+h1{
+
+font-size:52px;
+
+line-height:1.2;
+
+margin-bottom:20px;
+
+}
+
+/* Description */
+
+p{
+
+font-size:18px;
+
+color:#a1a1a1;
+
+margin-bottom:40px;
+
+line-height:1.6;
+
+}
+
+/* Form */
+
+.form{
+
+display:flex;
+
+justify-content:center;
+
+flex-wrap:wrap;
+
+gap:10px;
+
+margin-bottom:30px;
+
+}
+
+.form input{
+
+padding:14px 16px;
+
+border-radius:30px;
+
+border:none;
+
+width:240px;
+
+font-size:14px;
+
+outline:none;
+
+}
+
+.form button{
+
+padding:14px 22px;
+
+border-radius:30px;
+
+border:none;
+
+background:#ffc400;
+
+color:#000;
+
+font-weight:500;
+
+cursor:pointer;
+
+}
+
+/* Investor section */
+
+.investor{
+
+margin-top:30px;
+
+padding-top:20px;
+
+border-top:1px solid rgba(255,255,255,0.1);
+
+}
+
+.investor p{
+color: #fff;
+font-size:14px;
+margin-bottom:15px;
+
+}
+
+.investor button{
+
+background:#111;
+
+color:#fff;
+
+border:1px solid #333;
+
+padding:12px 22px;
+
+border-radius:30px;
+
+cursor:pointer;
+
+}
+
+/* Footer */
+
+.footer{
+
+margin-top:40px;
+
+font-size:13px;
+
+color:#777;
+
+}
+
+/* Mobile */
+
+@media(max-width:768px){
+
+h1{
+font-size:34px;
+}
+
+p{
+font-size:16px;
+}
+
+}

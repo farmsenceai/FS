@@ -1,0 +1,236 @@
+/* =============================================
+   POST PAGE — BLACK THEME
+============================================= */
+
+/* Base */
+body {
+  background: #000 !important;
+  color: #000000 !important;
+  margin: 0;
+  padding: 0;
+}
+
+/* Ensure content text elements are white by default, but exclude header */
+.story-showcase, .post-wrapper, .image-grid, .quote-section, .story-video-section, .related-posts, .cta-footer {
+  color: #fff;
+}
+
+.story-showcase h1, .story-showcase h2, .story-showcase h3, .story-showcase p, .story-showcase span, .story-showcase a,
+.post-wrapper h1, .post-wrapper h2, .post-wrapper h3, .post-wrapper p, .post-wrapper span, .post-wrapper a,
+.quote-section h1, .quote-section h2, .quote-section h3, .quote-section p, .quote-section span, .quote-section a,
+.related-posts h1, .related-posts h2, .related-posts h3, .related-posts p, .related-posts span, .related-posts a,
+.cta-footer h1, .cta-footer h2, .cta-footer h3, .cta-footer p, .cta-footer span, .cta-footer a {
+  color: #fff !important;
+}
+
+/* ── Story showcase (scrolling cards at top) ── */
+.story-showcase {
+  background: #000;
+  padding: 60px 0;
+}
+
+.story-heading h2,
+.story-heading p {
+  color: #fff !important;
+}
+
+.story-tag {
+  color: #fff !important;
+  opacity: 0.8;
+  text-transform: uppercase;
+  font-size: 14px;
+  letter-spacing: 1px;
+}
+
+/* ── Post body text ── */
+.post-wrapper {
+  background: #000;
+  padding: 80px 0;
+}
+
+.post-meta span {
+  color: #000000 !important;
+  opacity: 0.6;
+}
+
+.post-title {
+  color: #ffffff !important;
+  font-family: Georgia, serif;
+  font-size: 32px;
+  line-height: 1.4;
+  margin-bottom: 30px;
+}
+
+.post-text {
+  color: #fff !important;
+  font-size: 18px;
+  line-height: 1.8;
+  opacity: 0.9;
+  margin-bottom: 25px;
+}
+
+/* ── Section title (Smarter farming operations) ── */
+.section-title {
+  color: #fff !important;
+  font-size: 28px;
+  margin-bottom: 20px;
+}
+
+/* ── Image grid ── */
+.image-grid {
+  background: #000;
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+
+/* ── Quote section ── */
+.quote-section {
+  background: #000;
+  padding: 100px 0;
+  text-align: center;
+}
+
+.quote-section h2 {
+  color: #fff !important;
+  font-family: Georgia, serif;
+  font-style: italic;
+  font-size: 36px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* ── Video section ── */
+.story-video-section {
+  background: #000;
+  padding: 60px 0;
+}
+
+/* ── Related posts section ── */
+.related-posts {
+  background: #000;
+  padding: 80px 60px;
+}
+
+@media (max-width: 768px) {
+  .related-posts {
+    padding: 70px 20px;
+  }
+}
+
+.related-posts h2 {
+  color: #fff !important;
+  margin-bottom: 40px;
+}
+
+.related-content span {
+  color: #fff !important;
+  opacity: 0.7;
+  font-size: 13px;
+}
+
+.related-content h3 {
+  color: #fff !important;
+  font-size: 18px;
+  margin-top: 10px;
+}
+
+/* ── Footer Overrides for Black Theme ── */
+.cta-footer {
+  background: #000 !important;
+  color: #fff !important;
+  border-top: 1px solid #333;
+}
+
+.cta-left h2, .cta-links a, .cta-bottom, .cta-brand span, .cta-meta {
+  color: #fff !important;
+}
+
+.cta-brand span {
+  font-family: 'Fugaz One', sans-serif !important;
+}
+
+.cta-links a {
+  opacity: 0.8;
+}
+
+.cta-links a:hover {
+  opacity: 1;
+}
+
+.cta-meta {
+  opacity: 0.6;
+}
+
+/* ── Story cards overlay text ── */
+.story-content span {
+  color: #fff !important;
+}
+
+/* Links color adjustment */
+a {
+  color: #ffc400;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+    .post-title {
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+    .post-text {
+        font-size: 16px;
+        line-height: 1.6;
+    }
+    .section-title {
+        font-size: 22px;
+    }
+    .quote-section {
+        padding: 60px 20px;
+    }
+    .quote-section h2 {
+        font-size: 24px;
+    }
+}
+
+@media (max-width: 480px) {
+    .post-title {
+        font-size: 20px;
+    }
+    .quote-section h2 {
+        font-size: 20px;
+    }
+}
+
+/* ==========================================
+   TABLET
+========================================== */
+@media (max-width: 1024px) {
+
+  .story-heading,
+  .post-container,
+  .image-grid {
+    padding-left: var(--page-pad-tablet);
+    padding-right: var(--page-pad-tablet);
+  }
+
+}
+
+
+/* ==========================================
+   MOBILE
+========================================== */
+@media (max-width: 768px) {
+
+  .story-heading,
+  .post-container,
+  .image-grid {
+    padding-left: var(--page-pad-mobile);
+    padding-right: var(--page-pad-mobile);
+  }
+
+}

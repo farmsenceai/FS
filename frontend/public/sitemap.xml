@@ -1,0 +1,29 @@
+public_html/
+│
+├── index.html
+├── robots.txt
+├── sitemap.xml
+├── favicon.ico
+│
+├── assets/
+│   ├── css/
+│   │   └── style.css
+│   │
+│   ├── js/
+│   │   └── main.js
+│   │
+│   └── images/
+│       ├── hero.jpg
+│       ├── section-1.jpg
+│       ├── section-2.jpg
+│       ├── blog-1.jpg
+│       └── blog-2.jpg
+│
+├── src/pages/
+│   └── blogs.html
+│
+├── docs/
+│   ├── privacy-policy.html
+│   └── terms.html
+│
+└── .htaccess

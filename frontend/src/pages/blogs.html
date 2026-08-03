@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="stylesheet" href="assets/css/blogs.css">
+<meta charset="UTF-8">
+<title>FarmSence Blogs | Intelligent Poultry Farming</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="icon" href="/favicon.ico">
+<link rel="stylesheet" href="/assets/css/style.css">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<!-- Javascript -->
+<script src="/assets/js/main.js" defer></script>
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+
+<!-- React -->
+<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<link rel="stylesheet" href="/assets/css/signal-split.css">
+<script src="/assets/js/layout-loader.js"></script>
+
+
+
+</head>
+
+<body class="page-with-fixed-header">
+
+<!-- PAGE HEADER -->
+<!-- PAGE HEADER -->
+<header class="site-header scroll-header">
+  <div id="header-placeholder"></div>
+</header>
+
+
+
+
+<!-- PAGE TITLE -->
+
+<section class="blog-hero">
+<h1>Blogs</h1>
+</section>
+
+
+<!-- FEATURED BLOG — sticky left, scrolling right -->
+
+<section class="blog-grid">
+
+  <!-- LEFT: sticky featured story -->
+  <div class="blog-feature">
+    <img src="/assets/images/Test Images/pexels-arjun-mj-74910500-14944259.jpg">
+    <h2>How AI is transforming poultry farming worldwide</h2>
+    <div class="blog-meta">FarmSence • Feb 2026</div>
+    <p class="blog-description">
+      Artificial intelligence is no longer a distant promise for agriculture — it is actively reshaping how poultry farms operate, from the moment a chick hatches to the day a flock reaches market weight. Farms that once relied on daily walk-throughs and manual record-keeping are now using computer vision, environmental sensors, and machine learning models to monitor thousands of birds around the clock, flagging health anomalies, adjusting ventilation automatically, and predicting feed requirements with accuracy that was impossible just five years ago.
+    </p>
+    <p class="blog-description">
+      Across farms of different sizes, AI is helping teams move from delayed observation to timely action — combining camera signals, environmental data, and flock behaviour into a single, readable picture of daily operations. Early disease detection alone can reduce flock losses by up to 30%, while smart feeding systems cut feed waste significantly by calibrating portions to real-time consumption patterns. The technology is no longer the preserve of large industrial operations; smaller and mid-scale farms are adopting modular AI tools that scale to their specific needs without requiring full infrastructure overhauls.
+    </p>
+    <p class="blog-description">
+      The broader impact is felt in sustainability too. Optimised ventilation and heating, guided by AI, reduces energy consumption considerably. Water usage monitoring systems have shown reductions in waste without affecting flock welfare. As climate pressures mount and margins tighten, the farms that invest in intelligent infrastructure today are building resilience that will matter for decades.
+      <strong><a href="#">Learn More...</a></strong>
+    </p>
+  </div>
+
+  <!-- RIGHT: scrollable side cards -->
+  <div class="blog-side-container">
+    
+    <div class="blog-sort-filter">
+
+      <!-- Filter -->
+      <div class="filter-wrapper">
+        <button class="filter-btn" id="filterBtn">
+          <i class="fa-solid fa-sliders" id="filterIcon"></i> Filter
+        </button>
+        <div class="filter-panel" id="filterPanel">
+          <div class="filter-label">Topic</div>
+          <label class="filter-option"><input type="checkbox" value="disease-detection" class="topic-filter"><span>Disease Detection</span></label>
+          <label class="filter-option"><input type="checkbox" value="productivity" class="topic-filter"><span>Productivity</span></label>
+          <label class="filter-option"><input type="checkbox" value="monitoring" class="topic-filter"><span>Monitoring</span></label>
+          <label class="filter-option"><input type="checkbox" value="sustainability" class="topic-filter"><span>Sustainability</span></label>
+          <label class="filter-option"><input type="checkbox" value="feeding" class="topic-filter"><span>Feeding</span></label>
+          <label class="filter-option"><input type="checkbox" value="intelligence" class="topic-filter"><span>Intelligence</span></label>
+          <label class="filter-option"><input type="checkbox" value="infrastructure" class="topic-filter"><span>Infrastructure</span></label>
+          <div class="filter-clear-row">
+            <button class="clear-btn" id="clearFiltersBtn">Clear</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sort -->
+      <div class="sort-wrapper">
+        <span class="sort-btn" id="sortBtn">
+          Sort <i class="fa-solid fa-chevron-down" id="sortIcon"></i>
+        </span>
+        <div class="sort-menu" id="sortMenu">
+          <div class="sort-option active" data-sort="newest"><span class="radio-dot"></span>Newest → Oldest</div>
+          <div class="sort-option" data-sort="oldest"><span class="radio-dot"></span>Oldest → Newest</div>
+          <div class="sort-option" data-sort="alpha-az"><span class="radio-dot"></span>Alphabetical (A–Z)</div>
+          <div class="sort-option" data-sort="alpha-za"><span class="radio-dot"></span>Alphabetical (Z–A)</div>
+        </div>
+    </div>
+  </div>
+
+    <div class="blog-side" id="blogSideCards">
+
+      <div class="blog-small">
+        <img src="/assets/images/Test Images/pexels-stitch-20280066.jpg">
+        <p>Smart monitoring systems for modern poultry farms</p>
+        <div class="blog-meta">FarmSence • Jan 2026</div>
+      </div>
+
+      <div class="blog-small">
+        <img src="/assets/images/Test Images/pexels-cottonbro-4911739.jpg">
+        <p>Using AI to detect poultry diseases early</p>
+        <div class="blog-meta">FarmSence • Jan 2026</div>
+      </div>
+
+      <div class="blog-small">
+        <img src="/assets/images/Test Images/pexels-ekaterina-bolovtsova-6192337.jpg">
+        <p>How smart feeding reduces poultry costs</p>
+        <div class="blog-meta">FarmSence • Dec 2025</div>
+      </div>
+
+      <div class="blog-small">
+        <img src="/assets/images/Test Images/cc1.png">
+        <p>AI-powered health tracking for flocks</p>
+        <div class="blog-meta">FarmSence • Nov 2025</div>
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- BLOG GRID — 2 rows of 4 -->
+
+<section class="blog-list" id="blog-list">
+
+  <div class="blog-card">
+    <img src="/assets/images/Test Images/cc1.png">
+    <h3>Early disease detection using AI sensors</h3>
+    <div class="blog-meta">FarmSence • Feb 2026</div>
+  </div>
+
+  <div class="blog-card">
+    <img src="/assets/images/Test Images/cc2.png">
+    <h3>How AI improves poultry productivity</h3>
+    <div class="blog-meta">FarmSence • Jan 2026</div>
+  </div>
+
+  <div class="blog-card">
+    <img src="/assets/images/Test Images/img3.png">
+    <h3>Data driven flock management</h3>
+    <div class="blog-meta">FarmSence • Jan 2026</div>
+  </div>
+
+  <div class="blog-card">
+    <img src="/assets/images/Test Images/img4.png">
+    <h3>AI for climate controlled poultry farms</h3>
+    <div class="blog-meta">FarmSence • Dec 2025</div>
+  </div>
+
+  <div class="blog-card hidden-blog">
+    <img src="/assets/images/Test Images/img5.png">
+    <h3>Future of poultry intelligence systems</h3>
+    <div class="blog-meta">FarmSence • Dec 2025</div>
+  </div>
+
+  <div class="blog-card hidden-blog">
+    <img src="/assets/images/Test Images/pexels-pixabay-373543.jpg">
+    <h3>Building smart livestock infrastructure</h3>
+    <div class="blog-meta">FarmSence • Nov 2025</div>
+  </div>
+
+  <div class="blog-card hidden-blog">
+    <img src="/assets/images/Test Images/cc1.png">
+    <h3>AI powered poultry monitoring</h3>
+    <div class="blog-meta">FarmSence • Oct 2025</div>
+  </div>
+
+  <div class="blog-card hidden-blog">
+    <img src="/assets/images/Test Images/cc2.png">
+    <h3>Future of intelligent farms</h3>
+    <div class="blog-meta">FarmSence • Sep 2025</div>
+  </div>
+
+  <div class="blog-card hidden-blog">
+    <img src="/assets/images/Test Images/img5.png">
+    <h3>Future of poultry intelligence systems</h3>
+    <div class="blog-meta">FarmSence • Dec 2025</div>
+  </div>
+
+  <div class="blog-card hidden-blog">
+    <img src="/assets/images/Test Images/pexels-pixabay-373543.jpg">
+    <h3>Building smart livestock infrastructure</h3>
+    <div class="blog-meta">FarmSence • Nov 2025</div>
+  </div>
+
+  <div class="blog-card hidden-blog">
+    <img src="/assets/images/Test Images/cc1.png">
+    <h3>AI powered poultry monitoring</h3>
+    <div class="blog-meta">FarmSence • Oct 2025</div>
+  </div>
+
+  <div class="blog-card hidden-blog">
+    <img src="/assets/images/Test Images/cc2.png">
+    <h3>Future of intelligent farms</h3>
+    <div class="blog-meta">FarmSence • Sep 2025</div>
+  </div>
+
+</section>
+
+<div class="load-more-wrapper">
+  <button class="load-more" id="loadMoreBtn">Load More</button>
+</div>
+
+
+
+<div id="footer-placeholder"></div>
+<!--Load More-->
+
+<script src="assets/js/blogs.js"></script>
+<script src="assets/js/blogs-sidebar-height.js"></script>
+
+</body>
+</html>

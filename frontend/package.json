@@ -1,0 +1,12 @@
+{
+  "name": "farmsence-frontend",
+  "version": "1.0.0",
+  "description": "Frontend Application for FarmSence AI",
+  "scripts": {
+    "start": "serve public",
+    "test": "node --test tests/*.test.js"
+  },
+  "dependencies": {
+    "serve": "^14.2.1"
+  }
+}

@@ -1,0 +1,191 @@
+/* SECTION */
+.split-section {
+  display: flex;
+  min-height: 70vh;
+  background: #062b17;
+  color: #f5efe6;
+  width: min(100%, 1400px);
+  margin: 0 auto;
+  /* padding-top: 30px; */
+}
+
+/* LEFT TEXT */
+.split-text {
+  width: 50%;
+  padding: clamp(72px, 8vw, 120px) clamp(32px, 5vw, 80px);
+}
+
+.split-text h2 {
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-size: 42px;
+  margin-bottom: 20px;
+}
+
+.split-text p {
+   font-family: Georgia, 'Times New Roman', Times, serif;
+  font-size: 28px;
+  line-height: 1.6;
+  opacity: 0.9;
+}
+
+/* RIGHT ANIMATION */
+.split-animation {
+  width: 50%;
+  position: relative;
+  overflow: hidden;
+  min-width: 0;
+}
+
+/* =========================
+   ANIMALS (PRECISE ALIGN)
+   ========================= */
+
+.animal-layer {
+  position: absolute;
+  top: 70px;
+  width: 100%;
+}
+
+.animal-layer i {
+  position: absolute;
+  font-size: 30px;
+  color: #f4eadf;
+}
+
+.a1 { left: 13%; }
+.a2 { left: 26%; }
+.a3 { left: 50%; transform: translateX(-50%); }
+.a4 { left: 74%; }
+.a5 { left: 87%; }
+
+/* =========================
+   SVG
+   ========================= */
+
+.signal-svg {
+  position: absolute;
+  top: 70px;
+  width: 100%;
+  aspect-ratio: 2 / 1;
+}
+
+/* =========================
+   SIGNAL FLOW (SINGLE SOURCE)
+   ========================= */
+
+.signal-flow {
+  fill: none;
+  stroke: #6adf7c;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-dasharray: 500;
+  stroke-dashoffset: 500;
+  animation: converge 3s ease-in-out infinite;
+}
+
+@keyframes converge {
+  0% { stroke-dashoffset: 500; opacity: 0; }
+  15% { opacity: 1; }
+  85% { opacity: 1; }
+  100% { stroke-dashoffset: 0; opacity: 0; }
+}
+
+/* =========================
+   HUB (ALIGNED TO SVG END)
+   ========================= */
+
+.hub {
+  position: absolute;
+  top: min(520px, 58vw);
+  left: 50%;
+  transform: translateX(-50%);
+  width: clamp(48px, 4vw, 64px);
+  height: clamp(48px, 4vw, 64px);
+  background: #3fa34d;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  animation: hubPulse 2.4s infinite;
+}
+
+@keyframes hubPulse {
+  0% { box-shadow: 0 0 0 0 rgba(63,163,77,0.6); }
+  70% { box-shadow: 0 0 0 28px rgba(63,163,77,0); }
+  100% { box-shadow: 0 0 0 0 rgba(63,163,77,0); }
+}
+
+/* =========================
+   TABLET
+   ========================= */
+
+@media (max-width: 1024px) {
+  .split-text {
+    padding: 80px 50px;
+  }
+}
+
+/* =========================
+   MOBILE FIX — REQUIRED
+   ========================= */
+
+/* =========================
+   MOBILE STACK LAYOUT
+   ========================= */
+
+@media (max-width: 768px) {
+
+  /* Stack text + animation */
+  .split-section {
+    flex-direction: column;
+    min-height: auto;
+  }
+
+  /* TEXT — FULL WIDTH */
+  .split-text {
+    width: 100%;
+    padding: 48px 24px 32px;
+  }
+
+  .split-text h2 {
+    font-size: 32px;
+    line-height: 1.2;
+  }
+
+  .split-text p {
+    font-size: 16px;
+  }
+
+  /* ANIMATION — FULL WIDTH */
+  .split-animation {
+    width: 100%;
+    min-height: clamp(320px, 70vw, 420px);
+    position: relative;
+  }
+
+  /* SVG must have height */
+  .signal-svg {
+    position: absolute;
+    top: 60px;
+    left: 0;
+    width: 100%;
+    height: clamp(220px, 48vw, 260px);
+  }
+
+  /* Animals aligned */
+  .animal-layer {
+    top: 80px;
+  }
+
+  .animal-layer i {
+    font-size: 18px;
+  }
+
+  /* Hub at bottom */
+  .hub {
+    top: auto;
+    bottom: 24px;
+    transform: translateX(-50%) scale(0.85);
+  }
+}

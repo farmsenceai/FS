@@ -1,0 +1,45 @@
+{
+  "fixtureVersion": 1,
+  "currency": "INR",
+  "tenantA": {
+    "slug": "verify-batch-financial-a",
+    "batchA": { "code": "VFA001", "initialBirdCount": 200, "mortality": 7, "culls": 3 },
+    "batchB": { "code": "VFB001", "initialBirdCount": 150, "mortality": 0, "culls": 0 }
+  },
+  "tenantB": {
+    "slug": "verify-batch-financial-b",
+    "batch": { "code": "VFX001", "initialBirdCount": 100 }
+  },
+  "finalActiveSales": [
+    { "batch": "VFA001", "quantitySold": 100, "avgWeightKg": "2.000", "pricePerKg": "100.00", "revenue": "20000.00", "note": "edited from 90 birds" },
+    { "batch": "VFA001", "quantitySold": 50, "avgWeightKg": "2.200", "pricePerKg": "110.00", "revenue": "12100.00" },
+    { "batch": "VFB001", "quantitySold": 80, "avgWeightKg": "1.800", "pricePerKg": "120.00", "revenue": "17280.00" }
+  ],
+  "finalActiveExpenses": [
+    { "scope": "VFA001", "category": "feed", "amount": "5500.00", "note": "edited from 5000.00" },
+    { "scope": "VFA001", "category": "chicks", "amount": "3000.00" },
+    { "scope": "VFB001", "category": "medicine_vaccines", "amount": "1000.00" },
+    { "scope": "farm_shared", "category": "utilities", "amount": "2000.00" }
+  ],
+  "softDeletedChecks": {
+    "saleRevenue": "2000.00",
+    "expenseAmount": "500.00"
+  },
+  "expected": {
+    "activeSaleCount": 3,
+    "batchASaleCount": 2,
+    "activeRevenue": "49380.00",
+    "activeExpenseCount": 4,
+    "directExpenseTotal": "9500.00",
+    "sharedExpenseTotal": "2000.00",
+    "allExpenseTotal": "11500.00",
+    "batchARemainingSellableBirds": 40,
+    "oversaleAttemptQuantity": 41,
+    "oversaleStatus": 409,
+    "crossTenantSaleStatus": 404,
+    "crossTenantExpenseStatus": 400,
+    "businessSaleReadCount": 3,
+    "businessExpenseReadCount": 4,
+    "farmerReadStatus": 403
+  }
+}

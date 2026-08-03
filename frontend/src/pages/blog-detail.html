@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="assets/css/blog-detail.css">
+  <meta charset="UTF-8">
+  <title>FarmSence Blog Article | Intelligent Poultry Farming</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="icon" href="/favicon.ico">
+  <link rel="stylesheet" href="/assets/css/style.css">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- Javascript -->
+  <script src="/assets/js/main.js" defer></script>
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+
+  <!-- React -->
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <link rel="stylesheet" href="/assets/css/signal-split.css">
+  <script src="/assets/js/layout-loader.js"></script>
+<script src="assets/js/blog-detail-init.js"></script>
+</head>
+
+<body class="page-with-fixed-header">
+
+  <!-- PAGE HEADER -->
+  <header class="site-header scroll-header">
+    <div id="header-placeholder"></div>
+  </header>
+
+  <!-- MAIN ARTICLE CONTENT -->
+  <main id="article-content" class="article-main">
+    <!-- Content will be rendered here by blog-detail.js -->
+    <!-- Loading state while article data is being fetched -->
+    <div class="loading">
+      <div class="spinner"></div>
+      <span>Loading article...</span>
+    </div>
+  </main>
+
+  <!-- PAGE FOOTER -->
+  <div id="footer-placeholder"></div>
+  <!--Load More-->
+
+  <!-- Article Data (must load before utilities) -->
+  <script src="assets/data/articles.js"></script>
+
+  <!-- Utility Functions (must load before blog-detail.js) -->
+  <script src="assets/js/article-utils.js"></script>
+
+  <!-- Blog Detail Logic (loads after data and utilities) -->
+  <script src="assets/js/blog-detail.js"></script>
+
+</body>
+</html>

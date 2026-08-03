@@ -1,0 +1,13 @@
+const express = require('express');
+const auth = require('../../../modules/auth/auth.middleware');
+const requireTenantContext = require('../../middleware/tenantContext');
+const controller = require('./farm-projects.controller');
+const router = express.Router();
+const access = [auth, requireTenantContext({ requireBusinessId: false })];
+router.get('/work-updates/recent', ...access, controller.listRecentWorkUpdates);
+router.post('/farms/:farmId/projects', ...access, controller.createProject);
+router.get('/farms/:farmId/projects', ...access, controller.listProjects);
+router.patch('/farms/:farmId/projects/:id', ...access, controller.updateProject);
+router.post('/farms/:farmId/work-updates', ...access, controller.createWorkUpdate);
+router.get('/farms/:farmId/work-updates', ...access, controller.listWorkUpdates);
+module.exports = router;

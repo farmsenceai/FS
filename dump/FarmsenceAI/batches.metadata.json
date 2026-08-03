@@ -1,0 +1,1 @@
+{"indexes":[{"v":{"$numberInt":"2"},"key":{"_id":{"$numberInt":"1"}},"name":"_id_"},{"v":{"$numberInt":"2"},"key":{"batchId":{"$numberInt":"1"}},"name":"batchId_1","unique":true},{"v":{"$numberInt":"2"},"key":{"submittedByUserId":{"$numberInt":"1"}},"name":"submittedByUserId_1"}],"uuid":"7b432d4e8e344eae8a3fef8377e7b376","collectionName":"batches","type":"collection"}

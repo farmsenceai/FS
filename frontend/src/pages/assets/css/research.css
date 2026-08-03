@@ -1,0 +1,255 @@
+/* ── Blog Grid ── */
+.blog-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    align-items: start;
+}
+
+.blog-feature {
+    height: fit-content;
+}
+
+.blog-side-container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.blog-side {
+    overflow-y: auto;
+}
+
+/* ── Sort & Filter Bar ── */
+/* Use !important to beat any global overrides from style.css */
+.blog-sort-filter {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  flex-direction: row !important;
+  gap: 16px !important;
+  margin-bottom: 16px !important;
+  position: relative !important;
+  float: none !important;
+  text-align: left !important;
+  width: 100% !important;
+  overflow: visible !important;
+  flex-wrap: nowrap !important;
+}
+
+.filter-wrapper,
+.sort-wrapper {
+  position: relative !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  float: none !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+/* Buttons */
+.filter-btn,
+.sort-btn {
+  background: none !important;
+  border: none !important;
+  color: #888 !important;
+  font-size: 13px !important;
+  font-weight: 400 !important;
+  font-family: inherit !important;
+  line-height: 1 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  cursor: pointer !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 5px !important;
+  letter-spacing: 0.02em !important;
+  transition: color 0.15s !important;
+  user-select: none !important;
+  float: none !important;
+}
+
+.filter-btn:hover,
+.sort-btn:hover,
+.filter-btn.open,
+.sort-btn.open {
+  color: #000 !important;
+}
+
+.filter-btn i,
+.sort-btn i {
+  font-size: 10px !important;
+  transition: transform 0.2s;
+  line-height: 1;
+}
+
+.filter-btn.has-filters {
+  color: #f5c518 !important;
+}
+
+/* ── Dropdowns — open LEFT, compact text ── */
+.filter-panel,
+.sort-menu {
+  position: absolute !important;
+  top: calc(100% + 6px) !important;
+  left: 0 !important;
+  right: auto !important;
+  background: #ffffff !important;
+  border: 1px solid #222 !important;
+  border-radius: 10px !important;
+  z-index: 9999 !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transform: translateY(6px) !important;
+  transition: opacity 0.15s, transform 0.15s !important;
+  white-space: nowrap !important;
+  min-width: 140px !important;
+}
+
+.filter-panel.open,
+.sort-menu.open {
+  opacity: 1 !important;
+  pointer-events: all !important;
+  transform: translateY(0) !important;
+}
+
+/* Filter panel */
+.filter-panel {
+  padding: 8px 0 4px !important;
+}
+
+.filter-label {
+  font-size: 9px !important;
+  color: #555 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.08em !important;
+  padding: 0 12px 5px !important;
+}
+
+.filter-option {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  padding: 4px 12px !important;
+  cursor: pointer !important;
+  font-size: 11px !important;
+  color: #000 !important;
+  transition: background 0.1s, color 0.1s !important;
+}
+
+.filter-option:hover {
+  background: #1a1a1a !important;
+  color: #fff !important;
+}
+
+.filter-option input[type="checkbox"] {
+  width: 11px !important;
+  height: 11px !important;
+  accent-color: #f5c518 !important;
+  cursor: pointer !important;
+  flex-shrink: 0 !important;
+}
+
+.filter-clear-row {
+  border-top: 1px solid #e0e0e0 !important;
+  margin-top: 5px !important;
+  padding: 6px 12px 3px !important;
+}
+
+.clear-btn {
+  background: none !important;
+  border: none !important;
+  color: #555 !important;
+  font-size: 10px !important;
+  cursor: pointer !important;
+  padding: 0 !important;
+  text-decoration: underline !important;
+  text-underline-offset: 2px !important;
+}
+
+.clear-btn:hover {
+  color: #aaa !important;
+}
+
+/* Sort menu */
+.sort-menu {
+  padding: 5px 0 !important;
+}
+
+.sort-option {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  padding: 5px 12px !important;
+  cursor: pointer !important;
+  font-size: 11px !important;
+  color: #000 !important;
+  transition: background 0.1s, color 0.1s !important;
+}
+
+.sort-option:hover {
+  background: #f5c518 !important;
+  color: #000 !important;
+}
+
+.sort-option.active {
+  color: #f5c518 !important;
+}
+
+.radio-dot {
+  width: 10px !important;
+  height: 10px !important;
+  border-radius: 50% !important;
+  border: 1.5px solid #444 !important;
+  flex-shrink: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.sort-option.active .radio-dot {
+  border-color: #f5c518 !important;
+  background: #f5c518 !important;
+}
+
+.sort-option.active .radio-dot::after {
+  content: '' !important;
+  width: 3px !important;
+  height: 3px !important;
+  border-radius: 50% !important;
+  background: #fff !important;
+}
+
+@media (max-width: 768px) {
+  .blog-grid {
+    grid-template-columns: 1fr;
+  }
+  .blog-feature {
+    transform: none !important;
+  }
+  .blog-sort-filter {
+    justify-content: flex-start !important;
+  }
+  .filter-panel,
+  .sort-menu {
+    max-width: calc(100vw - 40px);
+    white-space: normal !important;
+  }
+}
+
+.blog-side::-webkit-scrollbar {
+  width: 6px;
+}
+
+.blog-side::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.blog-side::-webkit-scrollbar-thumb {
+  background: #d0d0d0;
+  border-radius: 999px;
+}
+
+.blog-side::-webkit-scrollbar-thumb:hover {
+  background: #a0a0a0;
+}

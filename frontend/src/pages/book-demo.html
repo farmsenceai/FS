@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Demo - FarmSence</title>
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="/assets/js/main.js" defer></script>
+
+    <!--
+        NOTE: These styles were added inline here because style.css wasn't
+        available to edit directly. Feel free to move this block into
+        style.css later — just keep the class names the same.
+    -->
+    <style>
+        .demo-form-section {
+            padding: 20px;
+            padding-top: 100px; /* offset for the fixed/sticky header — adjust to match your header's actual height */
+            box-sizing: border-box;
+        }
+
+        .demo-page-layout {
+            display: flex;
+            gap: 24px;
+            max-width: 1300px;
+            margin: 0 auto;
+            align-items: stretch;
+        }
+
+        /* LEFT: image column */
+        .demo-image-column {
+            flex: 1 1 40%;
+            display: flex;
+            align-items: stretch;
+            justify-content: center;
+        }
+
+        .demo-image-column .image-placeholder {
+            width: 100%;
+            border-radius: 12px;
+            background: #f4f4f4;
+            border: 2px dashed #d9d9d9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            font-size: 0.95rem;
+            text-align: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .demo-image-column img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 12px;
+        }
+
+        /* RIGHT: form column */
+        .demo-form-container {
+            flex: 1 1 60%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .demo-form-container h1 {
+            margin: 0 0 12px 0;
+            font-size: 1.5rem;
+        }
+
+        #demoForm {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 14px;
+        }
+
+        .form-row .form-group {
+            flex: 1 1 0;
+            min-width: 0;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .form-group label {
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            padding: 8px 10px;
+            font-size: 0.9rem;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-sizing: border-box;
+            width: 100%;
+        }
+
+        .form-group textarea {
+            resize: none;
+        }
+
+        .submit-btn {
+            margin-top: 6px;
+            padding: 10px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 6px;
+            background: #f2e94e;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        /* Stack columns on smaller screens so nothing gets squeezed */
+        @media (max-width: 900px) {
+            .demo-page-layout {
+                flex-direction: column;
+            }
+            .demo-image-column {
+                order: 2;
+                min-height: 200px;
+            }
+            .demo-form-container {
+                order: 1;
+            }
+            .form-row {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- PAGE HEADER -->
+<header class="site-header scroll-header">
+  <div id="header-placeholder"></div>
+</header>
+
+<section class="demo-form-section">
+
+    <div class="demo-page-layout">
+
+        <!-- LEFT: image column (swap in your image later) -->
+        <div class="demo-image-column">
+            <div class="image-placeholder">
+                Image goes here
+                <!-- Replace the div above with something like:
+                <img src="/assets/images/book-demo-illustration.png" alt="Book a demo">
+                -->
+            </div>
+        </div>
+
+        <!-- RIGHT: form column -->
+        <div class="demo-form-container">
+
+            <h1>Book a Demo</h1>
+
+            <form id="demoForm">
+
+                <div class="form-group">
+                    <label for="fullName">Full Name *</label>
+                    <input
+                        type="text"
+                        id="fullName"
+                        placeholder="Enter your full name"
+                        required
+                    >
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="phone">Phone Number *</label>
+                        <input
+                            type="tel"
+                            id="phone"
+                            placeholder="Enter phone number"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email *</label>
+                        <input
+                            type="email"
+                            id="email"
+                            placeholder="Enter your email"
+                            required
+                        >
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="breed">Chicken Breed *</label>
+                        <select id="breed" required>
+                            <option value="">Select Breed</option>
+                            <option>Country Chicken</option>
+                            <option>Broiler</option>
+                            <option>Layer</option>
+                            <option>Kadaknath</option>
+                            <option>Aseel</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="quantity">Quantity Per Order *</label>
+                        <input
+                            type="number"
+                            id="quantity"
+                            min="1"
+                            required
+                        >
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="address">Full Address *</label>
+                    <textarea
+                        id="address"
+                        rows="2"
+                        placeholder="Enter complete address"
+                        required
+                    ></textarea>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="countrySelect">Country *</label>
+                        <select id="countrySelect" required>
+                            <option value="">Loading Countries...</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="stateSelect">State / Province *</label>
+                        <select id="stateSelect" required>
+                            <option value="">Select Country First</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="selfie">Upload Selfie *</label>
+                        <input
+                            type="file"
+                            id="selfie"
+                            accept="image/*,.pdf"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="shopImage">Upload Shop Image *</label>
+                        <input
+                            type="file"
+                            id="shopImage"
+                            accept="image/*,.pdf"
+                            required
+                        >
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-btn">
+                    Submit
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</section>
+
+  <script src="/assets/js/layout-loader.js"></script>
+  <script src="assets/js/country-states-data.js"></script>
+  <script src="assets/js/book-demo.js"></script>
+
+<div id="footer-placeholder"></div>
+</body>
+</html>

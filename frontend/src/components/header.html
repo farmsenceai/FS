@@ -1,0 +1,555 @@
+<!-- 
+  AUTHORITATIVE SITE HEADER COMPONENT
+  ===================================
+  This file contains both the HTML and CSS for the FarmsenceAI header.
+  It is loaded dynamically into #header-placeholder via layout-loader.js.
+-->
+
+<style>
+/* --- FONTS --- */
+@font-face {
+    font-family: 'Fugaz One';
+    src: url('/assets/fonts/Fugaz_One/FugazOne-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* --- HEADER BASE --- */
+.site-header {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: #fff;
+    z-index: 2000;
+    border-top: none;
+    font-family: 'Inter', sans-serif;
+    transition: transform 0.3s ease;
+}
+
+.site-header.scroll-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    box-shadow: 0 4px 12px rgba(0,0,0,.06);
+}
+
+.site-header.header-hidden {
+    transform: translateY(-100%);
+}
+
+/* --- TRANSPARENT VARIANT (for index.html) --- */
+.site-header.transparent {
+    background: transparent !important;
+    border-top: none !important;
+    position: absolute;
+}
+
+.site-header.transparent .site-logo,
+.site-header.transparent .desktop-nav a:not(.nav-login):not(.nav-demo),
+.site-header.transparent .menu-toggle {
+    color: #fff !important;
+}
+
+.site-header.transparent .site-logo-img-black,
+.page-case-studies .site-header .site-logo-img-black {
+    display: none;
+}
+
+.site-header.transparent .site-logo-img-white,
+.page-case-studies .site-header .site-logo-img-white {
+    display: block;
+}
+
+/* --- CASE STUDIES VARIANT --- */
+.page-case-studies .site-header {
+    background: #000 !important;
+    border-top: none !important;
+}
+
+.page-case-studies .site-header .site-logo,
+.page-case-studies .site-header .desktop-nav a:not(.nav-login):not(.nav-demo),
+.page-case-studies .site-header .menu-toggle {
+    color: #fff !important;
+}
+
+/* --- CONTAINER --- */
+.nav-container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    min-height: 80px;
+    padding: 0;
+}
+
+.container-main {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding-inline: clamp(16px, 3vw, 48px);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+/* --- LOGO --- */
+.site-logo {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none !important;
+    line-height: 1;
+    margin-right: 32px;
+    flex-shrink: 0;
+}
+
+.site-logo:hover {
+    text-decoration: none !important;
+}
+
+.site-logo-img {
+    display: block;
+    width: 154px;
+    height: auto;
+}
+
+.site-logo-img-white {
+    display: none;
+}
+
+/* --- DESKTOP NAV --- */
+.desktop-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex: 1;
+    gap: clamp(12px, 1.5vw, 20px);
+    min-width: 0;
+}
+
+.desktop-nav a {
+    text-decoration: none;
+    color: #000;
+    font-size: 15.5px;
+    font-weight: 400;
+    line-height: 1;
+    transition: 0.25s;
+}
+
+.nav-primary {
+    display: flex;
+    align-items: center;
+    gap: clamp(14px, 1.8vw, 24px);
+    min-width: 0;
+    flex-wrap: wrap;
+}
+
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-left: auto;
+}
+
+/* --- BUTTONS --- */
+.nav-login, .nav-demo {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 42px;
+    border-radius: 10px;
+    font-weight: 500 !important;
+    white-space: nowrap;
+    text-decoration: none;
+    position: relative !important;
+    overflow: hidden !important;
+    z-index: 1;
+    transition: color 300ms ease-out, background-color 300ms ease-out;
+}
+
+.nav-login {
+    padding: 0 16px;
+    text-decoration-color: #d1d5db;
+    color: #d1d5db !important;
+    background: #ffffff !important;
+    border: 1px solid #d1d5db !important;
+}
+
+.nav-demo {
+    padding: 0 16px;
+    color: #ffffff !important;
+    background: #2f2f2f !important;
+    border: none !important;
+}
+
+.nav-login:hover,
+.nav-login:focus,
+.nav-login:active {
+    color: #d1d5db !important;
+}
+
+/* Slide-up overlay classes */
+.btn-overlay-login,
+.btn-overlay-demo {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(128, 128, 128, 0.62);
+    z-index: 1;
+    transform: translateY(100%);
+    transition: transform 300ms ease-out;
+    pointer-events: none;
+}
+
+.btn-text {
+    position: relative;
+    z-index: 2;
+}
+
+.nav-login:hover .btn-overlay-login,
+.nav-login:focus .btn-overlay-login,
+.nav-login:active .btn-overlay-login,
+.nav-demo:hover .btn-overlay-demo,
+.nav-demo:focus .btn-overlay-demo,
+.nav-demo:active .btn-overlay-demo {
+    transform: translateY(0%);
+}
+
+
+/* --- ACCOUNT DROPDOWN --- */
+.nav-account {
+    position: relative;
+    display: none; /* Shown via JS */
+    align-items: center;
+}
+
+.account-link {
+    font-size: 22px !important;
+    color: #000 !important;
+    display: flex !important;
+    align-items: center;
+    padding: 0 !important;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.site-header.transparent .account-link {
+    color: #fff !important;
+}
+
+.account-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    min-width: 180px;
+    margin-top: 10px;
+    z-index: 2001;
+    padding: 8px 0;
+    display: none; /* Toggled via JS */
+}
+
+.dropdown-header {
+    padding: 8px 16px;
+    font-weight: 600;
+    font-size: 14px;
+    color: #333;
+}
+
+.dropdown-divider {
+    height: 1px;
+    background: #eee;
+    margin: 4px 0;
+}
+
+.account-dropdown a {
+    display: block !important;
+    padding: 10px 16px !important;
+    font-size: 14px !important;
+    color: #000 !important;
+    text-decoration: none !important;
+    opacity: 1 !important;
+    transition: background 0.2s;
+}
+
+.account-dropdown a:hover {
+    background: #f5f5f5;
+}
+
+#navLogout {
+    color: #e05252 !important;
+}
+#dashboardOption {
+    color: #000000 !important;
+}
+
+/* --- BURGER MENU --- */
+.menu-toggle {
+    font-size: 24px;
+    cursor: pointer;
+    display: none;
+    color: #000;
+}
+
+/* --- MOBILE MENU --- */
+.mobile-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    height: 100dvh;
+    background: rgba(255, 255, 255, 0.3); /* Translucent background */
+    backdrop-filter: blur(20px); /* Frosted glass effect */
+    -webkit-backdrop-filter: blur(20px);
+    display: flex;
+    align-items: flex-start; /* Start near the top, just below close button */
+    padding-top: 35px; /* Aligned vertically with close button */
+    padding-left: 60px;
+    transform: translateY(-100%);
+    transition: transform .45s cubic-bezier(0.165, 0.84, 0.44, 1);
+    z-index: 1999;
+}
+
+/* Subtle grain/noise texture overlay */
+.mobile-menu::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    opacity: 0.05;
+    mix-blend-mode: overlay;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.mobile-menu.active {
+    transform: translateY(0);
+}
+
+.mobile-menu-close {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    font-size: 32px;
+    color: #000;
+    cursor: pointer;
+    z-index: 2001;
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.mobile-menu-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 12px; /* Reduced gap from 25px for compact list */
+}
+
+.mobile-menu.active .mobile-menu-inner a {
+    animation: slideInLeft 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    opacity: 0;
+}
+
+/* Staggered delays for a smoother feel (skipping child index 7 for the divider) */
+.mobile-menu.active .mobile-menu-inner a:nth-child(1) { animation-delay: 0.05s; }
+.mobile-menu.active .mobile-menu-inner a:nth-child(2) { animation-delay: 0.1s; }
+.mobile-menu.active .mobile-menu-inner a:nth-child(3) { animation-delay: 0.15s; }
+.mobile-menu.active .mobile-menu-inner a:nth-child(4) { animation-delay: 0.2s; }
+.mobile-menu.active .mobile-menu-inner a:nth-child(5) { animation-delay: 0.25s; }
+.mobile-menu.active .mobile-menu-inner a:nth-child(6) { animation-delay: 0.3s; }
+.mobile-menu.active .mobile-menu-inner a:nth-child(8) { animation-delay: 0.35s; }
+.mobile-menu.active .mobile-menu-inner a:nth-child(9) { animation-delay: 0.4s; }
+
+.mobile-menu-inner a {
+    color: #000;
+    text-decoration: none;
+    font-size: 21px; /* Reduced base font size by ~30% */
+    font-weight: 600;
+    padding: 6px 0; /* Ensures comfortable tap targets */
+    display: inline-block;
+    transition: color 0.3s;
+}
+
+.mobile-menu-inner a:hover {
+    color: #21593b;
+}
+
+.menu-divider {
+    height: 1px;
+    width: 100%;
+    max-width: 280px;
+    background: rgba(0, 0, 0, 0.15); /* Subtle border color separating actions */
+    margin: 15px 0;
+}
+
+.menu-highlight {
+    font-size: 21px; /* Matches updated base font size */
+    opacity: .85;
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 1024px) {
+    .container-main {
+        padding-inline: clamp(16px, 3vw, 48px);
+    }
+    .nav-container {
+        min-height: 72px;
+    }
+    .site-logo {
+        margin-right: 20px;
+    }
+
+    .site-logo-img {
+        width: 138px;
+    }
+}
+
+@media (max-width: 1100px) {
+    .desktop-nav {
+        display: none;
+    }
+    .menu-toggle {
+        display: block;
+    }
+    .nav-container {
+        padding: 0;
+    }
+    .mobile-menu {
+        padding-left: 30px;
+        padding-top: 35px;
+    }
+    .mobile-menu-inner a {
+        font-size: 20px;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+    .site-header {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .container-main,
+    .nav-container,
+    .container-main.nav-container {
+        width: 100%;
+        max-width: 1400px;
+        margin: 0 auto;
+        padding-inline: 24px;
+        box-sizing: border-box;
+    }
+}
+
+@media (max-width: 480px) {
+    .container-main {
+        padding-inline: 20px;
+    }
+    .mobile-menu {
+        padding-left: 20px;
+        padding-top: 35px;
+    }
+    .mobile-menu-inner {
+        gap: 8px;
+    }
+    .mobile-menu-inner a {
+        font-size: 18px;
+    }
+    .site-logo-img {
+        width: 128px;
+    }
+    .menu-divider {
+        width: 80%;
+    }
+    .menu-highlight {
+        font-size: 18px;
+    }
+}
+</style>
+
+<div class="container-main nav-container">
+
+    <!-- Logo -->
+    <a href="/index.html" class="site-logo" aria-label="Farmsence home">
+        <img class="site-logo-img site-logo-img-black" src="/assets/logos/Farmsence_Black.svg" alt="Farmsence">
+        <img class="site-logo-img site-logo-img-white" src="/assets/logos/Farmsence_White.svg" alt="Farmsence">
+    </a>
+
+    <!-- Desktop Navigation -->
+    <nav class="desktop-nav">
+        <div class="nav-primary">
+            <a href="/src/pages/mission.html">Our Mission</a>
+            <a href="/src/pages/research.html">Research</a>
+            <a href="/src/pages/case-studies.html">Case Studies</a>
+            <a href="/src/pages/blogs.html">Blogs</a>
+            <a href="/src/pages/forms/contact-form.html">Contact Sales</a>
+        </div>
+
+        <div class="nav-actions">
+            <!-- Auth: Logged Out -->
+            <a class="nav-login" id="navLoginBtn" href="/src/pages/sign-in.html">
+                <span class="btn-overlay-login" aria-hidden="true"></span>
+                <span class="btn-text">Log In</span>
+            </a>
+            <a class="nav-demo" id="navDemoBtn" href="/src/pages/book-demo.html">
+                <span class="btn-overlay-demo" aria-hidden="true"></span>
+                <span class="btn-text">Book Demo</span>
+            </a>
+
+            <!-- Auth: Logged In -->
+            <div class="nav-account" id="navAccount">
+                <a class="account-link" id="accountLink">
+                    <i class="fa-regular fa-circle-user"></i>
+                    <span id="navAccountLabel" style="margin-left: 8px; font-size: 16px; display: none;">Account</span>
+                </a>
+                <div class="account-dropdown" id="accountDropdown">
+                    <div class="dropdown-header" id="userName">User</div>
+                    <div class="dropdown-divider"></div>
+                    <a href="#" id="dashboardOption">Dashboard</a>
+                    <a href="#" id="navLogout">Sign out</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Burger Menu -->
+    <div class="menu-toggle" id="menuToggle">
+        <i class="fa-solid fa-bars"></i>
+    </div>
+
+</div>
+
+<!-- FULLSCREEN MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+    <div class="mobile-menu-close" id="mobileMenuClose">
+        <i class="fa-solid fa-xmark"></i>
+    </div>
+    <div class="mobile-menu-inner">
+        <a href="/index.html">Home</a>
+        <a href="/src/pages/mission.html">Our Mission</a>
+        <a href="/src/pages/research.html">Research</a>
+        <a href="/src/pages/case-studies.html">Case Studies</a>
+        <a href="/src/pages/blogs.html">Blogs</a>
+        <a href="/src/pages/forms/contact-form.html">Contact Sales</a>
+        <div class="menu-divider"></div>
+        <a href="/src/pages/sign-in.html">Log In</a>
+        <a class="menu-highlight" href="/src/pages/book-demo.html">Book Demo</a>
+        <br><br>
+    </div>
+</div>

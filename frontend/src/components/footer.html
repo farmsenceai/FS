@@ -1,0 +1,336 @@
+<style>
+/* ==========================
+   FARMSENCE FOOTER
+========================== */
+
+.cta-footer {
+  padding: 80px 0 40px;
+}
+
+/* TOP SECTION */
+
+.footer-main {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: clamp(32px, 5vw, 80px);
+  width: min(100%, 1400px);
+  margin: 0 auto;
+  padding-inline: clamp(16px, 3vw, 48px);
+}
+
+.footer-links-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  column-gap: clamp(24px, 4vw, 80px);
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.footer-brand-column {
+  gap: 80px;
+  width: auto;
+  flex: 0 1 220px;
+  min-width: 0;
+}
+
+/* LEFT CTA */
+
+.footer-cta {
+  flex: 1 1 280px;
+  max-width: 420px;
+  min-width: 0;
+}
+
+.footer-cta h2 {
+  font-size: 42px;
+  line-height: 1.15;
+  max-width: 420px;
+  margin-bottom: 36px;
+}
+
+.cta-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffc107;
+  color: #000;
+  text-decoration: none;
+  padding: 14px 32px;
+  border-radius: 999px;
+  font-size: 17px;
+  font-weight: 500;
+  transition: all 0.25s ease;
+}
+
+.cta-btn:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
+}
+
+/* RIGHT COLUMNS */
+
+.footer-column h4 {
+  color: #7f7f7f;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+.footer-column ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-column li {
+  margin-bottom: 12px;
+}
+
+.footer-column a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 16px;
+  transition: opacity 0.25s ease;
+}
+
+.footer-column a:hover {
+  opacity: 0.7;
+}
+
+/* BOTTOM SECTION */
+
+.footer-brand-column {
+    min-width: 0;
+}
+
+.footer-brand {
+    margin-bottom: 18px;
+}
+
+.footer-brand-logo {
+    display: block;
+    width: 170px;
+    height: auto;
+}
+
+.footer-social {
+    display: flex;
+    gap: 14px;
+    margin-bottom: 18px;
+}
+
+.footer-social a {
+  color: rgba(255,255,255,0.75);
+  font-size: 20px;
+  transition: all .25s ease;
+}
+
+.footer-social a:hover {
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+.footer-meta {
+    font-size: 13px;
+    color: rgba(255,255,255,0.7);
+    margin-bottom: 6px;
+}
+
+.footer-copyright {
+    font-size: 12px;
+    color: rgba(255,255,255,0.55);
+    line-height: 1.5;
+}
+
+/* ==========================
+   TABLET
+========================== */
+
+@media (max-width: 1024px) {
+
+  .cta-footer {
+    padding: 70px 0 35px;
+  }
+
+  .footer-main {
+    flex-direction: column;
+    gap: 60px;
+  }
+
+  .footer-cta {
+    flex: unset;
+    max-width: 500px;
+  }
+
+  .footer-links-grid {
+    width: 100%;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px;
+  }
+
+  .footer-cta h2 {
+    font-size: 46px;
+  }
+}
+
+/* ==========================
+   MOBILE
+========================== */
+
+@media (max-width: 768px) {
+
+  .cta-footer {
+    padding: 60px 0 30px;
+  }
+
+  .footer-main {
+    gap: 50px;
+  }
+
+  .footer-cta {
+    text-align: center;
+  }
+
+  .footer-cta h2 {
+    font-size: 36px;
+    margin-bottom: 24px;
+  }
+
+  .footer-links-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    text-align: center;
+  }
+
+  .footer-bottom {
+    text-align: center;
+  }
+
+  .footer-social {
+    justify-content: center;
+  }
+
+  .footer-brand {
+    display: flex;
+    justify-content: center;
+  }
+
+  .footer-brand-logo {
+    width: 150px;
+  }
+}
+
+/* SMALL MOBILE */
+
+@media (max-width: 480px) {
+
+  .footer-cta h2 {
+    font-size: 30px;
+  }
+
+  .cta-btn {
+    width: 100%;
+    max-width: 220px;
+  }
+
+  .footer-column a {
+    font-size: 15px;
+  }
+}
+</style>
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<section class="cta-footer">
+
+  <div class="footer-main">
+
+    <!-- LEFT SIDE -->
+    <div class="footer-cta">
+
+      <h2>
+        Ready to transform<br>
+        your operation?
+      </h2>
+
+      <a href="/src/pages/forms/contact-form.html"
+         class="cta-btn">
+        Let's Talk
+      </a>
+
+    </div>
+
+    <!-- RIGHT SIDE -->
+    <div class="footer-links-grid">
+
+      <div class="footer-column">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="/src/pages/blogs.html">Blogs</a></li>
+          <li><a href="/src/pages/research.html">Research</a></li>
+          <li><a href="/src/pages/case-studies.html">Case Studies</a></li>
+          <li><a href="/src/pages/mission.html">Our Mission</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-column">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="/src/pages/forms/contact-form.html">Contact Sales</a></li>
+          <li><a href="/src/pages/privacy-policy.html">Privacy Policy</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-column">
+        <h4>Product</h4>
+        <ul>
+          <li><a href="/src/pages/book-demo.html">Book Demo</a></li>
+          <li><a href="/src/pages/sign-in.html">Login</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-column">
+        <h4>Connect</h4>
+        <ul>
+          <li><a href="#">LinkedIn</a></li>
+          <li><a href="#">Instagram</a></li>
+          <li><a href="#">X / Twitter</a></li>
+          <li><a href="#">YouTube</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-brand-column">
+      <div class="footer-brand">
+        <img class="footer-brand-logo" src="/assets/logos/Farmsence_White.svg" alt="Farmsence">
+      </div>
+
+      <div class="footer-social">
+        <a href="#" aria-label="LinkedIn">
+          <i class="fab fa-linkedin-in"></i>
+        </a>
+        <a href="#" aria-label="Instagram">
+          <i class="fab fa-instagram"></i>
+        </a>
+        <a href="#" aria-label="X">
+          <i class="fa-brands fa-x-twitter"></i>
+        </a>
+        <a href="#" aria-label="YouTube">
+          <i class="fab fa-youtube"></i>
+        </a>
+      </div>
+
+      <div class="footer-meta">
+        Made in India for The World
+      </div>
+
+      <div class="footer-copyright">
+        © 2026 CHICKCOOP FARM PVT. LTD.
+      </div>
+    </div>
+
+  </div>
+
+</section>

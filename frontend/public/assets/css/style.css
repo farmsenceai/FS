@@ -1,0 +1,2079 @@
+/* ==========================================================
+   TABLE OF CONTENTS
+   1. Design Tokens
+   2. Global Reset
+   3. Page Transitions
+   4. Home Hero and Legacy Lightweight Pages
+   5. Scroll Highlight
+   6. Features
+   7. FAQ
+   8. Cookie Banner
+   9. Stories
+   10. Logo Marquee
+   11. Blog and Research Listing Pages
+   12. Mission Page
+   13. Footer
+   14. Forms and Utility Page Layout
+   15. Responsive Scaling Layer
+========================================================== */
+
+/* ==========================================================
+   DESIGN TOKENS
+   Used by: Entire website
+   Scope: Shared
+========================================================== */
+:root {
+  --color-black: #000;
+  --color-cream: #faf7f2;
+  --color-dark: #111;
+  --color-muted: #555;
+  --color-text: #000;
+  --color-white: #fff;
+  --color-yellow: #ffc400;
+  --font-base: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  --font-serif: Georgia, "Times New Roman", serif;
+  --page-max-width: 1400px;
+  --page-pad-mobile: 20px;
+  --page-pad-tablet: 40px;
+  --page-padding: clamp(16px, 3vw, 48px);
+}
+
+/* ==========================================================
+   GLOBAL RESET
+   Used by: Entire website
+   Scope: Shared
+========================================================== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-base);
+  max-width: 100%;
+  min-width: 0;
+  overflow-x: hidden;
+  width: 100%;
+}
+
+html {
+  max-width: 100%;
+  overflow-x: hidden;
+  width: 100%;
+}
+
+img,
+video {
+  height: auto;
+  max-width: 100%;
+}
+
+/* ==========================================================
+   PAGE TRANSITIONS
+   Used by: Entire website via layout-loader.js
+   Scope: Shared, dynamically applied
+========================================================== */
+.page-transition {
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.page-transition.fade-in {
+  opacity: 1;
+}
+
+/* ==========================================================
+   HOME HERO AND LEGACY LIGHTWEIGHT PAGES
+   Used by:
+   - Home
+   - Coming Soon
+   - Products
+   - Farm Intelligence
+   Scope: Shared and legacy page-specific
+========================================================== */
+.hero-video {
+  color: var(--color-white);
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+}
+
+/* Video */
+.hero-bg-video {
+  height: 100%;
+  inset: 0;
+  object-fit: cover;
+  position: absolute;
+  width: 100%;
+  z-index: 1;
+}
+
+/* Overlay */
+.hero-overlay {
+  background: rgba(0, 0, 0, 0.3);
+  inset: 0;
+  position: absolute;
+  z-index: 2;
+}
+
+.container {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
+
+/* LOGO */
+
+.logo {
+  color: var(--color-white);
+  font-weight: 600;
+  font-size: 30px;
+  letter-spacing: 1px;
+  z-index: 1002;
+}
+
+
+/* DESKTOP NAV */
+
+.nav {
+  align-items: center;
+  display: flex;
+  flex: 1;
+  gap: 34px;
+  margin-left: 52px;
+}
+
+.nav a {
+  color: var(--color-black);
+  font-size: 17px;
+  line-height: 1;
+  opacity: 1;
+  text-decoration: none;
+  transition: 0.25s;
+}
+
+.nav a:hover {
+  opacity: 1;
+}
+
+/* ========================================
+FONT AWESOME BURGER ICON
+======================================== */
+
+.menu-toggle {
+  cursor: pointer;
+  color: var(--color-white);
+  display: none;
+  font-size: 24px;
+  transition: transform 0.3s ease;
+  z-index: 1002;
+}
+
+.menu-toggle:hover {
+  transform: scale(1.1);
+}
+
+
+/* ========================================
+MOBILE MENU PANEL
+======================================== */
+
+.nav-mobile {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 100%;
+  height: 100vh;
+  background: #000000(0,0,0,0.99);
+  backdrop-filter: blur(19px);
+  /* background-color: #000; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 30px;
+  gap: 28px;
+  transition: right 0.4s ease;
+  z-index: 1001;
+}
+
+.nav-mobile.active {
+  right: 0;
+}
+
+/* MOBILE LINKS ANIMATION */
+
+.nav-mobile a {
+  color: #fff;
+  font-size: 25px;
+  text-decoration: none;
+  opacity: 0;
+  transform: translateX(40px);
+  transition: all 0.4s ease;
+
+}
+
+.nav-mobile.active a {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* stagger animation */
+
+.nav-mobile.active a:nth-child(1) { transition-delay: 0.15s; }
+.nav-mobile.active a:nth-child(2) { transition-delay: 0.2s; }
+.nav-mobile.active a:nth-child(3) { transition-delay: 0.25s; }
+.nav-mobile.active a:nth-child(4) { transition-delay: 0.3s; }
+.nav-mobile.active a:nth-child(5) { transition-delay: 0.35s; }
+.nav-mobile.active a:nth-child(7) { transition-delay: 0.4s; }
+
+
+/* ========================================
+RESPONSIVE
+======================================== */
+
+@media (max-width: 900px) {
+
+  .nav {
+    display: none;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+
+}
+
+/* Hero content */
+.hero-content {
+  position: absolute;
+  z-index: 3;
+  bottom: 80px;
+  left: 70px;
+  max-width: 520px;
+}
+
+.hero-content h1 {
+  font-size: 48px;
+  line-height: 1.2;
+  font-weight: 400;
+  margin-bottom: 16px;
+}
+
+
+.hero-content h1 em {
+  font-style: italic;
+  font-weight: 300;
+}
+
+.hero-content p {
+  font-size: 18px;
+  opacity: 0.95;
+  margin-bottom: 24px;
+}
+
+/* Button */
+.hero-btn {
+  display: inline-block;
+  background: #ffffff;
+  color: #000000;
+  padding: 12px 22px;
+  border-radius: 30px;
+  text-decoration: none;
+  font-size: 15px;
+  transition: all 0.3s ease;
+}
+
+.hero-btn:hover {
+  background: #f2f2f2;
+}
+
+@media (max-width: 768px) {
+  .hero-content {
+    left: 20px;
+    right: 20px;
+    bottom: 40px;
+    max-width: none;
+    text-align: center;
+  }
+
+  .hero-content h1 {
+    font-size: 32px;
+    margin-bottom: 12px;
+  }
+
+  .hero-content p {
+    font-size: 16px;
+    margin-bottom: 20px;
+  }
+
+  .buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .btn {
+    margin-right: 0;
+    width: 100%;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-content h1 {
+    font-size: 28px;
+  }
+}
+
+.container {
+  /* max-width: 1200px; */
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header {
+  background: #fff;
+  padding: 0;
+  min-height: 92px;
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  color: #000;
+  font-size: 28px;
+  font-weight: 500;
+  font-family: inherit;
+  letter-spacing: -0.02em;
+  text-decoration: none !important;
+  line-height: 1;
+  margin-right: 52px;
+}
+
+.logo:hover {
+  text-decoration: none !important;
+}
+
+.nav a {
+  color: #000;
+  margin-left: 0;
+  text-decoration: none;
+}
+
+.hero {
+  height: 80vh;
+  background: url('../images/hero.jpg') center/cover no-repeat;
+  display: flex;
+  align-items: center;
+  padding: 0 60px;
+  color: #fff;
+}
+
+.hero-content {
+  max-width: 600px;
+}
+
+.hero h1 {
+  font-size: 42px;
+  margin-bottom: 10px;
+}
+
+.buttons {
+  margin-top: 20px;
+}
+
+.btn {
+  background: #ffc400;
+  color: #ffffff;
+  padding: 12px 20px;
+  text-decoration: none;
+  margin-right: 10px;
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.btn.outline {
+  background: transparent;
+  border: 2px solid #ffffff;
+  color: #ffffff;
+}
+
+/* Custom slide-up shadow overlay hover effect for buttons */
+.btn-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.2); /* Semi-transparent dark overlay */
+  z-index: 1;
+  transform: translateY(100%);
+  transition: transform 300ms ease-out;
+  pointer-events: none;
+}
+
+.btn-text {
+  position: relative;
+  z-index: 2;
+}
+
+.btn:hover .btn-overlay {
+  transform: translateY(0%);
+}
+
+/* ==========================================================
+   SCROLL HIGHLIGHT
+   Used by:
+   - Home
+   - Contact Sales
+   Scope: Shared
+========================================================== */
+.scroll-highlight {
+  background: #faf7f2;
+  padding: 50px 60px;
+}
+
+.highlight-container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* Text */
+.highlight-text {
+  font-family: var(--font-serif);
+  font-size: 42px;
+  line-height: 1.35;
+  font-weight: 400;
+}
+
+/* Each line */
+.highlight-text span {
+  display: block;
+  color: rgba(0, 0, 0, 0.18);
+  transition: color 0.4s ease;
+}
+
+/* Active highlight */
+.highlight-text span.active {
+  color: #111;
+}
+
+/* CTA */
+.highlight-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 36px;
+  padding: 10px 20px;
+  border: 1px solid #111;
+  border-radius: 24px;
+  text-decoration: none;
+  color: #111;
+  font-size: 14px;
+}
+
+
+/* MOBILE OPTIMIZED */
+@media (max-width: 768px) {
+  .scroll-highlight {
+    padding: 100px 20px;
+  }
+
+  .highlight-text {
+    font-size: 28px;
+  }
+}
+
+
+
+
+
+/* ==========================================================
+   FEATURES
+   Used by:
+   - Home
+   - Contact Sales
+   Scope: Shared
+========================================================== */
+/* FEATURES SECTION */
+.features {
+  background: var(--color-cream);
+  padding: 120px 60px;
+}
+
+.features-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Feature Row */
+.feature-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 80px;
+  margin-bottom: 140px;
+}
+
+/* Reverse layout */
+.feature-row.reverse {
+  grid-template-columns: 1fr 1fr;
+}
+
+/* Image */
+.feature-image {
+  display: flex;
+  justify-self: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.image-frame {
+  background: var(--color-yellow);
+  border-radius: 22px;
+  max-width: 420px;
+  padding: 28px;
+}
+
+.image-frame img {
+  aspect-ratio: 4 / 3;
+  border-radius: 14px;
+  display: block;
+  object-fit: cover;
+  width: 100%;
+}
+
+/* Text */
+.feature-text {
+  max-width: 460px;
+  justify-self: center;
+  width: 100%;
+}
+
+.feature-icon {
+  color: var(--color-dark);
+  font-size: 20px;
+  margin-bottom: 14px;
+}
+
+.feature-text h3 {
+  font-family: var(--font-serif);
+  font-size: 28px;
+  font-weight: 400;
+  margin-bottom: 12px;
+}
+
+.feature-text p {
+  font-size: 15px;
+  line-height: 1.7;
+  color: #444;
+}
+
+/* 3️⃣ Tablet & Mobile Optimization */
+
+@media (max-width: 1024px) {
+  .features {
+    padding: 100px var(--page-pad-tablet);
+  }
+
+  .feature-row {
+    gap: 50px;
+    margin-bottom: 100px;
+  }
+}
+
+@media (max-width: 768px) {
+  .features {
+    padding: 60px var(--page-pad-mobile);
+  }
+
+  .feature-row, .feature-row.reverse {
+    grid-template-columns: 1fr;
+    gap: 30px;
+    margin-bottom: 60px;
+    text-align: center;
+  }
+
+  .feature-text {
+    max-width: 100%;
+    order: 1;
+  }
+
+  .feature-image {
+    order: 2;
+  }
+
+  .feature-row.reverse .feature-text {
+    order: 1;
+  }
+
+  .feature-row.reverse .feature-image {
+    order: 2;
+  }
+
+  .image-frame {
+    padding: 16px;
+    border-radius: 16px;
+  }
+}
+
+
+
+
+
+/* ==========================================================
+   FAQ
+   Used by:
+   - Home
+   - Contact Sales
+   Scope: Shared
+========================================================== */
+.faq-section {
+  background: #000;
+  color: #fff;
+  padding: 100px 60px;
+  padding-bottom: 65px;
+}
+
+.faq-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 80px;
+}
+
+/* Left Title */
+.faq-title h2 {
+  font-family: var(--font-serif);
+  font-size: 64px;
+  font-weight: 400;
+  line-height: 1.1;
+}
+
+/* FAQ List */
+.faq-list {
+  border-top: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+/* FAQ Item */
+.faq-item {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+/* Question Button */
+.faq-question {
+  width: 100%;
+  background: none;
+  border: none;
+  color: #fff;
+  padding: 26px 0;
+  font-size: 20px;
+  font-weight: 400;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  text-align: left;
+}
+
+/* Icon */
+.faq-icon {
+  font-size: 18px;
+  opacity: 0.7;
+}
+
+/* Answer */
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease;
+}
+
+.faq-answer p {
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 16px;
+  line-height: 1.6;
+  padding-bottom: 26px;
+  max-width: 720px;
+}
+
+/* Active State */
+.faq-item.active .faq-answer {
+  max-height: 300px;
+}
+
+.faq-item.active .faq-icon {
+  transform: rotate(180deg);
+}
+
+/* FAQs Mobile */
+@media (max-width: 768px) {
+  .faq-section {
+    padding: 70px var(--page-pad-mobile);
+  }
+
+  .faq-container {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .faq-title h2 {
+    font-size: 42px;
+  }
+
+  .faq-question {
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .faq-title h2 {
+    font-size: 32px;
+  }
+  
+  .faq-question {
+    font-size: 16px;
+  }
+}
+
+
+
+/* ==========================================================
+   COOKIE BANNER
+   Used by: Home and pages that include main.js cookie controls
+   Scope: Shared, dynamically dismissed through localStorage
+========================================================== */
+
+.cookie-banner {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: rgba(40,40,40,0.95);
+  color: #fff;
+  padding: 20px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 9999;
+  font-size: 14px;
+}
+
+.cookie-text {
+  max-width: 60%;
+}
+
+.cookie-text strong {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 16px;
+}
+
+.cookie-text a {
+  color: #fff;
+  text-decoration: underline;
+}
+
+.cookie-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.cookie-btn {
+  background: rgba(255,255,255,0.15);
+  border: none;
+  color: #fff;
+  padding: 10px 18px;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.cookie-btn:hover {
+  background: rgba(255,255,255,0.25);
+}
+
+.cookie-btn.primary {
+  background: #ffc400;
+  color: #000;
+}
+
+/* Mobile */
+@media (max-width:768px) {
+
+  .cookie-banner {
+    flex-direction: column;
+    gap: 15px;
+    text-align: center;
+  }
+
+  .cookie-text {
+    max-width: 100%;
+  }
+
+}
+
+/* End of Cookies */
+/* ==========================================================
+   STORIES
+   Used by:
+   - Home
+   - Contact Sales
+   Scope: Shared
+========================================================== */
+
+.stories {
+  background: #000;
+  color: #fff;
+  padding: 80px 60px;
+}
+
+/* Header */
+
+.stories-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.stories-header h2 {
+  font-size: 28px;
+  font-weight: 500;
+}
+
+.stories-header a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+/* Grid Container */
+
+.stories-slider {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px
+  }
+
+/* Story Card */
+
+.story-card {
+  cursor: pointer;
+}
+
+.story-card img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 12px;
+  transition: transform 0.4s ease;
+}
+
+.story-card img:hover {
+  transform: scale(1.03);
+}
+
+.story-card p {
+  margin-top: 12px;
+  font-size: 16px;
+  color: #ddd;
+}
+
+/* ---------------------- */
+/* TABLET (iPad) */
+/* ---------------------- */
+
+@media (max-width: 1024px) {
+
+  .stories {
+    padding: 60px var(--page-pad-tablet);
+  }
+
+  .stories-slider {
+    grid-template-columns: repeat(2, 1fr);
+    display: flex;
+    overflow-x: auto;
+    gap: 20px;
+    scroll-snap-type: x mandatory;
+  }
+
+  .story-card {
+    flex: 0 0 50%;
+    scroll-snap-align: start;
+  }
+
+  .story-card img {
+    height: auto;
+  }
+
+  .stories-slider::-webkit-scrollbar {
+    display: none;
+  }
+
+}
+
+/* ---------------------- */
+/* MOBILE */
+/* ---------------------- */
+
+@media (max-width: 768px) {
+
+  .stories {
+    padding: 50px var(--page-pad-mobile);
+  }
+
+  .stories-slider {
+    display: flex;
+    overflow-x: auto;
+    gap: 20px;
+    scroll-snap-type: x mandatory;
+  }
+
+  .story-card {
+    flex: 0 0 80%;
+    scroll-snap-align: start;
+  }
+
+  .story-card img {
+    height: auto;
+  }
+
+  .stories-slider::-webkit-scrollbar {
+    display: none;
+  }
+
+}
+
+
+
+/* ==========================================================
+   LOGO MARQUEE
+   Used by:
+   - Home
+   - Contact Sales
+   Scope: Shared
+========================================================== */
+
+.logo-section{
+background:#faf7f2;
+padding:100px 50px;
+overflow:hidden;
+}
+
+/* MARQUEE */
+
+.logo-marquee{
+width:100%;
+overflow:hidden;
+position:relative;
+}
+
+/* TRACK */
+
+.logo-track{
+display:flex;
+align-items:center;
+gap:90px;
+width:max-content;
+animation:logoScroll 15s linear infinite;
+}
+
+/* LOGOS */
+
+.logo-track img{
+height:40px;
+opacity:.85;
+transition:.3s;
+}
+
+/* ANIMATION */
+
+@keyframes logoScroll{
+
+0%{
+transform:translateX(0);
+}
+
+100%{
+transform:translateX(-50%);
+}
+
+}
+/* Tablet View */
+
+@media (max-width:900px){
+    .logo-section{
+    padding: 50px var(--page-pad-tablet);
+  }
+
+.logo-track{
+gap:50px;
+}
+
+.logo-track img{
+height:30px;
+}
+
+}
+/* Mobile View */
+@media (max-width:600px){
+
+  .logo-section{
+    padding: 40px var(--page-pad-mobile);
+  }
+
+.logo-track{
+gap:30px;
+}
+
+.logo-track img{
+height:24px;
+}
+
+}
+
+/* 480px overrides for even tighter layout */
+@media (max-width: 480px) {
+  .logo-section {
+    padding: 30px var(--page-pad-mobile);
+  }
+  .logo-track {
+    gap: 20px;
+  }
+  .logo-track img {
+    height: 20px;
+  }
+}
+
+/* Stop on Hover */
+.logo-marquee:hover .logo-track{
+animation-play-state:paused;
+}
+
+
+.brand-logo {
+  height:40px;
+  filter: grayscale(100%) brightness(0);
+  transition:0.35s ease;
+}
+
+.logo-track img:hover{
+  filter: grayscale(0%);
+  opacity:1;
+  transform:scale(1.05);
+}
+
+
+/* ==========================================================
+   BLOG AND RESEARCH LISTING PAGES
+   Used by:
+   - Blogs
+   - Research
+   Scope: Shared listing layout
+========================================================== */
+
+/* PAGE TITLE */
+
+.blog-hero{
+padding:28px 60px 24px;
+background:#fff;
+}
+
+.blog-hero h1{
+font-family:var(--font-serif);
+font-size:44px;
+font-weight:400;
+line-height:1.3;
+margin:0;
+}
+
+
+
+/* FEATURE GRID */
+
+.blog-grid{
+padding:0 60px 80px;
+display:grid;
+grid-template-columns:2fr 1fr;
+gap:30px;
+align-items:start;
+}
+
+
+
+/* FEATURED BLOG */
+
+.blog-feature{
+position:sticky;
+top:100px;
+}
+
+.blog-feature img{
+width:100%;
+border-radius:10px;
+}
+
+.blog-feature h2{
+font-size:28px;
+margin-top:20px;
+}
+
+.blog-description{
+line-height:24px;
+margin-top:10px;
+}
+
+
+
+/* META */
+.blog-meta{
+font-size:14px;
+color:#777;
+margin-top:6px;
+}
+
+
+
+/* SIDE BLOG */
+
+.blog-side-container{
+display:flex;
+flex-direction:column;
+}
+
+.blog-sort-filter{
+position:relative;
+display:flex;
+align-items:center;
+justify-content:flex-end;
+gap:15px;
+flex-wrap:wrap;
+width:100%;
+margin-bottom:15px;
+}
+
+
+
+.sort-menu{
+position:absolute;
+top:100%;
+left:0;
+background:#fff;
+border:1px solid #ddd;
+border-radius:6px;
+min-width:180px;
+margin-top:5px;
+box-shadow:0 2px 8px rgba(0,0,0,0.1);
+z-index:10;
+}
+
+.sort-menu.open{
+display:block;
+}
+
+.sort-option{
+padding:10px 16px;
+cursor:pointer;
+font-size:13px;
+color:#333;
+transition:0.2s;
+}
+
+.sort-option:hover{
+background:#f5f5f5;
+}
+
+.sort-option:first-child{
+border-radius:6px 6px 0 0;
+}
+
+.sort-option:last-child{
+border-radius:0 0 6px 6px;
+}
+
+.blog-side{
+display:flex;
+flex-direction:column;
+gap:30px;
+padding-right:10px;
+}
+
+.blog-small img{
+width:100%;
+aspect-ratio:21 / 9;
+height:auto;
+object-fit:cover;
+border-radius:10px;
+}
+
+.blog-small p{
+margin-top:10px;
+}
+
+
+
+/* BLOG GRID */
+
+.blog-list{
+padding:40px 60px 100px;
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:30px;
+
+}
+
+.blog-card{
+transition:.3s;
+display:flex;
+flex-direction:column;
+}
+
+.blog-card img{
+width:100%;
+aspect-ratio:21 / 9;
+height:auto;
+object-fit:cover;
+border-radius:10px;
+}
+
+.blog-card h3{
+font-size:16px;
+margin-top:10px;
+line-height:1.35;
+}
+
+.blog-card:hover{
+transform:translateY(-5px);
+}
+
+
+
+/* HIDDEN BLOGS */
+
+.hidden-blog{
+display:none;
+}
+
+
+
+/* LOAD MORE */
+
+.load-more{
+text-align:center;
+margin-bottom:80px;
+}
+
+.load-more-wrapper{
+text-align:center;
+padding:40px 60px;
+}
+
+.load-more{
+padding:12px 32px;
+border:none;
+border-radius:30px;
+background:#000;
+color:#fff;
+cursor:pointer;
+font-size:16px;
+font-weight:500;
+transition:0.3s;
+}
+
+.load-more:hover{
+background:#333;
+}
+
+
+
+/* RESPONSIVE */
+
+@media(max-width:1000px){
+
+.blog-grid{
+grid-template-columns:1fr;
+}
+
+.blog-feature{
+position:relative;
+top:auto;
+}
+
+.blog-side-container{
+margin-top:20px;
+}
+
+.blog-list{
+grid-template-columns:repeat(2,1fr);
+}
+
+}
+
+
+@media(max-width:600px){
+
+.blog-hero{
+padding:24px var(--page-pad-mobile) 20px;
+}
+
+.blog-grid{
+padding:0 var(--page-pad-mobile);
+}
+
+.blog-list{
+padding:40px var(--page-pad-mobile);
+grid-template-columns:1fr;
+}
+
+}
+
+@media(max-width:1180px){
+  .scroll-highlight,
+  .features,
+  .faq-section,
+  .stories,
+  .blog-hero,
+  .blog-grid,
+  .blog-list,
+  .load-more-wrapper,
+  .mission-section,
+  .related-posts {
+    padding-left: var(--page-pad-tablet);
+    padding-right: var(--page-pad-tablet);
+  }
+
+}
+
+@media(max-width:1180px) and (min-width:1001px){
+  .blog-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(300px, 0.85fr);
+    gap: 28px;
+  }
+}
+
+@media(max-width:768px){
+  .scroll-highlight,
+  .features,
+  .faq-section,
+  .stories,
+  .blog-hero,
+  .blog-grid,
+  .blog-list,
+  .load-more-wrapper,
+  .mission-section,
+  .related-posts {
+    padding-left: var(--page-pad-mobile);
+    padding-right: var(--page-pad-mobile);
+  }
+
+  .blog-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .blog-feature,
+  .blog-side-container,
+  .blog-side {
+    height: auto;
+    max-height: none;
+    overflow: visible;
+  }
+}
+/* ==========================================================
+   MISSION PAGE
+   Used by: Mission
+   Scope: Page-specific
+========================================================== */
+.mission-hero {
+  background: var(--color-white);
+  padding: 40px 0 42px;
+  text-align: center;
+}
+
+.mission-center {
+  margin: auto;
+  max-width: 800px;
+}
+
+.mission-small {
+  color: #777;
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.mission-main {
+  font-family: var(--font-serif);
+  font-size: 44px;
+  line-height: 1.3;
+  margin-bottom: 14px;
+}
+
+.mission-sub {
+  color: var(--color-muted);
+  font-size: 17px;
+  line-height: 1.55;
+  margin: 0 auto;
+}
+
+.mission-section {
+  background: var(--color-white);
+  padding: 56px 50px;
+}
+
+.mission-container {
+  align-items: center;
+  display: grid;
+  gap: 80px;
+  grid-template-columns: 1fr 1fr;
+}
+
+.mission-text {
+  margin-top: 14px;
+}
+
+.mission-title {
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+
+.mission-highlight {
+  font-family: var(--font-serif);
+  font-size: 34px;
+  line-height: 1.3;
+  margin-bottom: 12px;
+}
+
+.mission-description {
+  color: var(--color-muted);
+  font-size: 16px;
+  line-height: 1.55;
+  margin: 0;
+  max-width: 520px;
+}
+
+.mission-image img {
+  border-radius: 10px;
+  display: block;
+  width: 100%;
+}
+
+@media (max-width: 1024px) {
+  .mission-container {
+    gap: 50px;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .mission-highlight {
+    font-size: 30px;
+  }
+
+  .mission-main {
+    font-size: 36px;
+  }
+}
+
+@media (max-width: 768px) {
+  .mission-container {
+    gap: 40px;
+    grid-template-columns: 1fr;
+  }
+
+  .mission-description {
+    font-size: 15px;
+  }
+
+  .mission-hero {
+    padding: 30px 0 34px;
+  }
+
+  .mission-highlight {
+    font-size: 26px;
+  }
+
+  .mission-main {
+    font-size: 28px;
+  }
+
+  .mission-section {
+    padding: 48px 0;
+  }
+
+  .mission-sub {
+    font-size: 15px;
+  }
+}
+
+/* ==========================================================
+   FOOTER
+   Used by: All pages with #footer-placeholder
+   Scope: Shared, paired with frontend/src/components/footer.html
+========================================================== */
+
+.cta-footer {
+  background: var(--color-black) !important;
+  border-top: 1px solid #333;
+  color: var(--color-white) !important;
+  padding: 80px 60px 40px;
+}
+
+/* TOP SECTION */
+
+.footer-main {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 80px;
+}
+
+.footer-links-grid {
+  display: grid;
+  grid-template-columns: repeat(4, max-content);
+  column-gap: 80px;
+}
+
+.footer-brand-column {
+  gap: 80px;
+  width: auto;
+  flex: 0 1 220px;
+}
+
+/* LEFT CTA */
+
+.footer-cta {
+  flex: 0 0 340px;
+  max-width: 340px;
+}
+
+.footer-cta h2 {
+  font-size: 42px;
+  line-height: 1.15;
+  max-width: 420px;
+  margin-bottom: 36px;
+}
+
+.cta-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffc107;
+  color: #000;
+  text-decoration: none;
+  padding: 14px 32px;
+  border-radius: 999px;
+  font-size: 17px;
+  font-weight: 500;
+  transition: all 0.25s ease;
+}
+
+.cta-btn:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
+}
+
+/* RIGHT COLUMNS */
+
+.footer-column h4 {
+  color: #7f7f7f;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+.footer-column ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-column li {
+  margin-bottom: 12px;
+}
+
+.footer-column a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 16px;
+  transition: opacity 0.25s ease;
+}
+
+.footer-column a:hover {
+  opacity: 0.7;
+}
+
+/* BOTTOM SECTION */
+
+.footer-brand-column {
+    min-width: 0;
+}
+
+.footer-brand {
+    margin-bottom: 18px;
+}
+
+.footer-brand-logo {
+    display: block;
+    width: 170px;
+    height: auto;
+}
+
+.footer-social {
+    display: flex;
+    gap: 14px;
+    margin-bottom: 18px;
+}
+
+.footer-social a {
+  color: rgba(255,255,255,0.75);
+  font-size: 20px;
+  transition: all .25s ease;
+}
+
+.footer-social a:hover {
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+.footer-meta {
+    font-size: 13px;
+    color: rgba(255,255,255,0.7);
+    margin-bottom: 6px;
+}
+
+.footer-copyright {
+    font-size: 12px;
+    color: rgba(255,255,255,0.55);
+    line-height: 1.5;
+}
+
+/* ==========================
+   TABLET
+========================== */
+
+@media (max-width: 1024px) {
+
+  .cta-footer {
+    padding: 70px 40px 35px;
+  }
+
+  .footer-main {
+    flex-direction: column;
+    gap: 60px;
+  }
+
+  .footer-cta {
+    flex: unset;
+    max-width: 500px;
+  }
+
+  .footer-links-grid {
+    width: 100%;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px;
+  }
+
+  .footer-cta h2 {
+    font-size: 46px;
+  }
+}
+
+/* ==========================
+   MOBILE
+========================== */
+
+@media (max-width: 768px) {
+
+  .cta-footer {
+    padding: 60px 24px 30px;
+  }
+
+  .footer-main {
+    gap: 50px;
+  }
+
+  .footer-cta {
+    text-align: center;
+  }
+
+  .footer-cta h2 {
+    font-size: 36px;
+    margin-bottom: 24px;
+  }
+
+  .footer-links-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    text-align: center;
+  }
+
+  .footer-bottom {
+    text-align: center;
+  }
+
+  .footer-social {
+    justify-content: center;
+  }
+
+  .footer-brand {
+    display: flex;
+    justify-content: center;
+  }
+
+  .footer-brand-logo {
+    width: 150px;
+  }
+}
+
+/* SMALL MOBILE */
+
+@media (max-width: 480px) {
+
+  .footer-cta h2 {
+    font-size: 30px;
+  }
+
+  .cta-btn {
+    width: 100%;
+    max-width: 220px;
+  }
+
+  .footer-column a {
+    font-size: 15px;
+  }
+}
+
+/* ==========================================================
+   FORMS AND UTILITY PAGE LAYOUT
+   Used by:
+   - Book Demo
+   - Contact Form
+   - Fixed-header static pages
+   Scope: Shared utility/page-specific form layout
+========================================================== */
+.page-with-fixed-header {
+    padding-top: 92px;
+}
+
+.demo-form-section {
+    padding: 120px 20px 80px;
+    background: #f5f5f5;
+    min-height: 100vh;
+}
+
+.demo-form-container {
+    max-width: 700px;
+    margin: auto;
+    background: #fff;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0,0,0,.08);
+}
+
+.demo-form-container h1 {
+    margin-bottom: 30px;
+}
+
+#demoForm {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group label {
+    font-weight: 600;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 15px;
+}
+
+.submit-btn {
+    background: #21593b;
+    color: #fff;
+    border: none;
+    padding: 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.page-container {
+    width: min(100%, var(--page-max-width));
+    margin: 0 auto;
+    padding-inline: var(--page-padding);
+}
+
+/* ==========================================================
+   RESPONSIVE SCALING LAYER
+   Used by: Entire marketing website
+   Scope: Shared viewport containment and layout normalization
+========================================================== */
+.hero-video,
+.scroll-highlight,
+.features,
+.faq-section,
+.unique-section,
+.stories,
+.logo-section,
+.cta-footer,
+#signal-split-root {
+    width: 100%;
+    min-width: 0;
+    overflow-x: hidden;
+}
+
+.hero-content {
+    left: 50%;
+    right: auto;
+    bottom: clamp(40px, 8vh, 96px);
+    width: min(100%, var(--page-max-width));
+    max-width: none;
+    padding-inline: var(--page-padding);
+    transform: translateX(-50%);
+}
+
+.hero-content h1,
+.hero-content p,
+.hero-content .buttons {
+    max-width: 600px;
+}
+
+.scroll-highlight,
+.features,
+.faq-section,
+.unique-section,
+.stories,
+.logo-section,
+.cta-footer {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.highlight-container,
+.features-container,
+.faq-container,
+.stories > .stories-header,
+.stories > .stories-slider,
+.logo-section > .logo-marquee,
+.cta-footer > .footer-main {
+    width: min(100%, var(--page-max-width));
+    margin-left: auto;
+    margin-right: auto;
+    padding-inline: var(--page-padding);
+}
+
+.features-container,
+.faq-container {
+    max-width: none;
+}
+
+.feature-row {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: clamp(32px, 6vw, 80px);
+}
+
+.feature-image,
+.feature-text,
+.image-frame,
+.story-card,
+.footer-cta,
+.footer-brand-column {
+    min-width: 0;
+}
+
+.image-frame {
+    width: min(100%, 420px);
+}
+
+.image-frame img,
+.story-card img,
+.brand-logo,
+.hero-bg-video {
+    display: block;
+}
+
+.story-card img {
+    height: auto;
+    aspect-ratio: 4 / 3;
+}
+
+.brand-logo {
+    width: auto;
+    height: clamp(24px, 2.4vw, 40px);
+    object-fit: contain;
+}
+
+.brand-logo-wide {
+    width: clamp(120px, 12vw, 200px);
+    height: auto;
+}
+
+.brand-logo-short {
+    height: clamp(22px, 2vw, 30px);
+}
+
+.footer-main {
+    justify-content: space-between;
+    gap: clamp(32px, 5vw, 80px);
+}
+
+.footer-links-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    column-gap: clamp(24px, 4vw, 80px);
+    flex: 1 1 auto;
+}
+
+.footer-cta {
+    flex: 1 1 280px;
+    max-width: 420px;
+}
+
+.footer-brand-column {
+    flex: 0 1 220px;
+    width: auto;
+}
+
+@media (max-width: 1024px) {
+    .stories-slider {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        overflow-x: visible;
+    }
+
+    .story-card {
+        min-width: 0;
+    }
+
+    .footer-links-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-content {
+        text-align: center;
+    }
+
+    .hero-content h1,
+    .hero-content p,
+    .hero-content .buttons {
+        max-width: none;
+    }
+
+    .features,
+    .faq-section,
+    .stories,
+    .logo-section,
+    .cta-footer {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .stories-slider {
+        grid-template-columns: 1fr;
+    }
+
+    .story-card {
+        min-width: 0;
+    }
+
+    .footer-main {
+        align-items: stretch;
+    }
+}
+
+/* ==========================================================
+   PUBLIC PAGE TYPOGRAPHY NORMALIZATION
+   Scope: Website pages except the main home/hero-video page.
+   Dashboard files are separate and intentionally untouched.
+========================================================== */
+body:not(:has(.hero-video)) {
+  font-family: var(--font-base);
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+body:not(:has(.hero-video)) :where(
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  .mission-main,
+  .mission-title,
+  .mission-highlight,
+  .blog-hero h1,
+  .article-section h2,
+  .related-articles h2,
+  .demo-form-container h1
+) {
+  font-family: var(--font-serif) !important;
+  font-weight: 400 !important;
+  letter-spacing: 0 !important;
+}
+
+body:not(:has(.hero-video)) :where(
+  p,
+  li,
+  label,
+  input,
+  select,
+  textarea,
+  button,
+  .mission-small,
+  .mission-sub,
+  .mission-description,
+  .blog-description,
+  .blog-meta,
+  .section-content,
+  .article-intro,
+  .article-conclusion,
+  .related-card-meta,
+  .page-content,
+  .form-group
+) {
+  font-family: var(--font-base) !important;
+}
+
+body:not(:has(.hero-video)) :where(
+  p,
+  li,
+  .mission-sub,
+  .mission-description,
+  .mission-small,
+  .blog-description,
+  .section-content,
+  .article-intro,
+  .article-conclusion,
+  .page-content
+) {
+  font-size: 16px !important;
+  line-height: 1.7 !important;
+}

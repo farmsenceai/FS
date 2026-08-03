@@ -1,0 +1,1203 @@
+
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    background:#fff;
+    color: #000;
+    font-family:Arial, sans-serif;
+}
+
+
+   /* =========================================
+HORIZONTAL STORY SECTION
+CSS ONLY
+AUTO MOVING DESKTOP
+ONE SCREEN FIT MOBILE/TABLET
+========================================= */
+
+.story-showcase{
+    width:100%;
+    overflow:hidden;
+    background:#000;
+    color:#fff;
+    padding:100px 0;
+}
+
+/* =========================================
+HEADING
+========================================= */
+
+.story-heading{
+    max-width:1100px;
+    margin:auto;
+    text-align:center;
+    padding:0 24px;
+    margin-bottom:70px;
+}
+
+.story-heading h2{
+    font-size:82px;
+    line-height:0.95;
+    color:#fff;
+    margin-bottom:28px;
+    font-weight:600;
+}
+
+.story-heading p{
+    max-width:850px;
+    margin:auto;
+    font-size:24px;
+    line-height:1.7;
+    color:#fff;
+}
+
+/* =========================================
+SLIDER
+========================================= */
+
+.story-slider{
+    width:100%;
+    overflow:hidden;
+    position:relative;
+}
+
+.story-track{
+    display:flex;
+    align-items:center;
+    gap:24px;
+    width:max-content;
+    animation:storyMove 28s linear infinite;
+}
+
+/* PAUSE ON HOVER */
+
+.story-track:hover{
+    animation-play-state:paused;
+}
+
+/* =========================================
+ANIMATION
+========================================= */
+
+@keyframes storyMove{
+    0%{
+        transform:translateX(0);
+    }
+    100%{
+        transform:translateX(-35%);
+    }
+}
+
+/* =========================================
+CARDS
+========================================= */
+
+.story-card{
+    position:relative;
+    width:420px;
+    height:260px;
+    border-radius:22px;
+    overflow:hidden;
+    flex-shrink:0;
+    text-decoration:none;
+    background:#111;
+}
+
+/* LARGE CARD */
+
+.story-card.large{
+
+    width:680px;
+}
+
+/* =========================================
+IMAGE
+========================================= */
+
+.story-card img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+    transition:transform 0.6s ease;
+}
+
+.story-card:hover img{
+    transform:scale(1.05);
+}
+
+/* =========================================
+OVERLAY
+========================================= */
+
+.story-overlay{
+    position:absolute;
+    inset:0;
+    background:linear-gradient(
+        to top,
+        rgba(0,0,0,0.75),
+        rgba(0,0,0,0.1)
+    );
+}
+
+/* =========================================
+CONTENT
+========================================= */
+
+.story-content{
+    position:absolute;
+    bottom:24px;
+    left:24px;
+    right:24px;
+    z-index:2;
+}
+
+.story-content span{
+    color:#fff;
+    font-size:13px;
+    letter-spacing:1px;
+    text-transform:uppercase;
+}
+
+/* =========================================
+LAPTOP
+========================================= */
+
+@media(max-width:1400px){
+    .story-heading h2{
+        font-size:70px;
+    }
+    .story-card.large{
+        width:560px;
+    }
+
+    .story-card{
+        width:360px;
+        height:230px;
+    }
+}
+
+/* =========================================
+TABLET
+========================================= */
+
+@media(max-width:1024px){
+    .story-showcase{
+        padding:80px 0;
+    }
+
+    .story-heading{
+
+        margin-bottom:50px;
+    }
+
+    .story-heading h2{
+        font-size:54px;
+        line-height:1.05;
+    }
+
+    .story-heading p{
+
+        font-size:20px;
+    }
+
+    /* FIX SCREEN FIT */
+
+    .story-track{
+        width:100%;
+        padding:0 20px;
+        animation:storyMoveTablet 18s linear infinite;
+    }
+
+    .story-card{
+        width:70vw;
+        height:42vw;
+        max-height:300px;
+    }
+
+    .story-card.large{
+        width:78vw;
+    }
+}
+
+/* =========================================
+MOBILE
+========================================= */
+
+@media(max-width:768px){
+
+    .story-showcase{
+        padding:65px 0;
+    }
+
+    .story-heading{
+        padding:0 18px;
+        margin-bottom:40px;
+    }
+
+    .story-heading h2{
+        font-size:38px;
+        line-height:1.1;
+    }
+
+    .story-heading p{
+        font-size:17px;
+        line-height:1.7;
+    }
+
+    /* KEEP HORIZONTAL */
+
+    .story-track{
+        width:100%;
+        gap:16px;
+        padding:0 16px;
+        animation:storyMoveMobile 14s linear infinite;
+    }
+
+    .story-card{
+        width:88vw;
+        height:58vw;
+        border-radius:18px;
+    }
+
+    .story-card.large{
+        width:92vw;
+    }
+
+    .story-content{
+        bottom:18px;
+        left:18px;
+        right:18px;
+    }
+
+    .story-content span{
+        font-size:11px;
+    }
+}
+
+/* =========================================
+SMALL MOBILE
+========================================= */
+
+@media(max-width:480px){
+    .story-heading h2{
+
+        font-size:32px;
+    }
+
+    .story-heading p{
+        font-size:15px;
+    }
+
+    .story-card{
+        width:90vw;
+        height:62vw;
+    }
+
+    .story-card.large{
+        width:94vw;
+    }
+}
+
+/* =========================================
+MOBILE/TABLET ANIMATION
+========================================= */
+
+@keyframes storyMoveTablet{
+    0%{
+        transform:translateX(0);
+    }
+
+    100%{
+        transform:translateX(-45%);
+    }
+}
+
+@keyframes storyMoveMobile{
+
+    0%{
+        transform:translateX(0);
+    }
+
+    100%{
+        transform:translateX(-60%);
+    }
+}
+
+
+/* POST */
+
+.post-wrapper{
+    width:100%;
+    display:flex;
+    justify-content:center;
+    padding:50px 20px;
+}
+
+.post-container{
+    width:100%;
+    max-width:850px;
+}
+
+.post-meta{
+    margin-bottom:30px;
+    color:#b0b0b0;
+}
+
+.post-title{
+    font-size:58px;
+    line-height:1.2;
+    margin-bottom:40px;
+}
+
+.post-text{
+    font-size:22px;
+    line-height:2;
+    color:#000;
+    margin-bottom:35px;
+}
+
+.section-title{
+    font-size:50px;
+    margin-bottom:40px;
+}
+
+/* IMAGE GRID */
+
+.image-grid{
+    display:grid;
+    grid-template-columns:2fr 1fr;
+    gap:30px;
+    padding:0 8%;
+    margin-bottom:120px;
+}
+
+.grid-left img,.grid-right img{
+    width:100%;
+    border-radius:20px;
+    object-fit:cover;
+}
+
+.grid-left img{
+    height:700px;
+}
+
+.grid-right{
+    display:flex;
+    flex-direction:column;
+    gap:30px;
+}
+
+.grid-right img{
+    height:335px;
+}
+
+/* QUOTE
+ */
+
+.quote-section{
+    padding:150px 8%;
+    text-align:center;
+}
+
+.quote-section h2{
+    font-size:62px;
+    line-height:1.4;
+    max-width:1100px;
+    margin:auto;
+}
+
+
+
+/* =========================================
+RELATED POSTS
+ROW SLIDER FOR:
+DESKTOP • LAPTOP • TABLET • MOBILE
+========================================= */
+
+.related-posts{
+    padding:100px 7%;
+    overflow:hidden;
+}
+
+.related-posts h2{
+    font-size:52px;
+    line-height:1.1;
+    margin-bottom:50px;
+    color:#000;
+}
+
+/* =========================================
+HORIZONTAL ROW GRID
+========================================= */
+
+.related-grid{
+
+    display:flex;
+    gap:28px;
+
+    overflow-x:auto;
+    overflow-y:hidden;
+
+    scroll-behavior:smooth;
+
+    scroll-snap-type:x mandatory;
+
+    -webkit-overflow-scrolling:touch;
+
+    padding-bottom:10px;
+
+    scrollbar-width:none;
+}
+
+.related-grid::-webkit-scrollbar{
+    display:none;
+}
+
+/* =========================================
+CARD
+========================================= */
+
+.related-card{
+
+    display:block;
+
+    color:inherit;
+
+    text-decoration:none;
+
+    min-width:380px;
+    max-width:380px;
+
+    flex:0 0 auto;
+
+    background:#111;
+
+    border-radius:28px;
+
+    overflow:hidden;
+
+    /* border:1px solid rgba(255,255,255,0.06); */
+
+    transition:0.45s ease;
+
+    cursor:pointer;
+
+    scroll-snap-align:start;
+}
+
+.related-card:hover{
+    transform:translateY(-8px);
+    text-decoration:none;
+}
+
+.related-card img{
+    width:100%;
+
+    aspect-ratio:16/10;
+
+    object-fit:cover;
+
+    display:block;
+
+    transition:0.6s ease;
+}
+
+.related-card:hover img{
+    transform:scale(1.05);
+}
+
+/* =========================================
+CONTENT
+========================================= */
+
+.related-content{
+    padding:24px;
+}
+
+.related-content span{
+    color:#9d9d9d;
+    font-size:13px;
+    letter-spacing:1px;
+    text-transform:uppercase;
+}
+
+.related-content h3{
+    margin-top:16px;
+
+    font-size:28px;
+
+    line-height:1.35;
+
+    color:#fff;
+
+    font-weight:500;
+}
+
+/* =========================================
+LARGE DESKTOP
+========================================= */
+
+@media(max-width:1600px){
+
+    .related-card{
+        min-width:360px;
+        max-width:360px;
+    }
+
+}
+
+/* =========================================
+LAPTOP
+========================================= */
+
+@media(max-width:1200px){
+
+    .related-posts h2{
+        font-size:44px;
+    }
+
+    .related-card{
+        min-width:340px;
+        max-width:340px;
+    }
+
+    .related-content h3{
+        font-size:24px;
+    }
+
+}
+
+/* =========================================
+TABLET
+========================================= */
+
+@media(max-width:900px){
+
+    .related-posts{
+        padding:80px 5%;
+    }
+
+    .related-posts h2{
+        font-size:36px;
+    }
+
+    .related-card{
+
+        min-width:78%;
+        max-width:78%;
+    }
+
+    .related-card img{
+        aspect-ratio:1/1;
+    }
+
+    .related-content{
+        padding:22px;
+    }
+
+    .related-content h3{
+        font-size:22px;
+    }
+
+}
+
+/* =========================================
+MOBILE
+========================================= */
+
+@media(max-width:768px){
+
+    .related-posts{
+        padding:70px 0 70px 20px;
+    }
+
+    .related-posts h2{
+        font-size:30px;
+        margin-bottom:28px;
+    }
+
+    .related-card{
+
+        min-width:50%;
+        max-width:50%;
+
+        border-radius:24px;
+    }
+
+    .related-card img{
+        aspect-ratio:2/1;
+    }
+
+    .related-content{
+        padding:20px;
+    }
+
+    .related-content h3{
+        font-size:20px;
+    }
+
+}
+
+/* =========================================
+SMALL MOBILE
+========================================= */
+
+@media(max-width:480px){
+
+    .related-posts{
+        padding-left:16px;
+    }
+
+    .related-card{
+
+        min-width:92%;
+        max-width:92%;
+    }
+
+}
+
+
+/* RESPONSIVE */
+
+@media(max-width:992px){
+
+    .hero-content h1{
+        font-size:58px;
+    }
+
+    .post-title{
+        font-size:42px;
+    }
+
+    .quote-section h2{
+        font-size:40px;
+    }
+
+
+    
+
+/* IMAGE GRID */
+
+.image-grid{
+    display:grid;
+    grid-template-columns:2fr 1fr;
+    gap:20px;
+    padding:0 3%;
+    margin-bottom:70px;
+}
+
+.grid-left img,.grid-right img{
+    width:100%;
+    border-radius:20px;
+    object-fit:cover;
+}
+
+
+.grid-right{
+    display:flex;
+    flex-direction:column;
+    gap:30px;
+}
+
+}
+
+@media(max-width:768px){
+
+    .nav-links{
+        display:none;
+    }
+
+    .hero-content{
+        bottom:60px;
+    }
+
+    .hero-content h1{
+        font-size:42px;
+    }
+
+    .hero-content p{
+        font-size:18px;
+    }
+
+    .post-title{
+        font-size:28px;
+    }
+
+    .post-text{
+        font-size:16px;
+        line-height: 1.6;
+    }
+
+    .section-title{
+        font-size:28px;
+    }
+
+    .quote-section h2{
+        font-size:26px;
+    }
+
+    .post-wrapper {
+        padding: 30px 20px;
+    }
+}
+
+@media(max-width:480px) {
+    .post-title {
+        font-size: 24px;
+    }
+    .section-title {
+        font-size: 24px;
+    }
+    .quote-section h2 {
+        font-size: 22px;
+    }
+}
+
+/* =========================================
+MOBILE IMAGE FIX
+========================================= */
+
+@media(max-width:768px){
+
+    .image-grid{
+        grid-template-columns:1fr;
+        gap:30px;
+        padding:0 20px;
+    }
+
+    .grid-left img, .grid-right img{
+
+        width:100%;
+        /* aspect-ratio:1 / 1; */
+        height:auto;
+        object-fit:cover;
+        border-radius:22px;
+        display:block;
+    }
+
+    .grid-right{
+        gap:20px;
+    }
+
+}
+
+
+
+/* VIDEO SECTION */
+
+.story-video-section{
+    width:100%;
+    padding:120px 6%;
+    background:#000;
+}
+
+/* VIDEO WRAPPER */
+
+.story-video-wrapper{
+    position:relative;
+    width:100%;
+    max-width:1200px;
+    margin:auto;
+    border-radius:28px;
+    overflow:hidden;
+    background:#111;
+
+    cursor:pointer;
+}
+
+/* VIDEO */
+
+.story-video{
+    width:100%;
+    display:block;
+    object-fit:cover;
+    border-radius:28px;
+}
+
+/* PLAY BUTTON */
+
+.story-play-btn{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%, -50%);
+    width:110px;
+    height:110px;
+    border:none;
+    border-radius:50%;
+    background:rgba(255,255,255,0.12);
+    backdrop-filter:blur(18px);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition:0.35s ease;
+    z-index:10;
+    cursor:pointer;
+}
+
+.story-play-btn svg{
+    width:44px;
+    height:44px;
+    margin-left:6px;
+}
+
+.story-play-btn:hover{
+    transform:translate(-50%, -50%) scale(1.08);
+    background:rgba(255,255,255,0.18);
+}
+
+/* VIDEO CONTROLS STYLE */
+
+.story-video::-webkit-media-controls{
+    opacity:1;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:768px){
+
+    .story-video-section{
+        padding:80px 5%;
+    }
+
+    .story-video-wrapper{
+        border-radius:20px;
+    }
+
+    .story-video{
+        border-radius:20px;
+    }
+
+    .story-play-btn{
+        width:78px;
+        height:78px;
+    }
+
+    .story-play-btn svg{
+        width:30px;
+        height:30px;
+    }
+
+}
+
+/* CLICK VIDEO SECTION */
+
+.click-video-section{
+    width:100%;
+    padding:140px 6%;
+    background:#000;
+}
+
+/* VIDEO CONTAINER */
+
+.click-video-container{
+    position:relative;
+    width:100%;
+    height:90vh;
+    overflow:hidden;
+    border-radius:36px;
+    background:#111;
+    cursor:pointer;
+}
+
+/* VIDEO */
+
+.click-video{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+}
+
+/* PLAY BUTTON */
+
+.play-button{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%, -50%);
+    width:120px;
+    height:120px;
+    border-radius:50%;
+    background:rgba(255,255,255,0.12);
+    backdrop-filter:blur(20px);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition:0.4s;
+    z-index:2;
+}
+
+.play-button:hover{
+    transform:translate(-50%, -50%) scale(1.08);
+    background:rgba(255,255,255,0.18);
+}
+
+/* RESPONSIVE
+ */
+
+@media(max-width:768px){
+
+    .click-video-container{
+        height:70vh;
+        border-radius:22px;
+    }
+
+    .play-button{
+        width:90px;
+        height:90px;
+    }
+
+}
+
+/* =========================================
+FEATURED BLOG — STICKY LEFT, PAGE SCROLLS RIGHT
+========================================= */
+
+.blog-grid {
+  display: grid;
+  grid-template-columns: 460px 1fr;
+  gap: 48px;
+  padding: 60px 5%;
+  max-width: 1400px;
+  margin: 0 auto;
+  align-items: start;   /* critical — lets sticky work */
+}
+
+/* LEFT: sticks while page scrolls */
+.blog-feature {
+  position: sticky;
+  top: 90px;            /* sits just below the header */
+}
+
+.blog-feature img {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 20px;
+  display: block;
+  margin-bottom: 20px;
+}
+
+.blog-feature h2 {
+  font-size: 1.6rem;
+  line-height: 1.3;
+  margin-bottom: 10px;
+  color: #000;
+}
+
+.blog-feature .blog-description {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: #444;
+  margin-top: 10px;
+}
+
+.blog-feature .blog-description a {
+  color: #000;
+}
+
+/* RIGHT: normal flow — taller than left so sticky is visible */
+.blog-side {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  /* NO overflow, NO fixed height — page scroll does the work */
+}
+
+.blog-small {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  background: #f7f7f7;
+  border-radius: 16px;
+  overflow: hidden;
+  transition: transform 0.25s ease;
+  cursor: pointer;
+}
+
+.blog-small:hover {
+  transform: translateY(-3px);
+}
+
+.blog-small img {
+  width: 150px;
+  aspect-ratio: 21 / 9;
+  height: auto;
+  object-fit: cover;
+  flex-shrink: 0;
+  display: block;
+}
+
+.blog-small p {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #111;
+  line-height: 1.4;
+  padding-right: 16px;
+}
+
+.blog-small .blog-meta {
+  margin-top: 6px;
+  font-size: 0.8rem;
+  color: #999;
+}
+
+/* =========================================
+BLOG LIST — 2 ROWS OF 4
+========================================= */
+
+.blog-list {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 28px;
+  padding: 20px 5% 60px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.blog-card {
+  background: #fff;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid #eee;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+}
+
+.blog-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.08);
+}
+
+.blog-card img {
+  width: 100%;
+  aspect-ratio: 21 / 9;
+  height: auto;
+  object-fit: cover;
+  display: block;
+}
+
+.blog-card h3 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.4;
+  padding: 14px 16px 4px;
+  color: #111;
+}
+
+.blog-card .blog-meta {
+  padding: 0 16px 14px;
+  font-size: 0.78rem;
+  color: #999;
+  margin-top: auto;
+}
+
+/* =========================================
+BLOG META (shared)
+========================================= */
+
+.blog-meta {
+  font-size: 0.82rem;
+  color: #999;
+  margin-top: 6px;
+}
+
+/* =========================================
+BLOG HERO
+========================================= */
+
+.blog-hero {
+  padding: 28px 5% 24px;
+  background: #fff;
+}
+
+.blog-hero h1 {
+  font-family: var(--font-serif);
+  font-size: 44px;
+  font-weight: 400;
+  line-height: 1.3;
+  margin: 0;
+  color: #000;
+}
+
+/* =========================================
+RESPONSIVE
+========================================= */
+
+@media (max-width: 1100px) {
+  .blog-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* =========================================
+RESPONSIVE
+========================================= */
+
+@media (max-width: 900px) {
+  .blog-grid {
+    grid-template-columns: 1fr;  /* stack vertically */
+  }
+
+  .blog-feature {
+    position: static;            /* release sticky on mobile */
+  }
+
+}
+
+@media (max-width: 600px) {
+  .blog-list {
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    padding: 20px 4% 40px;
+  }
+
+  .blog-small img {
+    width: 110px;
+    aspect-ratio: 21 / 9;
+    height: auto;
+  }
+}
+
+@media (max-width: 400px) {
+  .blog-list {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width:1180px) {
+  .story-heading,
+  .post-wrapper,
+  .image-grid,
+  .quote-section,
+  .story-video-section,
+  .related-posts {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+}
+
+@media (max-width:768px) {
+  .story-heading,
+  .post-wrapper,
+  .image-grid,
+  .quote-section,
+  .story-video-section,
+  .related-posts {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
