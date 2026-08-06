@@ -42,7 +42,8 @@ passport.use(new GoogleStrategy({
           googleId: profile.id,
           oauthId: profile.id,
           authMethod: 'google',
-          role: selectedRole
+          role: selectedRole,
+          accountStatus: selectedRole === 'farmer' ? 'pending' : 'active'
         });
       }
     } else if (!user.googleId) {
@@ -118,7 +119,8 @@ passport.use(new MicrosoftStrategy({
         email,
         avatar: profile.photos?.[0]?.value || '',
         authMethod: 'microsoft',
-        role: selectedRole
+        role: selectedRole,
+        accountStatus: selectedRole === 'farmer' ? 'pending' : 'active'
       });
 
       return done(null, user);

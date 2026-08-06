@@ -15,6 +15,7 @@ const geoSchema = new Schema(
 const locationSchema = new Schema(
   {
     address: { type: String, required: true, trim: true },
+    stateProvince: { type: String, trim: true },
     geo: { type: geoSchema },
     countryCode: { type: String, required: true, uppercase: true, trim: true },
     timezone: { type: String, required: true, trim: true }

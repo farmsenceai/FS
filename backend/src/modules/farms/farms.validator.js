@@ -67,6 +67,10 @@ function validateLocation(location, { partial }, errors) {
     errors.push('location.countryCode must be a 2-letter ISO country code');
   }
 
+  if (Object.hasOwn(location, 'stateProvince') && !isNonEmptyString(location.stateProvince)) {
+    errors.push('location.stateProvince must be a non-empty string');
+  }
+
   if (Object.hasOwn(location, 'geo')) {
     if (!location.geo || typeof location.geo !== 'object' || Array.isArray(location.geo)) {
       errors.push('location.geo must be an object');
@@ -139,6 +143,7 @@ function validatePayload(payload, { partial }) {
   if (sanitized.location) {
     sanitized.location = { ...sanitized.location };
     if (sanitized.location.address) sanitized.location.address = sanitized.location.address.trim();
+    if (sanitized.location.stateProvince) sanitized.location.stateProvince = sanitized.location.stateProvince.trim();
     if (sanitized.location.countryCode) {
       sanitized.location.countryCode = sanitized.location.countryCode.trim().toUpperCase();
     }

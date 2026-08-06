@@ -227,7 +227,7 @@ function injectLiveFarmViewStyles() {
     .lfv-orange { color: #f59e0b; }
     .lfv-source { color:#fff; font-size:10px; margin-left:auto; max-width:42%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
     .lfv-source a { color:#fff; text-decoration:underline; }
-    .lfv-footage-message { position:absolute; inset:0; z-index:3; display:flex; align-items:center; justify-content:center; color:#fff; background:rgba(4,14,8,.72); font-weight:700; }
+    .lfv-footage-message { position:absolute; inset:0; z-index:3; display:flex; align-items:center; justify-content:center; padding:24px; color:#fff; background:rgba(4,14,8,.62); font-size:clamp(18px,2.4vw,30px); font-weight:700; text-align:center; text-shadow:0 2px 8px rgba(0,0,0,.55); }
     .lfv-footage-message[hidden] { display:none; }
   `;
   document.head.appendChild(style);
@@ -319,102 +319,6 @@ async function lfvLoadOperationalData() {
 
 async function initLiveFarmView() {
   lfvLoadOperationalData();
-  const video = document.getElementById('lfv-video');
-  const message = document.getElementById('lfv-footage-message');
-  if (!video || !message) return;
-
-  try {
-    const response = await fetch('/api/farm-footage', {
-      headers: { Authorization: `Bearer ${localStorage.getItem('fs_token') || ''}` }
-    });
-    const payload = await response.json().catch(() => ({}));
-    if (!response.ok || !payload.success || !payload.cameras?.length) {
-      throw new Error(payload.msg || 'Demo footage is unavailable.');
-    }
-
-    const cameras = [...payload.cameras].sort((left, right) => {
-      if (left.name === 'Brooder Area') return -1;
-      if (right.name === 'Brooder Area') return 1;
-      return 0;
-    });
-    const list = document.querySelector('.lfv-cam-list');
-    list.innerHTML = cameras.map((camera, index) => `
-      <button type="button" class="lfv-cam-thumb${index === 0 ? ' active' : ''}" data-camera-index="${index}">
-        <div class="lfv-cam-preview">
-          ${camera.posterUrl
-            ? `<img src="${lfvEscape(camera.posterUrl)}" alt="Thumbnail from ${lfvEscape(camera.name)} footage">`
-            : `<video class="lfv-video-thumbnail" src="${lfvEscape(camera.playbackUrl)}" muted playsinline preload="metadata" aria-label="Thumbnail from ${lfvEscape(camera.name)} footage"></video>`}
-          <div class="lfv-cam-play">${lfvIcons.play}</div>
-          <span class="lfv-cam-live-badge">Demo</span>
-        </div>
-        <div class="lfv-cam-info"><div class="lfv-cam-name">${lfvEscape(camera.name)}</div><div class="lfv-cam-loc">Recorded footage</div></div>
-      </button>`).join('');
-
-    list.querySelectorAll('.lfv-video-thumbnail').forEach(thumbnail => {
-      const showRepresentativeFrame = () => {
-        const duration = Number.isFinite(thumbnail.duration) ? thumbnail.duration : 0;
-        thumbnail.currentTime = Math.min(2, Math.max(0.1, duration * 0.15));
-      };
-      thumbnail.addEventListener('loadedmetadata', showRepresentativeFrame, { once: true });
-      thumbnail.addEventListener('seeked', () => thumbnail.pause(), { once: true });
-      if (thumbnail.readyState >= 1) showRepresentativeFrame();
-    });
-
-    function selectCamera(index) {
-      const camera = cameras[index];
-      if (!camera) return;
-      video.pause();
-      video.crossOrigin = 'anonymous';
-      video.src = camera.playbackUrl;
-      video.poster = camera.posterUrl || '';
-      document.getElementById('lfv-camera-label').textContent = `${camera.name} (Demo)`;
-      document.querySelectorAll('[data-camera-index]').forEach((element, itemIndex) => element.classList.toggle('active', itemIndex === index));
-      const source = document.getElementById('lfv-source');
-      const sourceUrl = lfvSafeLink(camera.sourceUrl);
-      source.innerHTML = sourceUrl
-        ? `<a href="${lfvEscape(sourceUrl)}" target="_blank" rel="noopener noreferrer">${lfvEscape(camera.sourceName)}</a>`
-        : lfvEscape(camera.sourceName || payload.attribution);
-      message.hidden = true;
-      video.play().catch(() => {});
-    }
-
-    list.addEventListener('click', event => {
-      const camera = event.target.closest('[data-camera-index]');
-      if (camera) selectCamera(Number(camera.dataset.cameraIndex));
-    });
-    selectCamera(0);
-
-    const playButton = document.getElementById('lfv-play');
-    playButton.addEventListener('click', () => video.paused ? video.play() : video.pause());
-    video.addEventListener('play', () => { playButton.innerHTML = lfvIcons.pause; });
-    video.addEventListener('pause', () => { playButton.innerHTML = lfvIcons.play; });
-    video.addEventListener('timeupdate', () => {
-      const current = Number.isFinite(video.currentTime) ? Math.floor(video.currentTime) : 0;
-      const duration = Number.isFinite(video.duration) ? Math.floor(video.duration) : 0;
-      const format = seconds => `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, '0')}`;
-      document.getElementById('lfv-player-time').textContent = `${format(current)} / ${format(duration)}`;
-    });
-    document.getElementById('lfv-sound').addEventListener('click', event => {
-      video.muted = !video.muted;
-      event.currentTarget.querySelector('span').textContent = video.muted ? 'Sound' : 'Mute';
-    });
-    document.getElementById('lfv-expand').addEventListener('click', () => {
-      document.querySelector('.lfv-player')?.requestFullscreen?.();
-    });
-    document.getElementById('lfv-snapshot').addEventListener('click', () => {
-      try {
-        const canvas = document.createElement('canvas');
-        canvas.width = video.videoWidth; canvas.height = video.videoHeight;
-        canvas.getContext('2d').drawImage(video, 0, 0);
-        const link = document.createElement('a');
-        link.download = `farm-demo-snapshot-${Date.now()}.png`;
-        link.href = canvas.toDataURL('image/png'); link.click();
-      } catch { message.textContent = 'Snapshot is not permitted by this video source.'; message.hidden = false; }
-    });
-  } catch (error) {
-    message.textContent = error.message;
-    message.hidden = false;
-  }
 }
 
 /* ── Main view function ── */
@@ -485,8 +389,8 @@ function viewLiveFarmView(user) {
               <rect x="316" y="310" width="8" height="70" fill="#dc2626" opacity=".5"/>
               <rect x="496" y="310" width="8" height="70" fill="#dc2626" opacity=".5"/>
             </svg>
-            <video id="lfv-video" class="lfv-video" src="/assets/video/ChickCoop_Zero_Waste.mp4.mp4" muted loop autoplay playsinline preload="auto"></video>
-            <div id="lfv-footage-message" class="lfv-footage-message" hidden></div>
+            <img class="lfv-video" src="/assets/images/Test%20Images/cc2.png" alt="Snapshot of a poultry farm">
+            <div class="lfv-footage-message">Your live farm footage will appear here</div>
 
             <!-- Top bar overlay -->
             <div class="lfv-player-topbar">

@@ -242,6 +242,14 @@
         throw new Error(data.msg || 'Sign in failed');
       }
 
+      if (data.user?.role === 'farmer' && data.user?.accountStatus !== 'active') {
+        localStorage.removeItem('fs_token');
+        localStorage.removeItem('fs_user');
+        setMessage('Your farmer account was created and is awaiting administrator approval.', 'success');
+        setLoading(false);
+        return;
+      }
+
       localStorage.setItem('fs_token', data.token);
       if (redirectTarget) {
         window.location.href = redirectTarget;

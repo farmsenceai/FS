@@ -69,6 +69,7 @@ suite('authentication and protected routes', () => {
     assert.equal(result.status, 201);
     assert.equal(result.body.success, true);
     assert.equal(result.body.user.role, role);
+    assert.equal(result.body.user.accountStatus, role === 'farmer' ? 'pending' : 'active');
     assert.ok(result.body.token);
     tokens[role] = result.body.token;
     return result;
@@ -78,6 +79,20 @@ suite('authentication and protected routes', () => {
     await register('business');
     await register('farmer');
     await register('admin');
+  });
+
+  it('blocks a new farmer until an administrator approves the account', async () => {
+    const pending = await request('/api/auth/me', { headers: auth(tokens.farmer) });
+    assert.equal(pending.status, 403);
+    assert.equal(pending.body.code, 'ACCOUNT_PENDING');
+
+    await User.updateOne(
+      { email: emails.farmer },
+      { $set: { accountStatus: 'active', approvedAt: new Date() } }
+    );
+    const approved = await request('/api/auth/me', { headers: auth(tokens.farmer) });
+    assert.equal(approved.status, 200);
+    assert.equal(approved.body.user.accountStatus, 'active');
   });
 
   it('logs in and rejects role mismatches', async () => {
@@ -159,6 +174,7 @@ suite('authentication and protected routes', () => {
     assert.equal(user.role, 'farmer');
     assert.equal(user.authMethod, 'google');
     assert.equal(user.googleId, profile.id);
+    assert.equal(user.accountStatus, 'pending');
 
     const token = jwt.sign({
       userId: user.id,
@@ -167,6 +183,9 @@ suite('authentication and protected routes', () => {
       role: user.role
     }, process.env.JWT_SECRET);
 
+    const pending = await request('/api/auth/me', { headers: auth(token) });
+    assert.equal(pending.status, 403);
+    await User.updateOne({ _id: user._id }, { $set: { accountStatus: 'active', approvedAt: new Date() } });
     const me = await request('/api/auth/me', { headers: auth(token) });
     assert.equal(me.status, 200);
     assert.equal(me.body.user.role, 'farmer');

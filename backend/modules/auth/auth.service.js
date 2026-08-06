@@ -38,6 +38,24 @@ function validateSelectedRole(user, selectedRole) {
   return null;
 }
 
+function initialAccountStatus(role) {
+  return role === 'farmer' ? 'pending' : 'active';
+}
+
+function assertAccountCanSignIn(user) {
+  if (user.role !== 'farmer' || (user.accountStatus || 'active') === 'active') return;
+  const status = user.accountStatus || 'pending';
+  const messages = {
+    pending: 'Your farmer account is awaiting administrator approval.',
+    rejected: 'Your farmer account was not approved. Please contact an administrator.',
+    suspended: 'Your farmer account is suspended. Please contact an administrator.'
+  };
+  const err = new Error(messages[status] || 'Your farmer account is not active.');
+  err.status = 403;
+  err.code = `ACCOUNT_${status.toUpperCase()}`;
+  throw err;
+}
+
 function getJwtSecret() {
   if (!process.env.JWT_SECRET) {
     throw new Error('JWT_SECRET is not configured');
@@ -86,6 +104,7 @@ async function registerUser({ email, password, role }) {
     password: passwordHash,
     authMethod: 'email',
     role,
+    accountStatus: initialAccountStatus(role),
     agreedToTerms: false
   });
 
@@ -121,6 +140,8 @@ async function loginWithPassword({ email, password, role }) {
     err.status = 403;
     throw err;
   }
+
+  assertAccountCanSignIn(user);
 
   user.lastLogin = new Date();
   await user.save();
@@ -243,6 +264,7 @@ async function setRole(userId, role) {
 
   if (user.role !== role) {
     user.role = role;
+    user.accountStatus = initialAccountStatus(role);
     await user.save();
   }
 
@@ -273,10 +295,12 @@ async function verifyPhone({ phone, role }) {
       phone,
       authMethod: 'phone',
       role,
+      accountStatus: initialAccountStatus(role),
       agreedToTerms: false
     });
   }
 
+  assertAccountCanSignIn(user);
   user.lastLogin = new Date();
   await user.save();
 
@@ -293,12 +317,14 @@ async function completeOAuthSignIn(user, selectedRole) {
     }
   } else if (selectedRole) {
     user.role = selectedRole;
+    user.accountStatus = initialAccountStatus(selectedRole);
   } else {
     const err = new Error('Please select a role before signing in.');
     err.status = 400;
     throw err;
   }
 
+  assertAccountCanSignIn(user);
   user.lastLogin = new Date();
   await user.save();
 

@@ -36,6 +36,25 @@ function foOptions(values, selected) {
   return values.map(value => `<option value="${value}" ${value === selected ? 'selected' : ''}>${FarmSenseAdminApi.label(value)}</option>`).join('');
 }
 
+function foCountryOptions() {
+  const countries = typeof country_and_states === 'undefined' ? {} : country_and_states.country;
+  return Object.entries(countries)
+    .sort((left, right) => left[1].localeCompare(right[1]))
+    .map(([code, name]) => `<option value="${foEscape(code)}" ${code === 'IN' ? 'selected' : ''}>${foEscape(name)}</option>`)
+    .join('');
+}
+
+function foPopulateStates(countryCode, stateSelect) {
+  const states = typeof country_and_states === 'undefined' ? [] : (country_and_states.states[countryCode] || []);
+  stateSelect.innerHTML = `<option value="">${states.length ? 'Select state / province…' : 'No states or provinces listed'}</option>${states
+    .slice()
+    .sort((left, right) => left.name.localeCompare(right.name))
+    .map(state => `<option value="${foEscape(state.name)}">${foEscape(state.name)}</option>`)
+    .join('')}`;
+  stateSelect.disabled = states.length === 0;
+  stateSelect.required = states.length > 0;
+}
+
 function injectFarmOperationsStyles() {
   if (document.getElementById('fo-styles')) return;
   const style = document.createElement('style');
@@ -138,7 +157,7 @@ async function foLoadBusinesses() {
 
 function foOpenCreateFarm() {
   const modal = document.getElementById('fo-create-farm-modal');
-  modal.innerHTML = `<form class="fo-modal-card" id="fo-create-farm-form"><div class="fo-card-head"><div><h3>Create New Farm</h3><div style="color:#6b7280;margin-top:3px">Create a canonical farm and open its workspace immediately.</div></div></div><div class="fo-grid"><div class="fo-field"><label>Owning Business</label><select class="fo-select" name="businessId" required><option value="">Select business…</option>${foState.businesses.map(item => `<option value="${item.id || item._id}">${foEscape(item.displayName || item.legalName || item.name || 'Business')}</option>`).join('')}</select></div><div class="fo-field"><label>Code</label><input class="fo-input" name="code" required maxlength="40"></div><div class="fo-field"><label>Name</label><input class="fo-input" name="name" required maxlength="160"></div><div class="fo-field"><label>Farm Type</label><select class="fo-select" name="farmType" required>${foOptions(['broiler','layer','breeder','mixed'],'broiler')}</select></div><div class="fo-field"><label>Status</label><select class="fo-select" name="status">${foOptions(['planned','active','inactive'],'planned')}</select></div><div class="fo-field"><label>Address</label><input class="fo-input" name="address" required></div><div class="fo-field"><label>Country Code</label><input class="fo-input" name="countryCode" value="IN" minlength="2" maxlength="2" required></div><div class="fo-field"><label>Timezone</label><input class="fo-input" name="timezone" value="Asia/Kolkata" required></div><div class="fo-field"><label>Longitude</label><input class="fo-input" name="longitude" type="number" step="any" required></div><div class="fo-field"><label>Latitude</label><input class="fo-input" name="latitude" type="number" step="any" required></div><div class="fo-field"><label>Bird Capacity (optional)</label><input class="fo-input" name="birdCapacity" type="number" min="0" step="1"></div><div class="fo-field"><label>Area m² (optional)</label><input class="fo-input" name="areaSqM" type="number" min="0" step="0.01"></div></div><div class="fo-modal-actions"><button type="button" class="fo-btn secondary" id="fo-cancel-create-farm">Cancel</button><button class="fo-btn" type="submit">Create Farm</button></div></form>`;
+  modal.innerHTML = `<form class="fo-modal-card" id="fo-create-farm-form"><div class="fo-card-head"><div><h3>Create New Farm</h3><div style="color:#6b7280;margin-top:3px">Create a canonical farm and open its workspace immediately.</div></div></div><div class="fo-grid"><div class="fo-field"><label>Owning Business</label><select class="fo-select" name="businessId" required><option value="">Select business…</option>${foState.businesses.map(item => `<option value="${item.id || item._id}">${foEscape(item.displayName || item.legalName || item.name || 'Business')}</option>`).join('')}</select></div><div class="fo-field"><label>Code</label><input class="fo-input" name="code" required maxlength="40"></div><div class="fo-field"><label>Name</label><input class="fo-input" name="name" required maxlength="160"></div><div class="fo-field"><label>Farm Type</label><select class="fo-select" name="farmType" required>${foOptions(['broiler','layer','breeder','mixed'],'broiler')}</select></div><div class="fo-field"><label>Status</label><select class="fo-select" name="status">${foOptions(['planned','active','inactive'],'planned')}</select></div><div class="fo-field"><label>Address</label><input class="fo-input" name="address" required></div><div class="fo-field"><label>Country</label><select class="fo-select" name="countryCode" required><option value="">Select country…</option>${foCountryOptions()}</select></div><div class="fo-field"><label>State / Province</label><select class="fo-select" name="stateProvince" required><option value="">Select country first…</option></select></div><div class="fo-field"><label>Timezone</label><input class="fo-input" name="timezone" value="Asia/Kolkata" required></div><div class="fo-field"><label>Longitude</label><input class="fo-input" name="longitude" type="number" step="any" required></div><div class="fo-field"><label>Latitude</label><input class="fo-input" name="latitude" type="number" step="any" required></div><div class="fo-field"><label>Bird Capacity (optional)</label><input class="fo-input" name="birdCapacity" type="number" min="0" step="1"></div><div class="fo-field"><label>Area m² (optional)</label><input class="fo-input" name="areaSqM" type="number" min="0" step="0.01"></div></div><div class="fo-modal-actions"><button type="button" class="fo-btn secondary" id="fo-cancel-create-farm">Cancel</button><button class="fo-btn" type="submit">Create Farm</button></div></form>`;
   const ownershipSelect = modal.querySelector('[name="businessId"]');
   ownershipSelect.previousElementSibling.textContent = 'Owning Organisation';
   ownershipSelect.options[0].textContent = 'Select organisation…';
@@ -147,6 +166,10 @@ function foOpenCreateFarm() {
   });
   modal.querySelector('[name="longitude"]')?.closest('.fo-field')?.remove();
   modal.querySelector('[name="latitude"]')?.closest('.fo-field')?.remove();
+  const countrySelect = modal.querySelector('[name="countryCode"]');
+  const stateSelect = modal.querySelector('[name="stateProvince"]');
+  foPopulateStates(countrySelect.value, stateSelect);
+  countrySelect.addEventListener('change', () => foPopulateStates(countrySelect.value, stateSelect));
   modal.classList.add('open');
   document.getElementById('fo-cancel-create-farm').addEventListener('click', foCloseCreateFarm);
   document.getElementById('fo-create-farm-form').addEventListener('submit', foCreateFarm);
@@ -162,7 +185,7 @@ async function foCreateFarm(event) {
   const form = new FormData(event.target);
   const payload = {
     businessId: form.get('businessId'), code: form.get('code'), name: form.get('name'), farmType: form.get('farmType'), status: form.get('status'),
-    location: { address: form.get('address'), countryCode: form.get('countryCode'), timezone: form.get('timezone') }
+    location: { address: form.get('address'), countryCode: form.get('countryCode'), stateProvince: form.get('stateProvince') || undefined, timezone: form.get('timezone') }
   };
   if (form.get('birdCapacity') || form.get('areaSqM')) payload.capacity = {};
   if (form.get('birdCapacity')) payload.capacity.birdCapacity = Number(form.get('birdCapacity'));

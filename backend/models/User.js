@@ -31,7 +31,9 @@ const UserSchema = new mongoose.Schema({
   accountStatus: {
     type: String,
     enum: ['pending', 'active', 'suspended', 'rejected'],
-    default: 'active',
+    default: function defaultAccountStatus() {
+      return this.role === 'farmer' ? 'pending' : 'active';
+    },
     index: true
   },
   approvedAt: Date,
