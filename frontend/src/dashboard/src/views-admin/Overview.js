@@ -124,7 +124,6 @@ async function adoLoadOverview() {
           FarmSenseAdminApi.label(item.status === 'pending' ? 'pending review' : item.status)
         )).join('')
       : `<tr><td colspan="4">${FarmSenseAdminApi.message('No signups found.')}</td></tr>`;
-    FarmSenseAdminApi.feedback('ado-feedback', 'Overview widgets are showing live MongoDB data.', 'info');
   } catch (error) {
     FarmSenseAdminApi.feedback('ado-feedback', error.message, 'error');
     statsElement.innerHTML = FarmSenseAdminApi.message(error.message, 'error');

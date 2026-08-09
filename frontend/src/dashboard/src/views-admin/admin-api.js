@@ -75,11 +75,10 @@
   function feedback(target, text, type = 'success') {
     const element = typeof target === 'string' ? document.getElementById(target) : target;
     if (!element) return;
+    if (type === 'info') { element.innerHTML = ''; return; }
     const palette = type === 'error'
       ? { background: '#fef2f2', border: '#fecaca', color: '#991b1b', icon: '!' }
-      : type === 'info'
-        ? { background: '#eff6ff', border: '#bfdbfe', color: '#1e40af', icon: 'i' }
-        : { background: '#ecfdf3', border: '#a7f3d0', color: '#065f46', icon: '✓' };
+      : { background: '#ecfdf3', border: '#a7f3d0', color: '#065f46', icon: '✓' };
     element.innerHTML = `<div style="display:flex;align-items:center;gap:9px;padding:10px 13px;margin-bottom:14px;border:1px solid ${palette.border};border-radius:9px;background:${palette.background};color:${palette.color}"><strong style="font-size:15px">${palette.icon}</strong><span>${escapeHTML(text)}</span></div>`;
   }
 

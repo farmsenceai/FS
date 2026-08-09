@@ -37,7 +37,7 @@ function apmInit() {
     const button = event.target.closest('button'); if (!button) return;
     try {
       if (button.id === 'apm-add') apmOpen();
-      else if (button.id === 'apm-refresh') { await apmLoad(); FarmSenseAdminApi.feedback('apm-feedback','Project manager widgets refreshed from MongoDB.'); }
+      else if (button.id === 'apm-refresh') await apmLoad();
       else if (button.id === 'apm-save') await apmSave(button);
       else if (button.id === 'apm-prev' && apmState.page > 1) { apmState.page -= 1; await apmLoad(); }
       else if (button.id === 'apm-next' && apmState.page < apmState.totalPages) { apmState.page += 1; await apmLoad(); }
@@ -48,7 +48,7 @@ function apmInit() {
   });
   document.getElementById('apm-search').addEventListener('input', FarmSenseAdminApi.debounce(event => { apmState.search=event.target.value.trim();apmState.page=1;apmLoad(); }));
   document.getElementById('apm-status').addEventListener('change', event => { apmState.status=event.target.value;apmState.page=1;apmLoad(); });
-  Promise.all([apmLoadBusinesses(), apmLoad()]).then(() => FarmSenseAdminApi.feedback('apm-feedback','Project manager widgets are showing live backend data.','info')).catch(error => FarmSenseAdminApi.feedback('apm-feedback',error.message,'error'));
+  Promise.all([apmLoadBusinesses(), apmLoad()]).catch(error => FarmSenseAdminApi.feedback('apm-feedback',error.message,'error'));
 }
 
 async function apmLoadBusinesses() {
