@@ -132,6 +132,7 @@ window.metaAdminHistoricalReports = {
     style.textContent = `
       .afi-page{padding:20px;background:#f5f6fa;min-height:100%;color:#1f2937;font:13px -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
       .afi-card{background:#fff;border:1px solid #e5e7eb;border-radius:11px;padding:16px;margin-bottom:16px}
+      .afi-hidden{display:none!important}.afi-org-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px}.afi-org-head h3{margin:0;font-size:15px}.afi-org-head p{margin:4px 0 0;color:#6b7280;font-size:11px}.afi-org-search{box-sizing:border-box;width:min(420px,100%);border:1px solid #d1d5db;border-radius:7px;padding:9px 11px;background:#fff;color:#374151}.afi-org-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}.afi-org-card{appearance:none;min-height:138px;padding:14px;border:1px solid #e5e7eb;border-radius:10px;background:#fff;text-align:left;color:#1f2937;cursor:pointer;transition:border-color .15s,box-shadow .15s,transform .15s}.afi-org-card:hover{border-color:#86efac;box-shadow:0 6px 18px rgba(22,101,52,.09);transform:translateY(-1px)}.afi-org-card-head{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}.afi-org-card h4{margin:0;font-size:14px}.afi-org-legal{color:#6b7280;font-size:10px;margin-top:4px}.afi-org-meta{display:grid;gap:7px;margin-top:15px;font-size:11px}.afi-org-meta div{display:flex;justify-content:space-between;gap:10px}.afi-org-meta span:first-child{color:#6b7280}.afi-org-meta span:last-child{text-align:right}.afi-org-badge{padding:3px 8px;border-radius:12px;background:#f3f4f6;color:#475569;font-size:9px;font-weight:800;text-transform:uppercase}.afi-org-badge.active{background:#dcfce7;color:#166534}.afi-org-badge.pending{background:#fef3c7;color:#92400e}.afi-detail-head{display:flex;align-items:center;gap:10px;margin-bottom:14px}.afi-back{border:1px solid #16a34a;border-radius:7px;padding:8px 11px;background:#fff;color:#166534;font-size:11px;font-weight:700;cursor:pointer}.afi-detail-title strong{display:block}.afi-detail-title span{color:#6b7280;font-size:10px}
       .afi-context{display:grid;grid-template-columns:minmax(210px,1.4fr) minmax(190px,1.2fr) minmax(130px,.7fr) minmax(130px,.7fr) auto;gap:12px;align-items:end}
       .afi-field label{display:block;color:#6b7280;font-size:11px;font-weight:700;margin-bottom:5px}.afi-select{box-sizing:border-box;width:100%;border:1px solid #d1d5db;border-radius:7px;padding:8px 10px;background:#fff;color:#374151;font-size:12px}
       .afi-btn{border:0;border-radius:7px;padding:9px 14px;background:#166534;color:#fff;font-size:11px;font-weight:700;cursor:pointer}.afi-btn:disabled{opacity:.5;cursor:not-allowed}
@@ -147,7 +148,7 @@ window.metaAdminHistoricalReports = {
       .afi-forecast-toolbar{display:flex;justify-content:flex-end;margin-bottom:14px}.afi-forecast-toolbar label{display:flex;align-items:center;gap:8px;font-weight:700}.afi-forecast-toolbar select{width:auto}.afi-forecast-unavailable{text-align:center;border:1px solid #d1d5db;border-radius:10px;background:#fff;padding:28px;margin-bottom:14px}.afi-forecast-unavailable h2{margin:0 0 8px}.afi-forecast-unavailable>p{color:#64748b}.afi-reason-code{display:inline-block;background:#fee2e2;color:#991b1b;border-radius:12px;padding:4px 9px;font-size:10px;font-weight:800}.afi-forecast-checks{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin:14px 0;text-align:left}.afi-forecast-checks>div{display:flex;flex-direction:column;gap:4px;background:#f8fafc;border-radius:7px;padding:10px}.afi-forecast-checks span{color:#64748b;font-size:10px}.afi-sensitivity-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.afi-sensitivity-card{padding:14px;border:1px solid #d1d5db;border-radius:9px;background:#f8fafc;display:flex;flex-direction:column;gap:4px}.afi-sensitivity-card:nth-child(2){background:#f0fdf4;border-color:#86efac}.afi-sensitivity-card>strong{font-size:20px}.afi-sensitivity-card small,.afi-sensitivity-card p{color:#64748b;font-size:10px}.afi-sensitivity-card dl{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin:7px 0;font-size:11px}.afi-sensitivity-card dd{text-align:right;font-weight:700}.afi-fact-row{padding:10px 0;border-bottom:1px solid #eef2f7;line-height:1.45}
       @media(max-width:900px){.afi-forecast-checks,.afi-sensitivity-grid{grid-template-columns:1fr}}
       @media(max-width:1200px){.afi-br-stats{grid-template-columns:repeat(3,1fr)}}@media(max-width:800px){.afi-br-grid{grid-template-columns:1fr}.afi-br-stats{grid-template-columns:1fr 1fr}}
-      @media(max-width:980px){.afi-context{grid-template-columns:1fr 1fr}}@media(max-width:600px){.afi-context{grid-template-columns:1fr}}
+      @media(max-width:980px){.afi-context{grid-template-columns:1fr 1fr}}@media(max-width:600px){.afi-context{grid-template-columns:1fr}.afi-org-head{align-items:stretch;flex-direction:column}.afi-org-search{width:100%}}
     `;
     document.head.appendChild(style);
   }
@@ -155,10 +156,13 @@ window.metaAdminHistoricalReports = {
   function pageView(kind) {
     injectStyles();
     setTimeout(() => init(document.getElementById(`afi-${kind}`)), 0);
+    const organizationList = kind === 'overview' ? `<section class="afi-card" id="afi-organization-list"><div class="afi-org-head"><div><h3>All Organisations</h3><p>Select an organisation to open its financial overview.</p></div><input class="afi-org-search" id="afi-organization-search" type="search" placeholder="Search organisations…"></div><div class="afi-org-grid" id="afi-organization-grid"><div class="afi-message">Loading organisations…</div></div></section>` : '';
     return `<div class="afi-page" id="afi-${kind}" data-afi-page="${kind}">
+      ${organizationList}<div id="afi-detail-screen" class="${kind === 'overview' ? 'afi-hidden' : ''}">
+      ${kind === 'overview' ? '<div class="afi-detail-head"><button class="afi-back" id="afi-back-organizations" type="button">← All Organisations</button><div class="afi-detail-title"><strong id="afi-detail-organization-name">Financial Overview</strong><span>Organisation financial workspace</span></div></div>' : ''}
       <section class="afi-card">
         <div class="afi-context">
-          <div class="afi-field"><label for="afi-organization">Organization (required)</label><select class="afi-select" id="afi-organization"><option value="">Loading organizations…</option></select></div>
+          <div class="afi-field ${kind === 'overview' ? 'afi-hidden' : ''}"><label for="afi-organization">Organization (required)</label><select class="afi-select" id="afi-organization"><option value="">Loading organizations…</option></select></div>
           <div class="afi-field"><label for="afi-farm">Farm</label><select class="afi-select" id="afi-farm" disabled><option value="">Select an organization first</option></select></div>
           <div class="afi-field"><label for="afi-range">Date range</label><select class="afi-select" id="afi-range"><option value="30">Last 30 days</option><option value="90">Last 90 days</option><option value="365">Last 365 days</option><option value="730">Last 730 days</option></select></div>
           <div class="afi-field"><label for="afi-granularity">Granularity</label><select class="afi-select" id="afi-granularity"><option value="day">Day</option><option value="week">Week</option><option value="month">Month</option></select></div>
@@ -167,6 +171,7 @@ window.metaAdminHistoricalReports = {
         <div class="afi-status" id="afi-status">Choose an organization to establish an explicit tenant scope.</div>
       </section>
       <section class="afi-card afi-message" id="afi-content"><strong>${escape(PAGE_LABELS[kind])}</strong>Select an organization to begin. No financial values are shown without a tenant scope.</section>
+      </div>
     </div>`;
   }
 
@@ -176,6 +181,7 @@ window.metaAdminHistoricalReports = {
     root.querySelector('#afi-range').value = String(state.days);
     root.querySelector('#afi-granularity').value = state.granularity;
     bind(root);
+    if (root.dataset.afiPage === 'overview') bindOrganizationList(root);
     if (root.dataset.afiPage === 'revenue') bindRevenuePage(root);
     if (root.dataset.afiPage === 'overview') bindOverviewPage(root);
     if (root.dataset.afiPage === 'history') bindHistoryPage(root);
@@ -210,6 +216,43 @@ window.metaAdminHistoricalReports = {
     root.querySelector('#afi-refresh').addEventListener('click', () => publish('refresh'));
   }
 
+  function bindOrganizationList(root) {
+    root.querySelector('#afi-organization-search').addEventListener('input', event => renderOrganizationCards(root, event.target.value));
+    root.querySelector('#afi-back-organizations').addEventListener('click', () => {
+      root.querySelector('#afi-detail-screen').classList.add('afi-hidden');
+      root.querySelector('#afi-organization-list').classList.remove('afi-hidden');
+    });
+  }
+
+  function renderOrganizationCards(root, search = '') {
+    const grid = root.querySelector('#afi-organization-grid');
+    if (!grid) return;
+    const queryText = String(search).trim().toLowerCase();
+    const visible = organizations.filter(item => [organizationName(item), item.legalName, item.status, item.contacts?.billingEmail, item.contacts?.phone]
+      .some(value => String(value || '').toLowerCase().includes(queryText)));
+    if (!visible.length) {
+      grid.innerHTML = `<div class="afi-message">${organizations.length ? 'No organisations match your search.' : 'No organisations are available.'}</div>`;
+      return;
+    }
+    grid.innerHTML = visible.map(item => {
+      const status = item.status || 'unknown';
+      const contact = item.contacts?.billingEmail || item.contacts?.email || 'Not provided';
+      return `<button type="button" class="afi-org-card" data-afi-organization-id="${escape(idOf(item))}"><div class="afi-org-card-head"><div><h4>${escape(organizationName(item))}</h4><div class="afi-org-legal">${escape(item.legalName || 'Legal name not provided')}</div></div><span class="afi-org-badge ${escape(status)}">${escape(status)}</span></div><div class="afi-org-meta"><div><span>Billing contact</span><span>${escape(contact)}</span></div><div><span>Timezone</span><span>${escape(item.timezone || 'Asia/Kolkata')}</span></div></div></button>`;
+    }).join('');
+    grid.querySelectorAll('[data-afi-organization-id]').forEach(card => card.addEventListener('click', async () => {
+      state.organizationId = card.dataset.afiOrganizationId;
+      state.organization = organizations.find(item => idOf(item) === state.organizationId) || null;
+      state.farmId = '';
+      state.farm = null;
+      farms = [];
+      root.querySelector('#afi-organization').value = state.organizationId;
+      root.querySelector('#afi-detail-organization-name').textContent = organizationName(state.organization);
+      root.querySelector('#afi-organization-list').classList.add('afi-hidden');
+      root.querySelector('#afi-detail-screen').classList.remove('afi-hidden');
+      await loadFarms(root, true);
+    }));
+  }
+
   async function loadOrganizations(root) {
     const sequence = ++loadSequence;
     const select = root.querySelector('#afi-organization');
@@ -226,13 +269,18 @@ window.metaAdminHistoricalReports = {
         `<option value="${escape(idOf(item))}">${escape(organizationName(item))}</option>`
       ).join('');
       select.value = state.organizationId;
-      if (state.organizationId) await loadFarms(root, false);
+      if (root.dataset.afiPage === 'overview') {
+        renderOrganizationCards(root);
+        renderFarmOptions(root);
+      } else if (state.organizationId) await loadFarms(root, false);
       else {
         renderFarmOptions(root);
         renderStatus();
       }
     } catch (error) {
       select.innerHTML = '<option value="">Unable to load organizations</option>';
+      const grid = root.querySelector('#afi-organization-grid');
+      if (grid) grid.innerHTML = `<div class="afi-message afi-error">${escape(error.message)}</div>`;
       renderError(root, error);
     }
   }
