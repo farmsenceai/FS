@@ -62,7 +62,7 @@ function injectFarmOperationsStyles() {
   style.textContent = `
     .fo-page{padding:20px;background:#f5f6fa;min-height:100%;font:13px -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#1f2937}
     .fo-card{background:#fff;border:1px solid #e5e7eb;border-radius:11px;padding:16px;margin-bottom:16px}.fo-card h3{margin:0;font-size:14px}.fo-card-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px}
-    .fo-selector{display:grid;grid-template-columns:minmax(220px,1fr) minmax(260px,2fr);gap:12px}.fo-input,.fo-select,.fo-textarea{box-sizing:border-box;width:100%;border:1px solid #d1d5db;border-radius:7px;padding:8px 10px;background:#fff;color:#374151;font-size:12px}.fo-textarea{min-height:76px;resize:vertical}
+    .fo-farm-toolbar{display:flex;align-items:center;gap:12px}.fo-farm-toolbar .fo-input{max-width:520px}.fo-farm-count{margin-left:auto;color:#6b7280;font-size:11px;white-space:nowrap}.fo-farm-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px;margin-top:14px}.fo-farm-card{appearance:none;width:100%;min-height:154px;padding:14px;border:1px solid #e5e7eb;border-radius:10px;background:#fff;color:#1f2937;text-align:left;cursor:pointer;transition:border-color .15s,box-shadow .15s,transform .15s}.fo-farm-card:hover{border-color:#86efac;box-shadow:0 6px 18px rgba(22,101,52,.09);transform:translateY(-1px)}.fo-farm-card.active{border-color:#16a34a;box-shadow:0 0 0 2px rgba(22,163,74,.12);background:#f7fef9}.fo-farm-card-head{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}.fo-farm-card h4{margin:0;font-size:14px;line-height:1.35}.fo-farm-code{margin-top:4px;color:#166534;font-size:10px;font-weight:800;letter-spacing:.04em}.fo-farm-details{display:grid;gap:7px;margin-top:14px;color:#6b7280;font-size:11px}.fo-farm-detail{display:flex;justify-content:space-between;gap:10px}.fo-farm-detail span:last-child{text-align:right;color:#374151}.fo-input,.fo-select,.fo-textarea{box-sizing:border-box;width:100%;border:1px solid #d1d5db;border-radius:7px;padding:8px 10px;background:#fff;color:#374151;font-size:12px}.fo-textarea{min-height:76px;resize:vertical}
     .fo-tabs{display:flex;gap:7px;flex-wrap:wrap;margin:14px 0}.fo-tab{border:1px solid #d1d5db;background:#fff;padding:8px 13px;border-radius:8px;cursor:pointer;font-weight:600;color:#4b5563}.fo-tab.active{background:#166534;border-color:#166534;color:#fff}
     .fo-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.fo-grid-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.fo-field label{display:block;color:#6b7280;font-size:11px;font-weight:700;margin-bottom:5px}.fo-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.fo-btn{border:0;border-radius:7px;padding:8px 12px;background:#166534;color:#fff;font-size:11px;font-weight:700;cursor:pointer}.fo-btn.secondary{background:#fff;color:#166534;border:1px solid #16a34a}.fo-btn.danger{background:#fff;color:#b91c1c;border:1px solid #fecaca}.fo-btn:disabled{opacity:.5;cursor:not-allowed}
     .fo-table{width:100%;border-collapse:collapse}.fo-table th{background:#f9fafb;color:#6b7280;font-size:10px;text-align:left;padding:9px;border-bottom:1px solid #e5e7eb}.fo-table td{padding:10px 9px;border-bottom:1px solid #f3f4f6;vertical-align:top}.fo-table-wrap{overflow-x:auto}.fo-badge{display:inline-block;padding:3px 8px;border-radius:12px;background:#eef2ff;color:#3730a3;font-size:10px;font-weight:700}.fo-badge.active,.fo-badge.paid,.fo-badge.completed{background:#dcfce7;color:#166534}.fo-badge.pending,.fo-badge.planned{background:#fef3c7;color:#92400e}.fo-badge.blocked,.fo-badge.cancelled{background:#fee2e2;color:#991b1b}
@@ -71,7 +71,7 @@ function injectFarmOperationsStyles() {
     .fo-context-heading{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:11px 14px;background:#ecfdf3;border:1px solid #bbf7d0;border-radius:9px;margin-top:14px;color:#166534}.fo-context-heading small{display:block;color:#4b5563;margin-top:3px}.fo-source-highlight{background:#fefce8!important;outline:2px solid #facc15;outline-offset:-2px}.fo-source-highlight td:first-child:before{content:'Source record';display:block;color:#92400e;font-size:9px;font-weight:800;text-transform:uppercase;margin-bottom:3px}
     .fo-modal{display:none;position:fixed;inset:0;z-index:2600;background:rgba(241,245,249,.96);align-items:center;justify-content:center;padding:10px}.fo-modal.open{display:flex}.fo-modal-card{box-sizing:border-box;width:min(720px,100%);max-height:calc(100vh - 20px);overflow:auto;background:#fff;border-radius:10px;padding:20px;box-shadow:0 8px 30px rgba(15,23,42,.10)}.fo-modal-card h3{margin:0}.fo-modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:16px}
     .fo-create-card{width:min(1180px,100%);padding:0;display:grid;grid-template-columns:minmax(360px,1fr) 430px;background:#f4f7f6}.fo-create-head{position:relative;padding:25px 28px 22px 88px;background:#fff;border-bottom:1px solid #edf0f2}.fo-create-head:before{content:'⌂';position:absolute;left:28px;top:22px;width:46px;height:46px;display:grid;place-items:center;border-radius:50%;background:#087c39;color:#fff;font-size:25px}.fo-create-head h3{font-size:22px;color:#0f1b33}.fo-create-head p{margin:5px 0 0;color:#64748b;font-size:13px}.fo-stepper{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;padding:21px 28px;background:#fff;border-bottom:1px solid #edf0f2}.fo-step{position:relative;display:flex;flex-direction:column;align-items:center;gap:6px;color:#64748b;font-size:11px;font-weight:500}.fo-step:not(:last-child):after{content:'';position:absolute;left:70%;right:-55%;top:14px;height:1px;background:#d8dee7}.fo-step i{position:relative;z-index:1;display:grid;place-items:center;width:28px;height:28px;border:1px solid #d5dce6;border-radius:50%;background:#fff;color:#64748b;font-style:normal}.fo-step.active{color:#087c39;font-weight:700}.fo-step.active i,.fo-step.complete i{background:#087c39;border-color:#087c39;color:#fff}.fo-create-error,.fo-create-body,.fo-create-footer{grid-column:1/-1}.fo-create-body{padding:10px 0 0;background:#f4f7f6}.fo-create-section{display:none;margin:0 0 10px;padding:24px;background:#fff;border:1px solid #e7ebef;border-radius:8px}.fo-create-section.active{display:block}.fo-section-title{position:relative;padding-left:34px;color:#087c39;font-size:14px;font-weight:800;text-transform:uppercase;letter-spacing:.15px;margin-bottom:3px}.fo-section-title:before{content:'⌖';position:absolute;left:2px;top:-4px;font-size:23px}.fo-section-copy{color:#7b8798;font-size:11px;margin:0 0 19px 34px}.fo-create-section .fo-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:18px 20px}.fo-create-section[data-fo-step="2"] .fo-field[style]{grid-column:span 2!important}.fo-create-section[data-fo-step="3"] .fo-grid,.fo-create-section[data-fo-step="4"] .fo-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.fo-create-section .fo-field label{color:#29364d;font-size:11px;margin-bottom:8px}.fo-create-section .fo-input,.fo-create-section .fo-select,.fo-create-section .fo-textarea{min-height:42px;border-color:#d8dfe8;border-radius:6px;background:#fff;padding:10px 12px;color:#344158}.fo-create-section .fo-input:focus,.fo-create-section .fo-select:focus,.fo-create-section .fo-textarea:focus{outline:0;border-color:#0b8b46;box-shadow:0 0 0 2px rgba(11,139,70,.08)}.fo-create-section [readonly]{background:#f4f6f9;color:#8792a5}.fo-field-error{color:#b91c1c;font-size:10px;margin-top:4px}.fo-create-footer{position:sticky;bottom:0;z-index:4;display:flex;align-items:center;justify-content:space-between;padding:14px 0 2px;background:#f4f7f6}.fo-create-footer .fo-btn{min-height:40px;padding:9px 18px;border-radius:7px}.fo-create-footer .fo-btn:not(.secondary){background:#087c39}.fo-create-error{display:none;margin:10px 0 0;padding:10px 24px;border-radius:7px;background:#fef2f2;color:#991b1b}.fo-location-actions{display:flex;align-items:center;gap:9px}.fo-location-status{font-size:10px;color:#6b7280}.fo-map-panel{grid-column:1/-1;height:190px;position:relative;overflow:hidden;border:1px solid #d9e1e6;border-radius:7px;background-color:#e8f0e4;background-image:linear-gradient(28deg,transparent 47%,rgba(255,255,255,.8) 48%,rgba(255,255,255,.8) 51%,transparent 52%),linear-gradient(112deg,transparent 46%,rgba(169,207,230,.55) 47%,rgba(169,207,230,.55) 49%,transparent 50%),repeating-linear-gradient(0deg,transparent 0 30px,rgba(157,190,144,.18) 31px 32px)}.fo-map-pin{position:absolute;left:50%;top:46%;width:28px;height:28px;transform:translate(-50%,-50%) rotate(45deg);border-radius:50% 50% 50% 0;background:#087c39;box-shadow:0 3px 8px rgba(0,0,0,.24)}.fo-map-pin:after{content:'';position:absolute;inset:8px;border-radius:50%;background:#fff}.fo-map-search{position:absolute;left:0;right:0;bottom:0;display:flex;gap:8px;padding:8px;background:#fff;border-top:1px solid #d9e1e6}.fo-map-search span{padding:9px 7px;font-size:11px;font-weight:700}.fo-map-search input{flex:1;border:1px solid #d8dfe8;border-radius:5px;padding:8px}.fo-map-zoom{position:absolute;left:12px;top:12px;background:#fff;border:1px solid #d8dfe8;border-radius:4px;box-shadow:0 2px 5px rgba(0,0,0,.08)}.fo-map-zoom b{display:block;padding:5px 9px;font-size:16px}.fo-map-zoom b+b{border-top:1px solid #e5e7eb}@media(max-width:900px){.fo-create-card{grid-template-columns:1fr}.fo-stepper{grid-row:2}.fo-create-section .fo-grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:650px){.fo-step span{display:none}.fo-stepper{padding:12px}.fo-create-head{padding:20px 18px 18px 72px}.fo-create-head:before{left:18px}.fo-create-section{padding:16px}.fo-create-section .fo-grid,.fo-create-section[data-fo-step="3"] .fo-grid,.fo-create-section[data-fo-step="4"] .fo-grid{grid-template-columns:1fr}.fo-create-section[data-fo-step="2"] .fo-field[style]{grid-column:auto!important}.fo-create-footer{padding:12px 0}}
-    @media(max-width:900px){.fo-selector,.fo-grid,.fo-grid-3{grid-template-columns:1fr}}
+    @media(max-width:900px){.fo-grid,.fo-grid-3{grid-template-columns:1fr}}@media(max-width:600px){.fo-farm-toolbar{align-items:stretch;flex-direction:column}.fo-farm-toolbar .fo-input{max-width:none}.fo-farm-count{margin-left:0}}
   `;
   document.head.appendChild(style);
 }
@@ -83,10 +83,10 @@ function viewFarmOperations() {
     <div class="fo-page">
       <div id="fo-feedback"></div>
       <div class="fo-card">
-        <div class="fo-card-head"><div><h3>Select a Farm</h3><div style="color:#6b7280;margin-top:3px">Choose a canonical farm to manage its operations.</div></div><div class="fo-actions"><button class="fo-btn" id="fo-create-farm">Create New Farm</button><button class="fo-btn secondary" id="fo-refresh-farms">Refresh</button></div></div>
-        <div class="fo-selector"><input class="fo-input" id="fo-farm-search" type="search" placeholder="Search by code, name, or status"><select class="fo-select" id="fo-farm-select"><option value="">Loading farms…</option></select></div>
+        <div class="fo-card-head"><div><h3>All Farms</h3><div style="color:#6b7280;margin-top:3px">View every farm, then click one to open its operational workspace.</div></div><div class="fo-actions"><button class="fo-btn" id="fo-create-farm">Create New Farm</button><button class="fo-btn secondary" id="fo-refresh-farms">Refresh</button></div></div>
+        <div class="fo-farm-toolbar"><input class="fo-input" id="fo-farm-search" type="search" placeholder="Search by code, name, location, type, or status"><span class="fo-farm-count" id="fo-farm-count"></span></div>
+        <div class="fo-farm-grid" id="fo-farm-grid"><div class="fo-loading">Loading farms…</div></div>
       </div>
-      <div id="fo-no-farm" class="fo-card fo-empty">Select a farm to load its operational workspace.</div>
       <div id="fo-workspace" class="fo-hidden">
         <div class="fo-context-heading" id="fo-context-heading"></div>
         <div class="fo-tabs">
@@ -109,7 +109,7 @@ function foInitialState() {
 }
 
 function foInit() {
-  if (!document.getElementById('fo-farm-select')) return;
+  if (!document.getElementById('fo-farm-grid')) return;
   foState = foInitialState();
   const requestedParams = new URLSearchParams(location.search);
   const requestedTab = requestedParams.get('tab');
@@ -121,11 +121,6 @@ function foInit() {
     document.querySelectorAll('[data-fo-tab]').forEach(item => item.classList.toggle('active', item.dataset.foTab === requestedTab));
   }
   document.getElementById('fo-farm-search').addEventListener('input', FarmSenseAdminApi.debounce(foFilterFarms, 180));
-  document.getElementById('fo-farm-select').addEventListener('change', event => {
-    if (!foConfirmDiscard()) { event.target.value = foState.selectedFarmId; return; }
-    foState.sourceBatchId = ''; foState.sourceSaleId = ''; foState.sourceExpenseId = '';
-    foSelectFarm(event.target.value);
-  });
   document.getElementById('fo-refresh-farms').addEventListener('click', foLoadFarms);
   document.getElementById('fo-create-farm').addEventListener('click', foOpenCreateFarm);
   document.querySelectorAll('[data-fo-tab]').forEach(button => button.addEventListener('click', () => {
@@ -145,7 +140,6 @@ function foInit() {
   Promise.all([foLoadBusinesses(), foLoadFarms()]).then(async () => {
     const requestedFarmId = new URLSearchParams(location.search).get('farmId');
     if (requestedFarmId && foState.farms.some(farm => String(farm._id) === String(requestedFarmId))) {
-      document.getElementById('fo-farm-select').value = requestedFarmId;
       await foSelectFarm(requestedFarmId);
     }
   }).catch(foError);
@@ -284,7 +278,6 @@ async function foCreateFarm(event) {
   foCloseCreateFarm();
   try {
     await foLoadFarms();
-    document.getElementById('fo-farm-select').value = farmId;
     await foSelectFarm(farmId);
     FarmSenseAdminApi.feedback('fo-feedback', 'Farm created and selected successfully.');
   } catch (error) {
@@ -293,35 +286,55 @@ async function foCreateFarm(event) {
 }
 
 async function foLoadFarms() {
-  const select = document.getElementById('fo-farm-select');
-  select.innerHTML = '<option value="">Loading farms…</option>';
+  const grid = document.getElementById('fo-farm-grid');
+  grid.innerHTML = '<div class="fo-loading">Loading farms…</div>';
   try {
     const result = await foRequest('/farms?limit=100');
     foState.farms = result.data || [];
     foState.filteredFarms = foState.farms;
-    foRenderFarmOptions();
+    foRenderFarmCards();
   } catch (error) {
-    select.innerHTML = '<option value="">Unable to load farms</option>';
+    grid.innerHTML = '<div class="fo-empty">Unable to load farms.</div>';
     foError(error);
   }
 }
 
 function foFilterFarms(event) {
   const query = event.target.value.trim().toLowerCase();
-  foState.filteredFarms = foState.farms.filter(farm => [farm.code, farm.name, farm.status].some(value => String(value || '').toLowerCase().includes(query)));
-  foRenderFarmOptions();
+  foState.filteredFarms = foState.farms.filter(farm => [farm.code, farm.name, farm.status, farm.farmType, farm.location?.address, farm.location?.stateProvince].some(value => String(value || '').toLowerCase().includes(query)));
+  foRenderFarmCards();
 }
 
-function foRenderFarmOptions() {
-  const select = document.getElementById('fo-farm-select');
-  select.innerHTML = `<option value="">${foState.filteredFarms.length ? 'Select a farm…' : 'No matching farms'}</option>` + foState.filteredFarms.map(farm => `<option value="${farm._id}" ${farm._id === foState.selectedFarmId ? 'selected' : ''}>${foEscape(farm.code)} · ${foEscape(farm.name)} · ${foEscape(FarmSenseAdminApi.label(farm.status))}</option>`).join('');
+function foRenderFarmCards() {
+  const grid = document.getElementById('fo-farm-grid');
+  const count = document.getElementById('fo-farm-count');
+  if (!grid) return;
+  if (count) count.textContent = `${foState.filteredFarms.length} of ${foState.farms.length} farm${foState.farms.length === 1 ? '' : 's'}`;
+  if (!foState.filteredFarms.length) {
+    grid.innerHTML = `<div class="fo-empty">${foState.farms.length ? 'No farms match your search.' : 'No farms have been created yet.'}</div>`;
+    return;
+  }
+  grid.innerHTML = foState.filteredFarms.map(farm => {
+    const active = String(farm._id) === String(foState.selectedFarmId);
+    const location = farm.location?.address || farm.location?.stateProvince || 'Not provided';
+    const capacity = farm.capacity?.birdCapacity;
+    return `<button type="button" class="fo-farm-card ${active ? 'active' : ''}" data-fo-farm-id="${foEscape(farm._id)}" aria-pressed="${active}">
+      <div class="fo-farm-card-head"><div><h4>${foEscape(farm.name || 'Unnamed farm')}</h4><div class="fo-farm-code">${foEscape(farm.code || 'NO CODE')}</div></div><span class="fo-badge ${foEscape(farm.status)}">${foEscape(FarmSenseAdminApi.label(farm.status || 'unknown'))}</span></div>
+      <div class="fo-farm-details"><div class="fo-farm-detail"><span>Type</span><span>${foEscape(FarmSenseAdminApi.label(farm.farmType || 'Not provided'))}</span></div><div class="fo-farm-detail"><span>Location</span><span>${foEscape(location)}</span></div><div class="fo-farm-detail"><span>Bird capacity</span><span>${capacity != null ? Number(capacity).toLocaleString('en-IN') : 'Not recorded'}</span></div></div>
+    </button>`;
+  }).join('');
+  grid.querySelectorAll('[data-fo-farm-id]').forEach(card => card.addEventListener('click', () => {
+    if (!foConfirmDiscard()) return;
+    foState.sourceBatchId = ''; foState.sourceSaleId = ''; foState.sourceExpenseId = '';
+    foSelectFarm(card.dataset.foFarmId);
+  }));
 }
 
 async function foSelectFarm(farmId) {
   foState.selectedFarmId = farmId;
   foState.selectedFarmerId = '';
   foState.sales = []; foState.expenses = []; foState.salesLoaded = false; foState.expensesLoaded = false; foState.editingSaleId = ''; foState.editingExpenseId = '';
-  document.getElementById('fo-no-farm').classList.toggle('fo-hidden', Boolean(farmId));
+  foRenderFarmCards();
   document.getElementById('fo-workspace').classList.toggle('fo-hidden', !farmId);
   if (!farmId) return;
   document.getElementById('fo-panel').innerHTML = '<div class="fo-card fo-loading">Loading farm workspace…</div>';
@@ -423,7 +436,7 @@ async function foCloseFarmTenure() {
     foState.farm = result.farm;
     const listItem = foState.farms.find(item => String(item._id) === String(foState.selectedFarmId));
     if (listItem) Object.assign(listItem, result.farm);
-    foRenderFarmOptions();
+    foRenderFarmCards();
     foRenderOverview();
   });
 }
