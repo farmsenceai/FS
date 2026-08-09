@@ -4,7 +4,6 @@ const PANELS = {
   EditProfile: viewEditProfile,
   Dashboard: viewDashboard,
   MyWorkToday: viewMyWorkToday,
-  DailyRecordEntry: viewDailyRecordEntry,
   MyBatches: viewMyBatches,
   FeedAndWater: viewFeedAndWater,
   BirdsHealth: viewBirdsHealth,

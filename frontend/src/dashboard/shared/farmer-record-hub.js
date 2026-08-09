@@ -122,8 +122,8 @@
   function openRecord(context, focus) {
     setContext(context);
     history.replaceState({}, document.title, location.pathname);
-    window.farmerRecordEntryFocus = focus;
-    document.querySelector('.db-sidebar-link[data-page="DailyRecordEntry"]')?.click();
+    const page = { feed: 'FeedAndWater', health: 'BirdsHealth', environment: 'Environment' }[focus] || 'FeedAndWater';
+    document.querySelector(`.db-sidebar-link[data-page="${page}"]`)?.click();
   }
 
   async function load(config, user) {

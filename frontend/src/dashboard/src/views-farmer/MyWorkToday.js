@@ -54,7 +54,7 @@ async function fmwLoad(user) {
 
 function fmwOpenRecord(farmId, batchId) {
   history.replaceState({}, document.title, `${location.pathname}?farmId=${encodeURIComponent(farmId)}&batchId=${encodeURIComponent(batchId)}`);
-  const link = document.querySelector('.db-sidebar-link[data-page="DailyRecordEntry"]');
+  const link = document.querySelector('.db-sidebar-link[data-page="FeedAndWater"]');
   if (link) link.click();
 }
 
