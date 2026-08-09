@@ -1,0 +1,433 @@
+The Manage Farmers page is already functional, but it currently mixes farmer identity, stated farm information, real farm assignment, and account actions in one dense table. For FarmSence.ai, I would redesign it around the farmer lifecycle: Registered → Verified → Assigned → Operational → Suspended.
+
+Main issues visible in the current screen
+
+The biggest problems are:
+
+“Farmer’s stated farm” and “Real assignment” are shown as small grey text, so the most important relationship is hard to understand.
+Location is sometimes missing and shown as “—”.
+“Active Batches” alone does not explain whether the farmer has a farm, sheds, birds, or pending onboarding.
+Too many action buttons appear in every row.
+“End Farm Name” is dangerous and visually too prominent.
+The three-dot menu duplicates actions already shown.
+There is no clear verification status, onboarding progress, farmer type, phone number, last activity, or assignment date.
+The page treats a prospective farmer and an experienced operational farmer almost the same.
+Recommended page structure
+1. Improve the summary cards
+
+Replace the current four cards with:
+
+Total Farmers
+
+All registered farmer accounts.
+
+Active Farmers
+
+Accounts currently allowed to access FarmSence.ai.
+
+Awaiting Verification
+
+Farmers whose identity, phone, farm details, or documents need review.
+
+Assigned to Farms
+
+Farmers currently connected to a canonical farm.
+
+A second small row may show:
+
+Unassigned Farmers
+Suspended Accounts
+Active Production Batches
+New Registrations This Month
+
+The current “Pending Approval: 0” card can remain, but it should be renamed Awaiting Verification unless formal admin approval is actually required.
+
+2. Add a stronger toolbar
+
+Above the table, add:
+
+Add Farmer
+Export
+Bulk Actions
+Advanced Filters
+Search
+
+Recommended search placeholder:
+
+Search by farmer name, email, phone, farm or location
+
+Filters:
+
+Account Status
+Verification Status
+Assignment Status
+Farmer Profile
+State
+Farm
+Last Activity
+Registration Date
+
+Farmer Profile options:
+
+Business User
+Experienced Farmer
+New / Interested Farmer
+Contract Farmer
+Farm Manager
+Institutional User
+
+This connects directly with the farmer profile field proposed in the farm-creation form.
+
+3. Change the table columns
+
+I recommend the following columns:
+
+Column	Information
+Farmer	Name, email and phone
+Profile	New farmer, experienced farmer, business user, manager
+Verification	Verified, partial, pending, rejected
+Assigned Farm	Canonical farm name and role
+Location	Village/city, district and state
+Operations	Active batches, sheds or livestock units
+Account	Active, invited, suspended
+Last Activity	Last login or platform activity
+Actions	One primary button and overflow menu
+
+This is cleaner than showing both stated and real farm details inside one column.
+
+4. Redesign the Farmer column
+
+Currently, the row shows:
+
+farmer_pranav@gmail.com
+Farmer's stated farm (unverified): Not provided
+Real assignment: Assigned to Mountain Valley
+
+Change it to:
+
+Pranav Kumar
+farmer_pranav@gmail.com
++91 98XXXXXX21
+
+Then show farmer profile as a badge:
+
+Experienced Farmer
+
+The farmer’s self-declared farm should not be placed under their name. Move it into a separate onboarding or verification area.
+
+For accounts with no entered name, display:
+
+Name not provided
+farmer_pranav@gmail.com
+
+Do not use the email as the main display name unless no name exists.
+
+5. Separate verification from assignment
+
+These are different concepts and should not be mixed.
+
+Verification badge
+Verified
+Partially Verified
+Pending Verification
+Rejected
+Not Started
+
+Verification can cover:
+
+Phone verified
+Email verified
+Identity verified
+Farm details verified
+Documents verified
+Assignment badge
+Assigned
+Unassigned
+Pending Acceptance
+Assignment Ended
+
+Example:
+
+Assigned Farm
+Mountain Valley
+Farm Manager · Assigned 06 Aug 2026
+
+For unassigned farmers:
+
+No farm assigned
+Assign Farm
+
+6. Improve “Active Batches”
+
+Instead of only showing a number such as 1, show operational context:
+
+1 Active Batch
+5,000 birds
+
+or:
+
+No active batch
+Farm assigned
+
+For mixed farming, rename the column from Active Batches to Operations because dairy, crop, fish, hatchery and livestock farms may not all use “batches” in the same way.
+
+Possible values:
+
+2 active flocks
+1 crop cycle
+3 livestock groups
+1 hatchery cycle
+No active operations
+7. Simplify row actions
+
+The current row contains:
+
+View
+Edit Profile
+Assign to Farm
+End Mountain Valley
+Three-dot menu
+
+This is too crowded.
+
+Use only one primary action:
+
+For assigned farmers
+
+View Profile ⋮
+
+Overflow menu:
+
+Edit Profile
+View Assigned Farm
+Change Farm Assignment
+Add Role
+View Activity
+Send Password Reset
+Suspend Account
+End Assignment
+For unassigned farmers
+
+Assign to Farm ⋮
+
+Overflow menu:
+
+View Profile
+Edit Profile
+Verify Farmer
+Send Invitation
+Suspend Account
+
+“End Mountain Valley” should become End Assignment and remain only inside the overflow menu. It should require confirmation.
+
+Confirmation text:
+
+End Vikrant K Roy’s assignment to Mountain Valley?
+The farmer will no longer have access to this farm, but their account and historical records will remain available.
+
+Buttons:
+
+Cancel
+End Assignment
+
+Never use only the farm name inside a destructive button because it can be misunderstood as deleting the farm.
+
+8. Add role information
+
+A farmer may have different responsibilities, so add an assignment role:
+
+Farm Owner
+Farm Manager
+Supervisor
+Worker
+Veterinarian
+Consultant
+Viewer
+Business Administrator
+
+Example:
+
+Mountain Valley
+Farm Manager
+
+This will also support users assigned to more than one farm.
+
+For multi-farm users, show:
+
+3 Farms Assigned
+Mountain Valley +2
+
+Clicking opens the complete assignment list.
+
+9. Add onboarding progress
+
+This is especially important for new or interested farmers.
+
+Show a compact progress indicator:
+
+Onboarding 60%
+
+Completed:
+
+Account created
+Phone verified
+Farm interest entered
+
+Pending:
+
+Documents
+Farm assignment
+
+Experienced operational farmers may show:
+
+Operational
+
+Business users may show:
+
+Organisation setup pending
+
+This lets the admin understand what action is required without opening every profile.
+
+10. Improve location handling
+
+Instead of showing —, use:
+
+Location not provided
+
+Where available, display:
+
+Nashik Road
+Nashik, Maharashtra 422101
+
+Avoid writing country in uppercase as INDIA. Use India.
+
+For a farmer whose farm is assigned, distinguish between:
+
+Farmer address
+Assigned farm location
+
+The table should probably show the farmer’s location. The assigned farm location can be visible in the farm details drawer.
+
+11. Add a details drawer
+
+When the admin clicks a farmer row or View Profile, open a right-side drawer rather than navigating away immediately.
+
+Recommended tabs:
+
+Overview
+
+Name, phone, email, profile, account status and last login.
+
+Verification
+
+Identity, phone, email, documents and declared farm.
+
+Farm Assignments
+
+Current and past farm assignments, roles and dates.
+
+Operations
+
+Batches, alerts, tasks and production access.
+
+Activity
+
+Logins, profile changes, assignment history and admin actions.
+
+Notes
+
+Internal administrative notes.
+
+This will keep the table clean while still giving admins complete information.
+
+12. Recommended final table design
+
+A better row could look like this:
+
+Farmer	Profile	Verification	Assigned Farm	Operations	Account	Last Active	Actions
+Pranav Kumar
+farmer_pranav@gmail.com
++91 98XXXXXX21	Experienced Farmer	Verified	Mountain Valley
+Farm Manager	1 active batch
+5,000 birds	Active	Today, 8:40 PM	View Profile · ⋮
+Vikrant K Roy
+vikrant@email.com	Business User	Partial	No farm assigned	No operations	Active	2 days ago	Assign Farm · ⋮
+Deepak More
+deepak@email.com	New Farmer	Pending	No farm assigned	Onboarding 40%	Invited	Never logged in	Review · ⋮
+13. Add bulk actions
+
+Allow selection through checkboxes.
+
+Bulk actions:
+
+Assign to Farm
+Change Status
+Send Invitation
+Send Reminder
+Export Selected
+Add Tag
+Suspend Accounts
+
+Avoid supporting bulk “End Assignment” unless there is a strong confirmation process.
+
+14. Add useful tags
+
+Tags can help admins organise farmers:
+
+High Priority
+Training Required
+Contract Farmer
+Broiler
+Layer
+Hatchery
+Government Project
+Lead
+Trial User
+Payment Pending
+
+Tags should be searchable and filterable.
+
+15. Recommended status model
+
+Do not use only one “Status” field. Use three separate statuses:
+
+Account Status
+Invited
+Active
+Suspended
+Deactivated
+Verification Status
+Not Started
+Pending
+Partial
+Verified
+Rejected
+Farm Assignment Status
+Unassigned
+Pending
+Assigned
+Ended
+
+This prevents confusion when an account is active but the farmer is unverified or unassigned.
+
+Best immediate changes
+
+For the current version, I would implement these first:
+
+Rename Active Batches to Operations.
+Add Farmer Profile and Verification columns.
+Replace email-as-name with the actual farmer name.
+Show phone number beneath the email.
+Move stated farm details out of the Farmer column.
+Rename End Farm Name to End Assignment.
+Move destructive actions into the three-dot menu.
+Show assignment role and assignment date.
+Add Unassigned and Assigned filters.
+Add Add Farmer and Bulk Actions buttons.
+
+The page should help the admin immediately answer four questions:
+
+Who is this user?
+Are they verified?
+Which farm and role are they assigned to?
+What action is required next?

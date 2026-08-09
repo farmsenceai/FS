@@ -131,6 +131,9 @@ function validatePayload(payload, { partial }) {
   ) {
     errors.push('expectedTenureEndDate must be a valid date or null');
   }
+  if (Object.hasOwn(value, 'openedAt') && value.openedAt !== null && Number.isNaN(new Date(value.openedAt).getTime())) {
+    errors.push('openedAt must be a valid date or null');
+  }
 
   if (errors.length > 0) throw new FarmValidationError(errors);
 
@@ -153,6 +156,9 @@ function validatePayload(payload, { partial }) {
   }
   if (sanitized.expectedTenureEndDate !== undefined && sanitized.expectedTenureEndDate !== null) {
     sanitized.expectedTenureEndDate = new Date(sanitized.expectedTenureEndDate);
+  }
+  if (sanitized.openedAt !== undefined && sanitized.openedAt !== null) {
+    sanitized.openedAt = new Date(sanitized.openedAt);
   }
   return sanitized;
 }

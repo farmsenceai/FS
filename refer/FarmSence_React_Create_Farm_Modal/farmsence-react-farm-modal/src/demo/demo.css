@@ -1,0 +1,72 @@
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+  background: #f4f7f5;
+  color: #172033;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+.demo-page {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 32px;
+  background:
+    radial-gradient(circle at 10% 10%, rgba(22, 101, 52, 0.08), transparent 28%),
+    #f4f7f5;
+}
+
+.demo-panel {
+  width: min(720px, 100%);
+  padding: 44px;
+  border: 1px solid #e2e8e4;
+  border-radius: 22px;
+  background: white;
+  box-shadow: 0 22px 70px rgba(15, 35, 24, 0.08);
+}
+
+.demo-kicker {
+  color: #15803d;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.demo-panel h1 {
+  margin: 12px 0 8px;
+  font-size: clamp(32px, 5vw, 54px);
+}
+
+.demo-panel p {
+  margin: 0 0 28px;
+  color: #667085;
+  line-height: 1.65;
+}
+
+.demo-button {
+  border: 0;
+  border-radius: 10px;
+  padding: 12px 18px;
+  color: white;
+  background: #166534;
+  font-weight: 750;
+  cursor: pointer;
+}

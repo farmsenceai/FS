@@ -26,6 +26,14 @@ describe('farm coordinate validation', () => {
     );
     assert.equal(validator.validateUpdate({ expectedTenureEndDate: null }).expectedTenureEndDate, null);
   });
+  it('normalizes a valid operational start date and rejects an invalid one', () => {
+    const result = validator.validateCreate({ ...payload(), openedAt: '2026-08-09' });
+    assert.ok(result.openedAt instanceof Date);
+    assert.throws(
+      () => validator.validateCreate({ ...payload(), openedAt: 'not-a-date' }),
+      error => error.code === 'VALIDATION_ERROR'
+    );
+  });
   it('allows a farm to be created without coordinates', () => {
     const result = validator.validateCreate(payload());
     assert.equal(Object.hasOwn(result.location, 'geo'), false);

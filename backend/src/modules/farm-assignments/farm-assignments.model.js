@@ -14,6 +14,11 @@ const farmAssignmentSchema = new Schema({
     default: 'active'
   },
   assignedBy: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+  role: {
+    type: String,
+    enum: ['farm_owner', 'farm_manager', 'supervisor', 'worker', 'veterinarian', 'consultant', 'viewer'],
+    default: 'worker'
+  },
   notes: { type: String, trim: true }
 });
 

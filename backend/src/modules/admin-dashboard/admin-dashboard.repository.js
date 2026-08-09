@@ -35,7 +35,7 @@ function buildUserFilter(role, { status, search } = {}) {
 
 async function userStatusStats(role) {
   const base = { role };
-  const [total, active, pending, suspended, rejected] = await Promise.all([
+  const [total, active, pending, suspended, rejected, assignedUserIds] = await Promise.all([
     User.countDocuments(base),
     User.countDocuments({
       ...base,
@@ -43,16 +43,20 @@ async function userStatusStats(role) {
     }),
     User.countDocuments({ ...base, accountStatus: 'pending' }),
     User.countDocuments({ ...base, accountStatus: 'suspended' }),
-    User.countDocuments({ ...base, accountStatus: 'rejected' })
+    User.countDocuments({ ...base, accountStatus: 'rejected' }),
+    role === 'farmer' ? FarmAssignment.distinct('userId', { status: 'active', deletedAt: null }) : []
   ]);
-  return { total, active, pending, suspended, rejected };
+  const assigned = role === 'farmer'
+    ? await User.countDocuments({ role: 'farmer', _id: { $in: assignedUserIds } })
+    : 0;
+  return { total, active, pending, suspended, rejected, assigned };
 }
 
 async function listFarmers({ status, search, page, limit }) {
   const filter = buildUserFilter('farmer', { status, search });
   const [users, total, stats] = await Promise.all([
     User.find(filter)
-      .select('name email phone avatar requestedFarmId profileCompletedAt accountStatus createdAt updatedAt')
+      .select('name email phone avatar requestedFarmId profileCompletedAt accountStatus approvedAt createdAt updatedAt lastLogin')
       .sort('-createdAt')
       .skip((page - 1) * limit)
       .limit(limit)
@@ -92,7 +96,9 @@ async function listFarmers({ status, search, page, limit }) {
       profileCompletedAt: user.profileCompletedAt || null,
       avatar: user.avatar || null,
       status: user.accountStatus || 'active',
+      approvedAt: user.approvedAt || null,
       joinedAt: user.createdAt,
+      lastActivityAt: user.lastLogin || user.updatedAt || user.createdAt,
       farms: assignedFarms.map(farm => ({
         id: farm._id,
         name: farm.name,

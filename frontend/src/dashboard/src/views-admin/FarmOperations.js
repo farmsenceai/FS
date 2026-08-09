@@ -70,6 +70,7 @@ function injectFarmOperationsStyles() {
     .fo-help{color:#6b7280;font-size:11px;line-height:1.45;margin-top:5px}.fo-preview{padding:12px;border:1px solid #bbf7d0;background:#f0fdf4;border-radius:9px;color:#166534}.fo-preview strong{display:block;font-size:18px;margin-top:3px}.fo-warning{padding:10px 12px;border:1px solid #fde68a;background:#fffbeb;border-radius:8px;color:#92400e;font-size:11px;margin-bottom:12px}.fo-ledger-note{max-width:280px;white-space:normal;color:#6b7280;font-size:10px;margin-top:3px}.fo-action-stack{display:flex;gap:6px;flex-wrap:wrap}
     .fo-context-heading{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:11px 14px;background:#ecfdf3;border:1px solid #bbf7d0;border-radius:9px;margin-top:14px;color:#166534}.fo-context-heading small{display:block;color:#4b5563;margin-top:3px}.fo-source-highlight{background:#fefce8!important;outline:2px solid #facc15;outline-offset:-2px}.fo-source-highlight td:first-child:before{content:'Source record';display:block;color:#92400e;font-size:9px;font-weight:800;text-transform:uppercase;margin-bottom:3px}
     .fo-modal{display:none;position:fixed;inset:0;z-index:2600;background:rgba(15,23,42,.65);align-items:center;justify-content:center;padding:20px}.fo-modal.open{display:flex}.fo-modal-card{box-sizing:border-box;width:min(720px,100%);max-height:calc(100vh - 40px);overflow:auto;background:#fff;border-radius:14px;padding:20px}.fo-modal-card h3{margin:0}.fo-modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:16px}
+    .fo-create-card{width:min(860px,100%);padding:0}.fo-create-head{padding:20px 24px 14px;border-bottom:1px solid #e5e7eb}.fo-create-head p{margin:5px 0 0;color:#6b7280}.fo-stepper{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:14px 24px;background:#f8fafc;border-bottom:1px solid #e5e7eb}.fo-step{display:flex;align-items:center;gap:7px;color:#94a3b8;font-size:11px;font-weight:700}.fo-step i{display:grid;place-items:center;width:25px;height:25px;border-radius:50%;background:#e2e8f0;color:#64748b;font-style:normal}.fo-step.active{color:#166534}.fo-step.active i,.fo-step.complete i{background:#166534;color:#fff}.fo-create-body{padding:22px 24px}.fo-create-section{display:none}.fo-create-section.active{display:block}.fo-section-title{font-size:14px;font-weight:800;margin-bottom:4px}.fo-section-copy{color:#6b7280;font-size:11px;margin-bottom:16px}.fo-field-error{color:#b91c1c;font-size:10px;margin-top:4px}.fo-create-footer{display:flex;align-items:center;justify-content:space-between;padding:14px 24px;border-top:1px solid #e5e7eb;background:#f8fafc}.fo-create-error{display:none;margin:0 24px 12px;padding:10px;border-radius:7px;background:#fef2f2;color:#991b1b}.fo-location-actions{display:flex;align-items:center;gap:9px}.fo-location-status{font-size:10px;color:#6b7280}@media(max-width:650px){.fo-step span{display:none}.fo-stepper{padding:12px}.fo-create-body{padding:16px}.fo-create-footer{padding:12px 16px}}
     @media(max-width:900px){.fo-selector,.fo-grid,.fo-grid-3{grid-template-columns:1fr}}
   `;
   document.head.appendChild(style);
@@ -157,19 +158,74 @@ async function foLoadBusinesses() {
 
 function foOpenCreateFarm() {
   const modal = document.getElementById('fo-create-farm-modal');
-  modal.innerHTML = `<form class="fo-modal-card" id="fo-create-farm-form"><div class="fo-card-head"><div><h3>Create New Farm</h3><div style="color:#6b7280;margin-top:3px">Create a canonical farm and open its workspace immediately.</div></div></div><div class="fo-grid"><div class="fo-field"><label>Owning Business</label><select class="fo-select" name="businessId" required><option value="">Select business…</option>${foState.businesses.map(item => `<option value="${item.id || item._id}">${foEscape(item.displayName || item.legalName || item.name || 'Business')}</option>`).join('')}</select></div><div class="fo-field"><label>Code</label><input class="fo-input" name="code" required maxlength="40"></div><div class="fo-field"><label>Name</label><input class="fo-input" name="name" required maxlength="160"></div><div class="fo-field"><label>Farm Type</label><select class="fo-select" name="farmType" required>${foOptions(['broiler','layer','breeder','mixed'],'broiler')}</select></div><div class="fo-field"><label>Status</label><select class="fo-select" name="status">${foOptions(['planned','active','inactive'],'planned')}</select></div><div class="fo-field"><label>Address</label><input class="fo-input" name="address" required></div><div class="fo-field"><label>Country</label><select class="fo-select" name="countryCode" required><option value="">Select country…</option>${foCountryOptions()}</select></div><div class="fo-field"><label>State / Province</label><select class="fo-select" name="stateProvince" required><option value="">Select country first…</option></select></div><div class="fo-field"><label>Timezone</label><input class="fo-input" name="timezone" value="Asia/Kolkata" required></div><div class="fo-field"><label>Longitude</label><input class="fo-input" name="longitude" type="number" step="any" required></div><div class="fo-field"><label>Latitude</label><input class="fo-input" name="latitude" type="number" step="any" required></div><div class="fo-field"><label>Bird Capacity (optional)</label><input class="fo-input" name="birdCapacity" type="number" min="0" step="1"></div><div class="fo-field"><label>Area m² (optional)</label><input class="fo-input" name="areaSqM" type="number" min="0" step="0.01"></div></div><div class="fo-modal-actions"><button type="button" class="fo-btn secondary" id="fo-cancel-create-farm">Cancel</button><button class="fo-btn" type="submit">Create Farm</button></div></form>`;
+  modal.innerHTML = `<form class="fo-modal-card fo-create-card" id="fo-create-farm-form" novalidate>
+    <div class="fo-create-head"><h3>Create New Farm</h3><p>Add a canonical farm in four steps. Required fields are marked with *.</p></div>
+    <div class="fo-stepper">${['Basic Info','Location','Capacity','Manager'].map((label,index)=>`<div class="fo-step ${index===0?'active':''}" data-fo-step-label="${index+1}"><i>${index+1}</i><span>${label}</span></div>`).join('')}</div>
+    <div class="fo-create-error" id="fo-create-error"></div>
+    <div class="fo-create-body">
+      <section class="fo-create-section active" data-fo-step="1"><div class="fo-section-title">Basic farm information</div><div class="fo-section-copy">Identity, ownership, production type and operating status.</div><div class="fo-grid">
+        <div class="fo-field"><label>Owning Organisation *</label><select class="fo-select" name="businessId" required><option value="">Select organisation…</option>${foState.businesses.map(item=>`<option value="${item.id||item._id}">${foEscape(item.displayName||item.legalName||item.name||'Organisation')}</option>`).join('')}</select></div>
+        <div class="fo-field"><label>Farm Name *</label><input class="fo-input" name="name" required maxlength="160"></div>
+        <div class="fo-field"><label>Farm Code *</label><input class="fo-input" name="code" required maxlength="40" placeholder="e.g. MH-NAS-001"></div>
+        <div class="fo-field"><label>Farm Type *</label><select class="fo-select" name="farmType" required>${foOptions(['broiler','layer','breeder','mixed'],'broiler')}</select></div>
+        <div class="fo-field"><label>Status *</label><select class="fo-select" name="status" required>${foOptions(['planned','active','inactive'],'planned')}</select></div>
+        <div class="fo-field"><label>Operational Since</label><input class="fo-input" name="openedAt" type="date"></div>
+      </div></section>
+      <section class="fo-create-section" data-fo-step="2"><div class="fo-section-title">Farm location</div><div class="fo-section-copy">Country, state, address, timezone and optional GPS coordinates.</div><div class="fo-grid">
+        <div class="fo-field"><label>Country *</label><select class="fo-select" name="countryCode" required><option value="">Select country…</option>${foCountryOptions()}</select></div>
+        <div class="fo-field"><label>State / Province *</label><select class="fo-select" name="stateProvince" required></select></div>
+        <div class="fo-field" style="grid-column:1/-1"><label>Full Address *</label><textarea class="fo-textarea" name="address" required maxlength="500" placeholder="Road, landmark, village/city, district and postal code"></textarea></div>
+        <div class="fo-field"><label>Timezone *</label><input class="fo-input" name="timezone" value="Asia/Kolkata" required></div>
+        <div class="fo-field"><label>Latitude</label><input class="fo-input" name="latitude" type="number" min="-90" max="90" step="any"></div>
+        <div class="fo-field"><label>Longitude</label><input class="fo-input" name="longitude" type="number" min="-180" max="180" step="any"></div>
+        <div class="fo-location-actions"><button class="fo-btn secondary" type="button" id="fo-use-location">Use Current Location</button><span class="fo-location-status" id="fo-location-status"></span></div>
+      </div></section>
+      <section class="fo-create-section" data-fo-step="3"><div class="fo-section-title">Operational capacity</div><div class="fo-section-copy">Capacity is optional and can be refined later in the farm workspace.</div><div class="fo-grid">
+        <div class="fo-field"><label>Bird Capacity</label><input class="fo-input" name="birdCapacity" type="number" min="0" step="1" placeholder="Total birds"></div>
+        <div class="fo-field"><label>Total Area (m²)</label><input class="fo-input" name="areaSqM" type="number" min="0" step="0.01"></div>
+      </div></section>
+      <section class="fo-create-section" data-fo-step="4"><div class="fo-section-title">Primary manager contact</div><div class="fo-section-copy">Optional operational contact stored with the farm. This does not create a login or assignment.</div><div class="fo-grid">
+        <div class="fo-field"><label>Manager Name</label><input class="fo-input" name="contactName" maxlength="120"></div>
+        <div class="fo-field"><label>Role</label><input class="fo-input" name="contactRole" value="Farm Manager" maxlength="80"></div>
+        <div class="fo-field"><label>Phone</label><input class="fo-input" name="contactPhone" type="tel" maxlength="30"></div>
+        <div class="fo-field"><label>Email</label><input class="fo-input" name="contactEmail" type="email" maxlength="160"></div>
+      </div></section>
+    </div>
+    <div class="fo-create-footer"><button type="button" class="fo-btn secondary" id="fo-create-back" hidden>Back</button><div class="fo-actions"><button type="button" class="fo-btn secondary" id="fo-cancel-create-farm">Cancel</button><button type="button" class="fo-btn" id="fo-create-next">Next</button><button class="fo-btn" id="fo-create-submit" type="submit" hidden>Create Farm</button></div></div>
+  </form>`;
   const ownershipSelect = modal.querySelector('[name="businessId"]');
   ownershipSelect.previousElementSibling.textContent = 'Owning Organisation';
   ownershipSelect.options[0].textContent = 'Select organisation…';
   Array.from(ownershipSelect.options).forEach(option => {
     if (option.textContent === 'Business') option.textContent = 'Organisation';
   });
-  modal.querySelector('[name="longitude"]')?.closest('.fo-field')?.remove();
-  modal.querySelector('[name="latitude"]')?.closest('.fo-field')?.remove();
   const countrySelect = modal.querySelector('[name="countryCode"]');
   const stateSelect = modal.querySelector('[name="stateProvince"]');
   foPopulateStates(countrySelect.value, stateSelect);
   countrySelect.addEventListener('change', () => foPopulateStates(countrySelect.value, stateSelect));
+  let step = 1;
+  const showStep = value => {
+    step = value;
+    modal.querySelectorAll('[data-fo-step]').forEach(section => section.classList.toggle('active', Number(section.dataset.foStep) === step));
+    modal.querySelectorAll('[data-fo-step-label]').forEach(label => { const number=Number(label.dataset.foStepLabel); label.classList.toggle('active',number===step); label.classList.toggle('complete',number<step); });
+    modal.querySelector('#fo-create-back').hidden = step === 1;
+    modal.querySelector('#fo-create-next').hidden = step === 4;
+    modal.querySelector('#fo-create-submit').hidden = step !== 4;
+  };
+  const validateStep = () => {
+    const fields = [...modal.querySelector(`[data-fo-step="${step}"]`).querySelectorAll('input,select,textarea')];
+    const invalid = fields.find(field => !field.checkValidity());
+    if (invalid) { invalid.reportValidity(); invalid.focus(); return false; }
+    return true;
+  };
+  modal.querySelector('#fo-create-next').addEventListener('click', () => { if (validateStep()) showStep(Math.min(4,step+1)); });
+  modal.querySelector('#fo-create-back').addEventListener('click', () => showStep(Math.max(1,step-1)));
+  modal.querySelector('#fo-use-location').addEventListener('click', () => {
+    const status=modal.querySelector('#fo-location-status');
+    if (!navigator.geolocation) { status.textContent='Geolocation is unavailable.'; return; }
+    status.textContent='Requesting permission…';
+    navigator.geolocation.getCurrentPosition(position=>{ modal.querySelector('[name="latitude"]').value=position.coords.latitude.toFixed(6); modal.querySelector('[name="longitude"]').value=position.coords.longitude.toFixed(6); status.textContent='Current coordinates added.'; },()=>{status.textContent='Unable to detect location.';});
+  });
   modal.classList.add('open');
   document.getElementById('fo-cancel-create-farm').addEventListener('click', foCloseCreateFarm);
   document.getElementById('fo-create-farm-form').addEventListener('submit', foCreateFarm);
@@ -182,11 +238,24 @@ function foCloseCreateFarm() {
 
 async function foCreateFarm(event) {
   event.preventDefault();
+  if (!event.target.checkValidity()) {
+    event.target.reportValidity();
+    return;
+  }
   const form = new FormData(event.target);
   const payload = {
     businessId: form.get('businessId'), code: form.get('code'), name: form.get('name'), farmType: form.get('farmType'), status: form.get('status'),
     location: { address: form.get('address'), countryCode: form.get('countryCode'), stateProvince: form.get('stateProvince') || undefined, timezone: form.get('timezone') }
   };
+  if (Boolean(form.get('latitude')) !== Boolean(form.get('longitude'))) {
+    const errorBox = document.getElementById('fo-create-error');
+    errorBox.textContent = 'Latitude and longitude must be provided together.';
+    errorBox.style.display = 'block';
+    return;
+  }
+  if (form.get('latitude') && form.get('longitude')) payload.location.geo = { type: 'Point', coordinates: [Number(form.get('longitude')), Number(form.get('latitude'))] };
+  if (form.get('openedAt')) payload.openedAt = form.get('openedAt');
+  if (form.get('contactName') || form.get('contactPhone') || form.get('contactEmail')) payload.contacts = [{ name: form.get('contactName'), role: form.get('contactRole'), phone: form.get('contactPhone'), email: form.get('contactEmail') }];
   if (form.get('birdCapacity') || form.get('areaSqM')) payload.capacity = {};
   if (form.get('birdCapacity')) payload.capacity.birdCapacity = Number(form.get('birdCapacity'));
   if (form.get('areaSqM')) payload.capacity.areaSqM = Number(form.get('areaSqM'));
@@ -196,7 +265,9 @@ async function foCreateFarm(event) {
     const result = await foRequest('/farms', { method: 'POST', body: JSON.stringify(payload) });
     farmId = result.farm._id;
   } catch (error) {
-    foError(error);
+    const errorBox = document.getElementById('fo-create-error');
+    if (errorBox) { errorBox.textContent = error.message; errorBox.style.display = 'block'; }
+    else foError(error);
     button.disabled = false;
     return;
   }

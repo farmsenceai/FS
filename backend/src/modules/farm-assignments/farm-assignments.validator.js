@@ -2,8 +2,10 @@ const ALLOWED_FIELDS = new Set([
   'userId',
   'startsAt',
   'endsAt',
+  'role',
   'notes'
 ]);
+const ASSIGNMENT_ROLES = new Set(['farm_owner', 'farm_manager', 'supervisor', 'worker', 'veterinarian', 'consultant', 'viewer']);
 
 class FarmAssignmentValidationError extends Error {
   constructor(details) {
@@ -46,6 +48,9 @@ function validatePayload(payload, { partial }) {
     } else if (validDate(value.startsAt) && new Date(value.endsAt) <= new Date(value.startsAt)) {
       errors.push('endsAt must be after startsAt');
     }
+  }
+  if (Object.hasOwn(value, 'role') && !ASSIGNMENT_ROLES.has(value.role)) {
+    errors.push(`role must be one of: ${[...ASSIGNMENT_ROLES].join(', ')}`);
   }
 
   if (errors.length > 0) throw new FarmAssignmentValidationError(errors);
