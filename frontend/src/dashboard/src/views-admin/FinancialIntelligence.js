@@ -156,13 +156,13 @@ window.metaAdminHistoricalReports = {
   function pageView(kind) {
     injectStyles();
     setTimeout(() => init(document.getElementById(`afi-${kind}`)), 0);
-    const organizationList = kind === 'overview' ? `<section class="afi-card" id="afi-organization-list"><div class="afi-org-head"><div><h3>All Organisations</h3><p>Select an organisation to open its financial overview.</p></div><input class="afi-org-search" id="afi-organization-search" type="search" placeholder="Search organisations…"></div><div class="afi-org-grid" id="afi-organization-grid"><div class="afi-message">Loading organisations…</div></div></section>` : '';
+    const organizationList = `<section class="afi-card" id="afi-organization-list"><div class="afi-org-head"><div><h3>All Organisations</h3><p>Select an organisation to open its ${escape(PAGE_LABELS[kind].toLowerCase())} workspace.</p></div><input class="afi-org-search" id="afi-organization-search" type="search" placeholder="Search organisations…"></div><div class="afi-org-grid" id="afi-organization-grid"><div class="afi-message">Loading organisations…</div></div></section>`;
     return `<div class="afi-page" id="afi-${kind}" data-afi-page="${kind}">
-      ${organizationList}<div id="afi-detail-screen" class="${kind === 'overview' ? 'afi-hidden' : ''}">
-      ${kind === 'overview' ? '<div class="afi-detail-head"><button class="afi-back" id="afi-back-organizations" type="button">← All Organisations</button><div class="afi-detail-title"><strong id="afi-detail-organization-name">Financial Overview</strong><span>Organisation financial workspace</span></div></div>' : ''}
+      ${organizationList}<div id="afi-detail-screen" class="afi-hidden">
+      <div class="afi-detail-head"><button class="afi-back" id="afi-back-organizations" type="button">← All Organisations</button><div class="afi-detail-title"><strong id="afi-detail-organization-name">${escape(PAGE_LABELS[kind])}</strong><span>${escape(PAGE_LABELS[kind])} workspace</span></div></div>
       <section class="afi-card">
         <div class="afi-context">
-          <div class="afi-field ${kind === 'overview' ? 'afi-hidden' : ''}"><label for="afi-organization">Organization (required)</label><select class="afi-select" id="afi-organization"><option value="">Loading organizations…</option></select></div>
+          <div class="afi-field afi-hidden"><label for="afi-organization">Organization (required)</label><select class="afi-select" id="afi-organization"><option value="">Loading organizations…</option></select></div>
           <div class="afi-field"><label for="afi-farm">Farm</label><select class="afi-select" id="afi-farm" disabled><option value="">Select an organization first</option></select></div>
           <div class="afi-field"><label for="afi-range">Date range</label><select class="afi-select" id="afi-range"><option value="30">Last 30 days</option><option value="90">Last 90 days</option><option value="365">Last 365 days</option><option value="730">Last 730 days</option></select></div>
           <div class="afi-field"><label for="afi-granularity">Granularity</label><select class="afi-select" id="afi-granularity"><option value="day">Day</option><option value="week">Week</option><option value="month">Month</option></select></div>
@@ -181,7 +181,7 @@ window.metaAdminHistoricalReports = {
     root.querySelector('#afi-range').value = String(state.days);
     root.querySelector('#afi-granularity').value = state.granularity;
     bind(root);
-    if (root.dataset.afiPage === 'overview') bindOrganizationList(root);
+    bindOrganizationList(root);
     if (root.dataset.afiPage === 'revenue') bindRevenuePage(root);
     if (root.dataset.afiPage === 'overview') bindOverviewPage(root);
     if (root.dataset.afiPage === 'history') bindHistoryPage(root);
@@ -269,14 +269,8 @@ window.metaAdminHistoricalReports = {
         `<option value="${escape(idOf(item))}">${escape(organizationName(item))}</option>`
       ).join('');
       select.value = state.organizationId;
-      if (root.dataset.afiPage === 'overview') {
-        renderOrganizationCards(root);
-        renderFarmOptions(root);
-      } else if (state.organizationId) await loadFarms(root, false);
-      else {
-        renderFarmOptions(root);
-        renderStatus();
-      }
+      renderOrganizationCards(root);
+      renderFarmOptions(root);
     } catch (error) {
       select.innerHTML = '<option value="">Unable to load organizations</option>';
       const grid = root.querySelector('#afi-organization-grid');
