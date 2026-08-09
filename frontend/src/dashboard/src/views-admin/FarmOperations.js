@@ -55,6 +55,22 @@ function foPopulateStates(countryCode, stateSelect) {
   stateSelect.required = states.length > 0;
 }
 
+const FO_COUNTRY_TIMEZONES = {
+  IN:'Asia/Kolkata', AF:'Asia/Kabul', AE:'Asia/Dubai', AR:'America/Argentina/Buenos_Aires', AT:'Europe/Vienna', BD:'Asia/Dhaka', BE:'Europe/Brussels', BG:'Europe/Sofia', BH:'Asia/Bahrain', BO:'America/La_Paz', BR:'America/Sao_Paulo', CH:'Europe/Zurich', CL:'America/Santiago', CN:'Asia/Shanghai', CO:'America/Bogota', CR:'America/Costa_Rica', CY:'Asia/Nicosia', CZ:'Europe/Prague', DE:'Europe/Berlin', DK:'Europe/Copenhagen', EG:'Africa/Cairo', ES:'Europe/Madrid', FI:'Europe/Helsinki', FR:'Europe/Paris', GB:'Europe/London', GH:'Africa/Accra', GR:'Europe/Athens', HK:'Asia/Hong_Kong', HU:'Europe/Budapest', ID:'Asia/Jakarta', IE:'Europe/Dublin', IL:'Asia/Jerusalem', IQ:'Asia/Baghdad', IR:'Asia/Tehran', IS:'Atlantic/Reykjavik', IT:'Europe/Rome', JP:'Asia/Tokyo', KE:'Africa/Nairobi', KR:'Asia/Seoul', KW:'Asia/Kuwait', LK:'Asia/Colombo', MA:'Africa/Casablanca', MX:'America/Mexico_City', MY:'Asia/Kuala_Lumpur', NG:'Africa/Lagos', NL:'Europe/Amsterdam', NO:'Europe/Oslo', NP:'Asia/Kathmandu', NZ:'Pacific/Auckland', OM:'Asia/Muscat', PE:'America/Lima', PH:'Asia/Manila', PK:'Asia/Karachi', PL:'Europe/Warsaw', PT:'Europe/Lisbon', QA:'Asia/Qatar', RO:'Europe/Bucharest', RU:'Europe/Moscow', SA:'Asia/Riyadh', SE:'Europe/Stockholm', SG:'Asia/Singapore', TH:'Asia/Bangkok', TR:'Europe/Istanbul', TW:'Asia/Taipei', TZ:'Africa/Dar_es_Salaam', UA:'Europe/Kyiv', US:'America/New_York', VE:'America/Caracas', VN:'Asia/Ho_Chi_Minh', ZA:'Africa/Johannesburg', ZW:'Africa/Harare', AU:'Australia/Sydney', CA:'America/Toronto'
+};
+
+const FO_STATE_TIMEZONES = {
+  US: { AK:'America/Anchorage', AL:'America/Chicago', AR:'America/Chicago', AZ:'America/Phoenix', CA:'America/Los_Angeles', CO:'America/Denver', CT:'America/New_York', DC:'America/New_York', DE:'America/New_York', FL:'America/New_York', GA:'America/New_York', HI:'Pacific/Honolulu', IA:'America/Chicago', ID:'America/Boise', IL:'America/Chicago', IN:'America/Indiana/Indianapolis', KS:'America/Chicago', KY:'America/New_York', LA:'America/Chicago', MA:'America/New_York', MD:'America/New_York', ME:'America/New_York', MI:'America/Detroit', MN:'America/Chicago', MO:'America/Chicago', MS:'America/Chicago', MT:'America/Denver', NC:'America/New_York', ND:'America/Chicago', NE:'America/Chicago', NH:'America/New_York', NJ:'America/New_York', NM:'America/Denver', NV:'America/Los_Angeles', NY:'America/New_York', OH:'America/New_York', OK:'America/Chicago', OR:'America/Los_Angeles', PA:'America/New_York', RI:'America/New_York', SC:'America/New_York', SD:'America/Chicago', TN:'America/Chicago', TX:'America/Chicago', UT:'America/Denver', VA:'America/New_York', VT:'America/New_York', WA:'America/Los_Angeles', WI:'America/Chicago', WV:'America/New_York', WY:'America/Denver' },
+  AU: { ACT:'Australia/Sydney', NSW:'Australia/Sydney', NT:'Australia/Darwin', QLD:'Australia/Brisbane', SA:'Australia/Adelaide', TAS:'Australia/Hobart', VIC:'Australia/Melbourne', WA:'Australia/Perth' },
+  CA: { AB:'America/Edmonton', BC:'America/Vancouver', MB:'America/Winnipeg', NB:'America/Moncton', NL:'America/St_Johns', NS:'America/Halifax', NT:'America/Yellowknife', NU:'America/Iqaluit', ON:'America/Toronto', PE:'America/Halifax', QC:'America/Toronto', SK:'America/Regina', YT:'America/Whitehorse' }
+};
+
+function foTimezoneForLocation(countryCode, stateName) {
+  const states = typeof country_and_states === 'undefined' ? [] : (country_and_states.states[countryCode] || []);
+  const stateCode = states.find(state => state.name === stateName)?.code;
+  return FO_STATE_TIMEZONES[countryCode]?.[stateCode] || FO_COUNTRY_TIMEZONES[countryCode] || 'Etc/UTC';
+}
+
 function injectFarmOperationsStyles() {
   if (document.getElementById('fo-styles')) return;
   const style = document.createElement('style');
@@ -172,7 +188,7 @@ function foOpenCreateFarm() {
         <div class="fo-field"><label>Country *</label><select class="fo-select" name="countryCode" required><option value="">Select country…</option>${foCountryOptions()}</select></div>
         <div class="fo-field"><label>State / Province *</label><select class="fo-select" name="stateProvince" required></select></div>
         <div class="fo-field" style="grid-column:1/-1"><label>Full Address *</label><textarea class="fo-textarea" name="address" required maxlength="500" placeholder="Road, landmark, village/city, district and postal code"></textarea></div>
-        <div class="fo-field"><label>Timezone *</label><input class="fo-input" name="timezone" value="Asia/Kolkata" required></div>
+        <div class="fo-field"><label>Timezone *</label><input class="fo-input" name="timezone" value="Asia/Kolkata" required readonly><div class="fo-help" id="fo-timezone-status">Set automatically from country and state.</div></div>
         <div class="fo-field"><label>Latitude</label><input class="fo-input" name="latitude" type="number" min="-90" max="90" step="any"></div>
         <div class="fo-field"><label>Longitude</label><input class="fo-input" name="longitude" type="number" min="-180" max="180" step="any"></div>
         <div class="fo-location-actions"><button class="fo-btn secondary" type="button" id="fo-use-location">Use Current Location</button><span class="fo-location-status" id="fo-location-status"></span></div>
@@ -199,8 +215,18 @@ function foOpenCreateFarm() {
   });
   const countrySelect = modal.querySelector('[name="countryCode"]');
   const stateSelect = modal.querySelector('[name="stateProvince"]');
+  const timezoneInput = modal.querySelector('[name="timezone"]');
+  const timezoneStatus = modal.querySelector('#fo-timezone-status');
+  const updateTimezone = () => {
+    timezoneInput.value = foTimezoneForLocation(countrySelect.value, stateSelect.value);
+    timezoneStatus.textContent = timezoneInput.value === 'Etc/UTC'
+      ? 'No regional timezone mapping was found; using UTC.'
+      : `Automatically set to ${timezoneInput.value}.`;
+  };
   foPopulateStates(countrySelect.value, stateSelect);
-  countrySelect.addEventListener('change', () => foPopulateStates(countrySelect.value, stateSelect));
+  updateTimezone();
+  countrySelect.addEventListener('change', () => { foPopulateStates(countrySelect.value, stateSelect); updateTimezone(); });
+  stateSelect.addEventListener('change', updateTimezone);
   const nameInput = modal.querySelector('[name="name"]');
   const codeInput = modal.querySelector('[name="code"]');
   nameInput.addEventListener('input', () => {
