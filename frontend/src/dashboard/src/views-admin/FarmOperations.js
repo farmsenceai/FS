@@ -517,11 +517,12 @@ function foRenderBatches() {
       <div class="fo-field" style="margin-top:10px"><label>Notes</label><textarea class="fo-textarea" name="notes" maxlength="1000" ${canCreate ? '' : 'disabled'}></textarea></div>
       <div class="fo-actions" style="margin-top:12px"><button class="fo-btn" ${canCreate ? '' : 'disabled'}>Create Batch</button></div>
     </form>
-    <div class="fo-card"><div class="fo-card-head"><h3>Batches (${foState.batches.length})</h3><button class="fo-btn secondary" type="button" id="fo-refresh-batches">Refresh</button></div><div class="fo-table-wrap"><table class="fo-table"><thead><tr><th>Code</th><th>Facility</th><th>Breed / Type</th><th>Birds</th><th>Placement</th><th>Expected Harvest</th><th>Status</th></tr></thead><tbody>${foState.batches.length ? foState.batches.map(item => `<tr><td><strong>${foEscape(item.code)}</strong></td><td>${foEscape(foFacilityName(item.facilityId))}</td><td>${foEscape(item.breed)}<div class="fo-ledger-note">${foEscape(FarmSenseAdminApi.label(item.birdType))}</div></td><td>${Number(item.currentBirdCountCached ?? item.initialBirdCount ?? 0).toLocaleString('en-IN')}<div class="fo-ledger-note">Initial: ${Number(item.initialBirdCount || 0).toLocaleString('en-IN')}</div></td><td>${FarmSenseAdminApi.formatDate(item.placedAt)}</td><td>${FarmSenseAdminApi.formatDate(item.expectedHarvestAt)}</td><td><span class="fo-badge ${foEscape(item.status)}">${foEscape(FarmSenseAdminApi.label(item.status))}</span></td></tr>`).join('') : '<tr><td colspan="7" class="fo-empty">No batches have been created for this farm.</td></tr>'}</tbody></table></div></div>`;
+    <div class="fo-card"><div class="fo-card-head"><h3>Batches (${foState.batches.length})</h3><button class="fo-btn secondary" type="button" id="fo-refresh-batches">Refresh</button></div><div class="fo-table-wrap"><table class="fo-table"><thead><tr><th>Code</th><th>Facility</th><th>Breed / Type</th><th>Birds</th><th>Placement</th><th>Expected Harvest</th><th>Status</th><th>Action</th></tr></thead><tbody>${foState.batches.length ? foState.batches.map(item => `<tr><td><strong>${foEscape(item.code)}</strong></td><td>${foEscape(foFacilityName(item.facilityId))}</td><td>${foEscape(item.breed)}<div class="fo-ledger-note">${foEscape(FarmSenseAdminApi.label(item.birdType))}</div></td><td>${Number(item.currentBirdCountCached ?? item.initialBirdCount ?? 0).toLocaleString('en-IN')}<div class="fo-ledger-note">Initial: ${Number(item.initialBirdCount || 0).toLocaleString('en-IN')}</div></td><td>${FarmSenseAdminApi.formatDate(item.placedAt)}</td><td>${FarmSenseAdminApi.formatDate(item.expectedHarvestAt)}</td><td><span class="fo-badge ${foEscape(item.status)}">${foEscape(FarmSenseAdminApi.label(item.status))}</span>${item.actualHarvestAt ? `<div class="fo-ledger-note">Completed ${FarmSenseAdminApi.formatDate(item.actualHarvestAt, true)}</div>` : ''}</td><td>${['planned','active'].includes(item.status) ? `<button class="fo-btn" type="button" data-fo-complete-batch="${item._id}">Mark Completed</button>` : '<span class="fo-help">No action available</span>'}</td></tr>`).join('') : '<tr><td colspan="8" class="fo-empty">No batches have been created for this farm.</td></tr>'}</tbody></table></div></div>`;
   document.getElementById('fo-batch-form').addEventListener('submit', foCreateBatch);
   document.getElementById('fo-refresh-batches').addEventListener('click', async () => {
     await foAction('Batches refreshed.', async () => { await foReloadBatches(); foRenderBatches(); });
   });
+  document.querySelectorAll('[data-fo-complete-batch]').forEach(button => button.addEventListener('click', () => foCompleteBatch(button.dataset.foCompleteBatch)));
 }
 
 async function foReloadBatches() {
@@ -552,6 +553,17 @@ async function foCreateBatch(event) {
   }
   await foAction('Batch created successfully.', async () => {
     await foRequest(`/farms/${foState.selectedFarmId}/batches`, { method: 'POST', body: JSON.stringify(payload) });
+    await foReloadBatches();
+    foRenderBatches();
+  });
+}
+
+async function foCompleteBatch(id) {
+  const batch = foState.batches.find(item => String(item._id) === String(id));
+  if (!batch || !['planned', 'active'].includes(batch.status)) return;
+  if (!confirm(`Mark batch "${batch.code}" as completed? This records the current time as its actual harvest date and contributes it to completed-batch forecasting history.`)) return;
+  await foAction('Batch marked completed.', async () => {
+    await foRequest(`/farms/${foState.selectedFarmId}/batches/${id}/harvest`, { method: 'POST', body: JSON.stringify({}) });
     await foReloadBatches();
     foRenderBatches();
   });

@@ -15,6 +15,9 @@ test('admin Farm Operations can create canonical batches for a farm facility', (
   assert.match(source, /foRequest\(`\/farms\/\$\{foState\.selectedFarmId\}\/batches`, \{ method: 'POST'/);
   assert.match(source, /Create a facility in Farm & Facilities before creating a batch/);
   assert.match(source, /Batch created successfully/);
+  assert.match(source, /data-fo-complete-batch/);
+  assert.match(source, /batches\/\$\{id\}\/harvest/);
+  assert.match(source, /Batch marked completed/);
 });
 
 test('admin Farm Operations exposes canonical Sales and Expenses tabs', () => {
