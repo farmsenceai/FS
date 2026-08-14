@@ -16,6 +16,7 @@
     "seed:performance": "node seed/seedPerformance.js",
     "verify:performance": "node scripts/verifyPerformance.js",
     "seed:farmer-earnings": "node seed/seedFarmerEarnings.js",
+    "seed:farmer-prakash-blogs": "node seed/seedFarmerPrakashBlogs.js",
     "verify:farmer-business": "node scripts/verifyFarmerBusinessFlows.js",
     "verify:batch-financials:staging": "node scripts/verifyBatchFinancialData.js --staging-env-file=.env.staging --commit",
     "seed:financial-dashboard:staging": "node src/migrations/007-seed-financial-dashboard-demo.js --staging-env-file=.env.staging",
