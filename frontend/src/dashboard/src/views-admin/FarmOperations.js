@@ -109,6 +109,7 @@ function viewFarmOperations() {
         <div class="fo-context-heading" id="fo-context-heading"></div>
         <div class="fo-tabs">
           <button class="fo-tab active" data-fo-tab="overview">Farm & Facilities</button>
+          <button class="fo-tab" data-fo-tab="batches">Batches</button>
           <button class="fo-tab" data-fo-tab="managers">Managers</button>
           <button class="fo-tab" data-fo-tab="projects">Projects & Work Updates</button>
           <button class="fo-tab" data-fo-tab="sales">Sales</button>
@@ -134,7 +135,7 @@ function foInit() {
   foState.sourceBatchId = requestedParams.get('batchId') || '';
   foState.sourceSaleId = requestedParams.get('saleId') || '';
   foState.sourceExpenseId = requestedParams.get('expenseId') || '';
-  if (['overview', 'managers', 'projects', 'sales', 'expenses', 'claims', 'fees'].includes(requestedTab)) {
+  if (['overview', 'batches', 'managers', 'projects', 'sales', 'expenses', 'claims', 'fees'].includes(requestedTab)) {
     foState.tab = requestedTab;
     document.querySelectorAll('[data-fo-tab]').forEach(item => item.classList.toggle('active', item.dataset.foTab === requestedTab));
   }
@@ -427,7 +428,7 @@ function foLedgerPager(kind, meta) {
 
 function foRenderPanel() {
   if (!foState?.selectedFarmId) return;
-  const renderers = { overview: foRenderOverview, managers: foRenderManagers, projects: foRenderProjects, sales: foRenderSales, expenses: foRenderExpenses, claims: foRenderClaims, fees: foRenderFees };
+  const renderers = { overview: foRenderOverview, batches: foRenderBatches, managers: foRenderManagers, projects: foRenderProjects, sales: foRenderSales, expenses: foRenderExpenses, claims: foRenderClaims, fees: foRenderFees };
   renderers[foState.tab]();
 }
 
@@ -489,6 +490,71 @@ async function foAddFacility(event) {
 async function foDeleteFacility(id) {
   if (!confirm('Delete this facility?')) return;
   await foAction('Facility deleted.', async () => { await foRequest(`/farms/${foState.selectedFarmId}/facilities/${id}`, { method: 'DELETE' }); foState.facilities = foState.facilities.filter(item => item._id !== id); foRenderOverview(); });
+}
+
+function foFacilityName(facilityId) {
+  const facility = foState.facilities.find(item => String(item._id) === String(facilityId?._id || facilityId));
+  return facility ? `${facility.code} · ${facility.name}` : 'Unknown facility';
+}
+
+function foRenderBatches() {
+  const canCreate = foState.facilities.length > 0 && foState.farm?.status !== 'closed';
+  document.getElementById('fo-panel').innerHTML = `
+    ${foState.facilities.length ? '' : '<div class="fo-warning">Create a facility in Farm & Facilities before creating a batch. Every batch must be assigned to a facility in this farm.</div>'}
+    ${foState.farm?.status === 'closed' ? '<div class="fo-warning">This farm tenure is complete, so new batches cannot be created.</div>' : ''}
+    <form class="fo-card" id="fo-batch-form">
+      <div class="fo-card-head"><div><h3>Create Batch</h3><div class="fo-help">The batch code is generated automatically from the farm code.</div></div></div>
+      <div class="fo-grid-3">
+        <div class="fo-field"><label>Facility *</label><select class="fo-select" name="facilityId" required ${canCreate ? '' : 'disabled'}><option value="">Select facility…</option>${foState.facilities.map(item => `<option value="${item._id}">${foEscape(item.code)} · ${foEscape(item.name)} · ${foEscape(FarmSenseAdminApi.label(item.type))}</option>`).join('')}</select></div>
+        <div class="fo-field"><label>Breed *</label><input class="fo-input" name="breed" required maxlength="120" placeholder="e.g. Cobb 430" ${canCreate ? '' : 'disabled'}></div>
+        <div class="fo-field"><label>Bird Type *</label><select class="fo-select" name="birdType" required ${canCreate ? '' : 'disabled'}>${foOptions(['broiler','layer','breeder'], foState.farm?.farmType === 'mixed' ? 'broiler' : foState.farm?.farmType)}</select></div>
+        <div class="fo-field"><label>Initial Bird Count *</label><input class="fo-input" name="initialBirdCount" type="number" min="1" step="1" required ${canCreate ? '' : 'disabled'}></div>
+        <div class="fo-field"><label>Placement Date *</label><input class="fo-input" name="placedAt" type="date" required ${canCreate ? '' : 'disabled'}></div>
+        <div class="fo-field"><label>Expected Harvest Date</label><input class="fo-input" name="expectedHarvestAt" type="date" ${canCreate ? '' : 'disabled'}></div>
+        <div class="fo-field"><label>Status</label><select class="fo-select" name="status" ${canCreate ? '' : 'disabled'}>${foOptions(['planned','active'], 'planned')}</select></div>
+        <div class="fo-field"><label>Source Hatchery</label><input class="fo-input" name="sourceHatchery" maxlength="160" ${canCreate ? '' : 'disabled'}></div>
+      </div>
+      <div class="fo-field" style="margin-top:10px"><label>Notes</label><textarea class="fo-textarea" name="notes" maxlength="1000" ${canCreate ? '' : 'disabled'}></textarea></div>
+      <div class="fo-actions" style="margin-top:12px"><button class="fo-btn" ${canCreate ? '' : 'disabled'}>Create Batch</button></div>
+    </form>
+    <div class="fo-card"><div class="fo-card-head"><h3>Batches (${foState.batches.length})</h3><button class="fo-btn secondary" type="button" id="fo-refresh-batches">Refresh</button></div><div class="fo-table-wrap"><table class="fo-table"><thead><tr><th>Code</th><th>Facility</th><th>Breed / Type</th><th>Birds</th><th>Placement</th><th>Expected Harvest</th><th>Status</th></tr></thead><tbody>${foState.batches.length ? foState.batches.map(item => `<tr><td><strong>${foEscape(item.code)}</strong></td><td>${foEscape(foFacilityName(item.facilityId))}</td><td>${foEscape(item.breed)}<div class="fo-ledger-note">${foEscape(FarmSenseAdminApi.label(item.birdType))}</div></td><td>${Number(item.currentBirdCountCached ?? item.initialBirdCount ?? 0).toLocaleString('en-IN')}<div class="fo-ledger-note">Initial: ${Number(item.initialBirdCount || 0).toLocaleString('en-IN')}</div></td><td>${FarmSenseAdminApi.formatDate(item.placedAt)}</td><td>${FarmSenseAdminApi.formatDate(item.expectedHarvestAt)}</td><td><span class="fo-badge ${foEscape(item.status)}">${foEscape(FarmSenseAdminApi.label(item.status))}</span></td></tr>`).join('') : '<tr><td colspan="7" class="fo-empty">No batches have been created for this farm.</td></tr>'}</tbody></table></div></div>`;
+  document.getElementById('fo-batch-form').addEventListener('submit', foCreateBatch);
+  document.getElementById('fo-refresh-batches').addEventListener('click', async () => {
+    await foAction('Batches refreshed.', async () => { await foReloadBatches(); foRenderBatches(); });
+  });
+}
+
+async function foReloadBatches() {
+  const result = await foRequest(`/farms/${foState.selectedFarmId}/batches?limit=1000`);
+  foState.batches = result.data || [];
+}
+
+async function foCreateBatch(event) {
+  event.preventDefault();
+  const form = new FormData(event.target);
+  const placedAt = form.get('placedAt');
+  const expectedHarvestAt = form.get('expectedHarvestAt');
+  if (expectedHarvestAt && expectedHarvestAt < placedAt) {
+    foError(new Error('Expected harvest date cannot be before the placement date.'));
+    return;
+  }
+  const payload = {
+    facilityId: form.get('facilityId'),
+    breed: form.get('breed').trim(),
+    birdType: form.get('birdType'),
+    initialBirdCount: Number(form.get('initialBirdCount')),
+    placedAt,
+    status: form.get('status')
+  };
+  for (const field of ['expectedHarvestAt', 'sourceHatchery', 'notes']) {
+    const value = form.get(field)?.trim();
+    if (value) payload[field] = value;
+  }
+  await foAction('Batch created successfully.', async () => {
+    await foRequest(`/farms/${foState.selectedFarmId}/batches`, { method: 'POST', body: JSON.stringify(payload) });
+    await foReloadBatches();
+    foRenderBatches();
+  });
 }
 
 function foManagerDocument(assignment) { return assignment.managerId && typeof assignment.managerId === 'object' ? assignment.managerId : {}; }

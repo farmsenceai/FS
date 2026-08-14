@@ -6,6 +6,17 @@ const path = require('node:path');
 const file = path.join(__dirname, '..', 'src', 'dashboard', 'src', 'views-admin', 'FarmOperations.js');
 const source = fs.readFileSync(file, 'utf8');
 
+test('admin Farm Operations can create canonical batches for a farm facility', () => {
+  assert.match(source, /data-fo-tab="batches">Batches/);
+  assert.match(source, /<h3>Create Batch<\/h3>/);
+  assert.match(source, /name="facilityId"/);
+  assert.match(source, /name="initialBirdCount"/);
+  assert.match(source, /name="placedAt"/);
+  assert.match(source, /foRequest\(`\/farms\/\$\{foState\.selectedFarmId\}\/batches`, \{ method: 'POST'/);
+  assert.match(source, /Create a facility in Farm & Facilities before creating a batch/);
+  assert.match(source, /Batch created successfully/);
+});
+
 test('admin Farm Operations exposes canonical Sales and Expenses tabs', () => {
   assert.match(source, /data-fo-tab="sales">Sales/);
   assert.match(source, /data-fo-tab="expenses">Expenses/);
