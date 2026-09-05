@@ -61,9 +61,9 @@ Copy-Item backend\.env.example backend\.env
 Open `backend/.env` and configure at least these values for local MongoDB:
 
 ```env
-PORT=5000
+PORT=5003
 NODE_ENV=development
-FRONTEND_URL=http://localhost:5000
+FRONTEND_URL=http://localhost:5003
 
 ENABLE_CANONICAL_V2=true
 
@@ -147,7 +147,7 @@ npm run dev
 Open:
 
 ```text
-http://localhost:5000
+http://localhost:5003
 ```
 
 `npm run dev` uses Nodemon and restarts the server after backend changes. To run without automatic restarts:
@@ -166,7 +166,7 @@ cd frontend
 npm start
 ```
 
-This serves only `frontend/public`, normally on port 3000. Several pages and API requests rely on routes and files exposed by Express, so it does not run the complete application. Use `http://localhost:5000` through the backend for the supported workflow.
+This serves only `frontend/public`, normally on port 3000. Several pages and API requests rely on routes and files exposed by Express, so it does not run the complete application. Use `http://localhost:5003` through the backend for the supported workflow.
 
 ## Optional initialization and demo data
 
@@ -212,7 +212,7 @@ Some backend integration tests require a valid `MONGO_URI` in `backend/.env`.
 - Check `MONGO_URI` in `backend/.env`.
 - For Atlas, verify the username, password, IP allowlist, and connection string.
 
-### Port 5000 is already in use
+### Port 5003 is already in use
 
 Change the relevant values in `backend/.env`, for example:
 
@@ -235,4 +235,4 @@ Configure valid SMTP credentials using the `MAIL_*` variables. Gmail normally re
 
 ### Frontend loads but API calls fail
 
-Open the application through the backend URL, such as `http://localhost:5000`. Do not open HTML files directly, and do not use the standalone frontend server for full-stack development.
+Open the application through the backend URL, such as `http://localhost:5003`. Do not open HTML files directly, and do not use the standalone frontend server for full-stack development.

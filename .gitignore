@@ -33,3 +33,7 @@ Thumbs.db
 .vscode/
 
 docs/
+
+# Database backups and generated deployment packages
+dump/
+*.zip

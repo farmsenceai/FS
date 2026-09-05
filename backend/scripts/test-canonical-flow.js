@@ -1,6 +1,6 @@
 const { generateToken } = require('./generate-test-jwt');
 
-const DEFAULT_BASE_URL = 'http://localhost:5000';
+const DEFAULT_BASE_URL = 'http://localhost:5003';
 const OBJECT_ID_PATTERN = /^[a-fA-F0-9]{24}$/;
 
 class FlowFailure extends Error {}

@@ -15,6 +15,15 @@ const {
 } = require('./auth.validator');
 
 const router = express.Router();
+const { oauthConfigured } = require('../../config/runtime');
+for (const provider of ['google', 'microsoft']) {
+  router.use([`/${provider}`, `/${provider}/callback`], (req, res, next) => {
+    if (!oauthConfigured(provider.toUpperCase())) {
+      return res.status(503).json({ msg: `${provider} sign-in is not configured` });
+    }
+    return next();
+  });
+}
 const avatarUploadsDir = path.join(__dirname, '../../uploads/avatars');
 fs.mkdirSync(avatarUploadsDir, { recursive: true });
 const avatarUpload = multer({

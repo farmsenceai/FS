@@ -118,7 +118,7 @@ document
         try {
 
             const response = await fetch(
-                "http://localhost:5000/api/demo/book-demo",
+                "/api/demo/book-demo",
                 {
                     method: "POST",
                     body: formData

@@ -1,12 +1,13 @@
 const authService = require('./auth.service');
 const { normalizeRole } = require('./auth.validator');
+const { frontendOrigin } = require('../../config/runtime');
 
 function sendOAuthMessage(res, type, payload) {
   res.send(`
     <html>
     <body>
     <script>
-    window.opener.postMessage(${JSON.stringify({ type, ...payload })}, '${process.env.FRONTEND_URL || '*'}');
+    window.opener.postMessage(${JSON.stringify({ type, ...payload }).replace(/</g, '\\u003c')}, ${JSON.stringify(frontendOrigin() || '/').replace(/</g, '\\u003c')});
     window.close();
     </script>
     </body>

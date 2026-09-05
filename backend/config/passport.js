@@ -2,11 +2,12 @@ const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const User = require('../models/User');
 const { normalizeRole } = require('../modules/auth/auth.validator');
+const { oauthConfigured, oauthCallback } = require('./runtime');
 
-passport.use(new GoogleStrategy({
+if (oauthConfigured('GOOGLE')) passport.use(new GoogleStrategy({
   clientID: process.env.GOOGLE_CLIENT_ID,
   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  callbackURL: process.env.GOOGLE_CALLBACK_URL,
+  callbackURL: oauthCallback('GOOGLE'),
   passReqToCallback: true
 }, async (req, accessToken, refreshToken, profile, done) => {
   try {
@@ -63,10 +64,10 @@ passport.deserializeUser(async (id, done) => {
 
 const MicrosoftStrategy = require('passport-microsoft').Strategy;
 
-passport.use(new MicrosoftStrategy({
+if (oauthConfigured('MICROSOFT')) passport.use(new MicrosoftStrategy({
     clientID: process.env.MICROSOFT_CLIENT_ID,
     clientSecret: process.env.MICROSOFT_CLIENT_SECRET,
-    callbackURL: process.env.MICROSOFT_CALLBACK_URL,
+    callbackURL: oauthCallback('MICROSOFT'),
     tenant: process.env.MICROSOFT_TENANT_ID || 'common',
     scope: ['user.read'],
     authorizationURL: 'https://login.microsoftonline.com/common/oauth2/v2.0/authorize',

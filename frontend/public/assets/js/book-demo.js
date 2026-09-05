@@ -6,127 +6,152 @@ document.addEventListener("DOMContentLoaded", () => {
     const stateSelect =
         document.getElementById("stateSelect");
 
-    loadCountries();
+    // Populate countries
+    Object.entries(country_and_states.country)
+        .sort((a, b) =>
+            a[1].localeCompare(b[1])
+        )
+        .forEach(([code, name]) => {
 
-    async function loadCountries() {
+            const option =
+                document.createElement("option");
+
+            option.value = code;
+            option.textContent = name;
+
+            countrySelect.appendChild(option);
+        });
+
+    // Populate states
+    countrySelect.addEventListener(
+        "change",
+        function () {
+
+            const countryCode =
+                this.value;
+
+            stateSelect.innerHTML =
+                '<option value="">Select State</option>';
+
+            if (
+                !countryCode ||
+                !country_and_states.states[countryCode]
+            ) {
+                return;
+            }
+
+            country_and_states.states[countryCode]
+                .forEach(state => {
+
+                    const option =
+                        document.createElement("option");
+
+                    option.value = state.code;
+                    option.textContent =
+                        state.name;
+
+                    stateSelect.appendChild(option);
+                });
+        }
+    );
+
+});
+
+document
+    .getElementById("demoForm")
+    .addEventListener("submit", async function (e) {
+
+        e.preventDefault();
+
+        const formData = new FormData();
+
+        formData.append(
+            "fullName",
+            document.getElementById("fullName").value
+        );
+
+        formData.append(
+            "phone",
+            document.getElementById("phone").value
+        );
+
+        formData.append(
+            "email",
+            document.getElementById("email").value
+        );
+
+        formData.append(
+            "breed",
+            document.getElementById("breed").value
+        );
+
+        formData.append(
+            "quantity",
+            document.getElementById("quantity").value
+        );
+
+        formData.append(
+            "address",
+            document.getElementById("address").value
+        );
+
+        formData.append(
+            "country",
+            document.getElementById("countrySelect").value
+        );
+
+        formData.append(
+            "state",
+            document.getElementById("stateSelect").value
+        );
+
+        formData.append(
+            "selfie",
+            document.getElementById("selfie").files[0]
+        );
+
+        formData.append(
+            "shopImage",
+            document.getElementById("shopImage").files[0]
+        );
 
         try {
 
             const response = await fetch(
-                "http://localhost:5000/api/book-demo",
+                "/api/demo/book-demo",
                 {
                     method: "POST",
                     body: formData
                 }
             );
 
-            const countries =
-                await response.json();
+            const result = await response.json();
 
-            countries.sort((a, b) =>
-                a.name.common.localeCompare(
-                    b.name.common
-                )
-            );
+            if (result.success) {
 
-            countrySelect.innerHTML =
-                '<option value="">Select Country</option>';
+                alert("Demo request submitted successfully!");
 
-            countries.forEach(country => {
+                document
+                    .getElementById("demoForm")
+                    .reset();
 
-                const option =
-                    document.createElement("option");
+                stateSelect.innerHTML =
+                    '<option value="">Select State</option>';
 
-                option.value =
-                    country.name.common;
+            } else {
 
-                option.textContent =
-                    country.name.common;
-
-                countrySelect.appendChild(option);
-            });
+                alert(
+                    result.message ||
+                    "Submission failed."
+                );
+            }
 
         } catch (error) {
 
             console.error(error);
 
-            countrySelect.innerHTML =
-                '<option value="">Failed to load countries</option>';
+            alert(
+                "Unable to submit form."
+            );
         }
-    }
-
-    countrySelect.addEventListener(
-        "change",
-        async function () {
-
-            const country =
-                this.value;
-
-            stateSelect.innerHTML =
-                '<option>Loading States...</option>';
-
-            if (!country) {
-
-                stateSelect.innerHTML =
-                    '<option value="">Select Country First</option>';
-
-                return;
-            }
-
-            try {
-
-                const response = await fetch(
-                    "https://countriesnow.space/api/v0.1/countries/states",
-                    {
-                        method: "POST",
-                        headers: {
-                            "Content-Type":
-                                "application/json"
-                        },
-                        body: JSON.stringify({
-                            country
-                        })
-                    }
-                );
-
-                const result =
-                    await response.json();
-
-                stateSelect.innerHTML =
-                    '<option value="">Select State</option>';
-
-                if (
-                    result.data &&
-                    result.data.states
-                ) {
-
-                    result.data.states.forEach(
-                        state => {
-
-                            const option =
-                                document.createElement("option");
-
-                            option.value =
-                                state.name;
-
-                            option.textContent =
-                                state.name;
-
-                            stateSelect.appendChild(
-                                option
-                            );
-                        }
-                    );
-                }
-
-            } catch (error) {
-
-                console.error(error);
-
-                stateSelect.innerHTML =
-                    '<option value="">Unable to load states</option>';
-            }
-        }
-    );
-
-});
+    });

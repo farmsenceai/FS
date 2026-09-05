@@ -1,0 +1,11 @@
+/dump export-ignore
+/docs export-ignore
+/refer export-ignore
+"/Reference Code" export-ignore
+/.gitignore export-ignore
+/.gitattributes export-ignore
+/backend/.env* export-ignore
+/backend/tests export-ignore
+/frontend/tests export-ignore
+/backend/scripts/generate-test-jwt.js export-ignore
+/backend/uploads export-ignore

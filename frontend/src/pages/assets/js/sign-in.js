@@ -260,7 +260,7 @@
 
     window.addEventListener('message', async (event) => {
       // Security check: allow matching origin
-      if (event.origin !== window.location.origin && !event.origin.includes('localhost')) return;
+      if (event.origin !== window.location.origin) return;
 
       if ((event.data?.type === 'GOOGLE_AUTH_SUCCESS' || event.data?.type === 'MICROSOFT_AUTH_SUCCESS') && event.data.token) {
         try {

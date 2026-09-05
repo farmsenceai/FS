@@ -3,7 +3,7 @@ require('dotenv').config({ path: path.join(__dirname, '.env') });
 
 const express = require('express');
 const cors = require('cors');
-const session = require('express-session');
+const { corsOptions } = require('./config/runtime');
 const passport = require('./config/passport');
 const organizationsV2Router = require('./src/modules/organizations/organizations.routes');
 const organizationMembershipsV2Router = require('./src/modules/organization-memberships/organization-memberships.routes');
@@ -27,16 +27,11 @@ const app = express();
 const ENABLE_CANONICAL_V2 = process.env.ENABLE_CANONICAL_V2 !== 'false';
 
 // Middleware
-app.use(cors());
+app.use(cors(corsOptions()));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(session({
-  secret: process.env.JWT_SECRET,
-  resave: false,
-  saveUninitialized: false
-}));
+// Authentication uses bearer JWTs, including both OAuth callbacks.
 app.use(passport.initialize());
-app.use(passport.session());
 
 // Static file serving
 app.use(express.static(path.join(__dirname, '../frontend/public')));
